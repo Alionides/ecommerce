@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FacebookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,18 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index']);
+    Route::get('user', [SiteController::class, 'user']);
+
+    Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+    Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+    Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);
+    Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+    
+
+    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+   
     Route::get('product/{slug}', [SiteController::class, 'productdetail'])
     ->where('slug', '[0-9A-Za-z\-]+');
     Route::get('shop/{slug}', [SiteController::class, 'shop'])
@@ -58,5 +72,17 @@ View::composer('layouts.app', function ($view) {
     // );
     $view->with('shop', \App\Shop::select('id', 'name', 'image','slug','created_at')->get());
 });
+
+
+// Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+// Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+// Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);
+// Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 

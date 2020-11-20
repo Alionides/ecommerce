@@ -10,6 +10,8 @@ use App\Category;
 use App\Favourite;
 use App\Shop;
 use App\Page;
+use Illuminate\Support\Facades\Auth;
+
 
 class SiteController extends Controller
 {
@@ -35,6 +37,14 @@ class SiteController extends Controller
         // return response($favo);
         // dd($parentCategories);
         return view('site.index', compact('parentCategories','pages'))->with('datasale',$datasale)->with('datanew',$datanew)->with('dataviewed',$dataviewed)->with('datasold',$datasold)->with('favo',$favo);
+    }
+
+    public function user(){
+        //$user = Auth::id();
+        $user = Auth::user();
+
+        return response($user);
+
     }
 
     public function category($ln, $cat=null, $subcat=null, $subsubcat=null){

@@ -213,7 +213,31 @@
                     </form>
                 </div>
                 <ul class="navbar-nav attr-nav align-items-center">
-                    <li><a href="#" class="nav-link"><i class="linearicons-user"></i></a></li>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="linearicons-user"></i>Hesabim
+                        </button>
+                        @auth
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">{{ Auth::user()->email }}</a>
+                          <a class="dropdown-item" href="{{ route('profile.show')}}">Profile</a>
+                          <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-jet-dropdown-link href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                {{ __('Logout') }}
+                            </x-jet-dropdown-link>
+                           </form>
+                        </div>
+                        @else
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ route('register') }}">Qeydiyyat</a>
+                            <a class="dropdown-item" href="{{ route('login') }}">Giris</a>                            
+                          </div>
+                        @endif
+                    </div>       
                     <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li>
                     <li class="dropdown cart_dropdown"><a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-bag2"></i><span class="cart_count">2</span><span class="amount"><span class="currency_symbol">$</span>159.00</span></a>
                         <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
