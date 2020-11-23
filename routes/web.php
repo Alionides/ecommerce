@@ -26,7 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
-    Route::get('/', [SiteController::class, 'index']);
+    Route::get('/', [SiteController::class, 'index'])->name('homepage');
     Route::get('user', [SiteController::class, 'user']);
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
@@ -36,7 +36,8 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return view('dashboard');
+        //return view('dashboard');
+       return redirect()->route('homepage');
     })->name('dashboard');
    
     Route::get('product/{slug}', [SiteController::class, 'productdetail'])
