@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
     Route::get('user', [SiteController::class, 'user']);
+    Route::get('apiaddcart', [SiteController::class, 'apiaddcart']);
+    Route::get('getcookie', [SiteController::class, 'getcookie']);
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);

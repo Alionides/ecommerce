@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Traits\ImageTrait;
 use Carbon\Carbon;
 use App\Product;
@@ -10,8 +11,9 @@ use App\Category;
 use App\Favourite;
 use App\Shop;
 use App\Page;
+use App\Cart;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Cookie;
 
 class SiteController extends Controller
 {
@@ -87,5 +89,53 @@ class SiteController extends Controller
         $data = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('author_id', $shop->user_id)->get();
         //return response($data);
         return view('site.shop')->with('data',$data)->with('shop',$shop);
+    }
+
+    private function getName($n) { 
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+        $randomString = ''; 
+      
+        for ($i = 0; $i < $n; $i++) { 
+            $index = rand(0, strlen($characters) - 1); 
+            $randomString .= $characters[$index]; 
+        } 
+      
+        return $randomString; 
+    } 
+    public function apiAddCart(Request $request){
+        //$product_id = $request->product_id;
+        $product_id = 12;
+        Auth::check() ? $userid = Auth::user()->id : $userid = 0;
+        $curcookie = Cookie::get('ACSESSID');
+        $rand = Str::random(26);
+        isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+        Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
+
+        $iscart = Cart::select('*')
+        ->where('session_id', $cookie)
+        ->where('product_id',$product_id)
+        ->first();
+        if(isset($iscart)){
+            $iscart->user_id = $userid;
+            $iscart->quantity++;
+            $iscart->save();
+            return response($iscart);
+        }else{
+            $shop = new Cart;
+            $shop->user_id = $userid;
+            $shop->session_id = $cookie;
+            $shop->product_id = $product_id;
+            $shop->quantity = 1;
+            $shop->save();
+            return response($shop);
+        }
+    }
+
+
+    public function getCookie(Request $request){
+
+        $value = Cookie::get('ACSESSID');
+
+        return response($value);
     }
 }
