@@ -103,8 +103,7 @@ class SiteController extends Controller
         return $randomString; 
     } 
     public function apiAddCart(Request $request){
-        //$product_id = $request->product_id;
-        $product_id = 12;
+        $product_id = $request->product_id;
         Auth::check() ? $userid = Auth::user()->id : $userid = 0;
         $curcookie = Cookie::get('ACSESSID');
         $rand = Str::random(26);
@@ -115,11 +114,11 @@ class SiteController extends Controller
         ->where('session_id', $cookie)
         ->where('product_id',$product_id)
         ->first();
+        
         if(isset($iscart)){
             $iscart->user_id = $userid;
             $iscart->quantity++;
             $iscart->save();
-            return response($iscart);
         }else{
             $shop = new Cart;
             $shop->user_id = $userid;
@@ -127,15 +126,52 @@ class SiteController extends Controller
             $shop->product_id = $product_id;
             $shop->quantity = 1;
             $shop->save();
-            return response($shop);
         }
+
+        $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
+
+
+        return response($allcart);
+    }
+    public function apiAddFavo(Request $request){
+        $product_id = $request->product_id;
+        Auth::check() ? $userid = Auth::user()->id : $userid = 0;
+        $curcookie = Cookie::get('ACFAVOSESSID');
+        $rand = Str::random(26);
+        isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+        Cookie::queue(Cookie::make('ACFAVOSESSID', $cookie, 525600));
+
+        $iscart = Favourite::select('*')
+        ->where('session_id', $cookie)
+        ->where('product_id',$product_id)
+        ->first();
+        
+        if(isset($iscart)){
+            $iscart->user_id = $userid;
+            //$iscart->quantity++;
+            $iscart->save();
+        }else{
+            $shop = new Favourite;
+            $shop->user_id = $userid;
+            $shop->session_id = $cookie;
+            $shop->product_id = $product_id;
+            //$shop->quantity = 1;
+            $shop->save();
+        }
+
+        $allfavo = Favourite::with(['products'])->where('session_id', $cookie)->get();
+
+
+        return response($allfavo);
     }
 
 
     public function getCookie(Request $request){
+        $rand = Str::random(26);
 
-        $value = Cookie::get('ACSESSID');
+        $rands = Str::random(26);
+        //$value = Cookie::get('ACSESSID');
 
-        return response($value);
+        return response($rand.'-----'.$rands);
     }
 }

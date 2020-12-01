@@ -28,7 +28,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
     Route::get('user', [SiteController::class, 'user']);
-    Route::get('apiaddcart', [SiteController::class, 'apiaddcart']);
+    Route::post('apiaddcart', [SiteController::class, 'apiaddcart']);
+    Route::post('apiaddfavo', [SiteController::class, 'apiaddfavo']);
     Route::get('getcookie', [SiteController::class, 'getcookie']);
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
@@ -70,10 +71,20 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
 
 View::composer('layouts.app', function ($view) {
     $ln = App::getLocale();
-    //     $view->with('news', \App\News::select('id','title_az','title_'.$ln.' as title', 'image', 'desc_'.$ln.' as text','created_at')->take(2)
-    //     ->get())->with('sehife', \App\Sehife::select('id','slug','link','title_az','title_'.$ln.' as title', 'image', 'desc_'.$ln.' as text')->orderBy('sort', 'asc')->get()
-    // );
-    $view->with('shop', \App\Shop::select('id', 'name', 'image','slug','created_at')->get());
+
+    $curcookie = Cookie::get('ACSESSID');
+    $rand = Str::random(26);
+    isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+    Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
+
+    $curcookiefav = Cookie::get('ACFAVOSESSID');
+    $randfav = Str::random(26);
+    isset($curcookiefav) ? $cookiefav = $curcookiefav : $cookiefav = $randfav;
+    Cookie::queue(Cookie::make('ACFAVOSESSID', $cookiefav, 525600));
+    
+    $view->with('shop', \App\Shop::select('id', 'name', 'image','slug','created_at')->get())
+    ->with('allcart', \App\Cart::with(['products'])->where('session_id', $cookie)->get())
+    ->with('allfavo', \App\Favourite::with(['products'])->where('session_id', $cookiefav)->get());
 });
 
 

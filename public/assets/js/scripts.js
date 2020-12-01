@@ -428,7 +428,8 @@ PAGE JS
 			var $carousel = $(this);
 			$carousel.owlCarousel({
 				dots : $carousel.data("dots"),
-				loop : $carousel.data("loop"),
+				//loop : $carousel.data("loop"), // burda atributun true falsin goturur
+				loop: false,
 				items: $carousel.data("items"),
 				margin: $carousel.data("margin"),
 				mouseDrag: $carousel.data("mouse-drag"),

@@ -48,6 +48,8 @@
 <body>
 @php
     use Carbon\Carbon;
+    $ln = App::getLocale();
+    $title = 'title_'.$ln;
 @endphp
 <!-- LOADER -->
 <div class="preloader">
@@ -57,6 +59,7 @@
         <span></span>
     </div>
 </div>
+<span class="baseurl" data-url="/{{ Config('app.locale') }}"></span>
 <!-- END LOADER -->
 
 <!-- Home Popup Section -->
@@ -238,23 +241,28 @@
                           </div>
                         @endif
                     </div>       
-                    <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li>
-                    <li class="dropdown cart_dropdown"><a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-bag2"></i><span class="cart_count">2</span><span class="amount"><span class="currency_symbol">$</span>159.00</span></a>
+                    <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">{{count($allfavo)}}</span></a></li>
+                    <li class="dropdown cart_dropdown"><a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-bag2"></i><span class="cart_count">{{count($allcart)}}</span><span class="amount"><!--<span class="currency_symbol">$</span>159.00--></span></a>
                         <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
                             <ul class="cart_list">
-                                <li>
-                                    <a href="#" class="item_remove"><i class="ion-close"></i></a>
-                                    <a href="#"><img src="/assets/images/cart_thamb1.jpg" alt="cart_thumb1">Variable product 001</a>
-                                    <span class="cart_quantity"> 1 x <span class="cart_amount"> <span class="price_symbole">$</span></span>78.00</span>
-                                </li>
-                                <li>
-                                    <a href="#" class="item_remove"><i class="ion-close"></i></a>
-                                    <a href="#"><img src="/assets/images/cart_thamb2.jpg" alt="cart_thumb2">Ornare sed consequat</a>
-                                    <span class="cart_quantity"> 1 x <span class="cart_amount"> <span class="price_symbole">$</span></span>81.00</span>
-                                </li>
+                                @php
+                                    $totalcartprice = 0;
+                                @endphp
+                                @foreach ($allcart as $c)
+                                    @foreach ($c->products as $ca)
+                                    <li>
+                                        @php
+                                            $totalcartprice += $c->quantity*$ca->price;
+                                        @endphp
+                                        <a href="#" class="item_remove"><i class="ion-close"></i></a>
+                                        <a href="#"><img src="/storage/{{$ca->image}}" alt="cart_thumb1">{{$ca->$title}}</a>
+                                        <span class="cart_quantity"> {{$c->quantity}} x <span class="cart_amount">{{$ca->price}} <span class="price_symbole">Azn</span></span></span>
+                                    </li>   
+                                    @endforeach   
+                                @endforeach                           
                             </ul>
                             <div class="cart_footer">
-                                <p class="cart_total"><strong>{{__('lang.subtotal')}}:</strong> <span class="cart_price"> <span class="price_symbole">$</span></span>159.00</p>
+                                <p class="cart_total"><strong>{{__('lang.subtotal')}}:</strong> <span class="cart_price"> {{$totalcartprice}} </span> <span class="price_symbole"> Azn</span></p>
                                 <p class="cart_buttons"><a href="#" class="btn btn-fill-line view-cart">{{__('lang.viewcart')}}</a><a href="#" class="btn btn-fill-out checkout">{{__('lang.checkout')}}</a></p>
                             </div>
                         </div>
@@ -514,6 +522,8 @@
 <script src="/assets/js/slick.min.js"></script>
 <!-- elevatezoom js -->
 <script src="/assets/js/jquery.elevatezoom.js"></script>
+<!-- sweetalert js -->
+<script src="/assets/js/sweetalert2@10"></script>
 <!-- scripts js --> 
 <script src="/assets/js/scripts.js"></script>
 @yield('js')
