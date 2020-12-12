@@ -252,18 +252,19 @@
                                     @foreach ($c->products as $ca)
                                     <li>
                                         @php
-                                            $totalcartprice += $c->quantity*$ca->price;
+                                            $ca->saleprice > 0 ? $price = $ca->saleprice : $price = $ca->price;
+                                            $totalcartprice += $c->quantity*$price;
                                         @endphp
                                         <a href="#" class="item_remove"><i class="ion-close"></i></a>
                                         <a href="#"><img src="/storage/{{$ca->image}}" alt="cart_thumb1">{{$ca->$title}}</a>
-                                        <span class="cart_quantity"> {{$c->quantity}} x <span class="cart_amount">{{$ca->price}} <span class="price_symbole">Azn</span></span></span>
+                                        <span class="cart_quantity"> {{$c->quantity}} x <span class="cart_amount">{{$price}} <span class="price_symbole">Azn</span></span></span>
                                     </li>   
                                     @endforeach   
                                 @endforeach                           
                             </ul>
                             <div class="cart_footer">
                                 <p class="cart_total"><strong>{{__('lang.subtotal')}}:</strong> <span class="cart_price"> {{$totalcartprice}} </span> <span class="price_symbole"> Azn</span></p>
-                                <p class="cart_buttons"><a href="#" class="btn btn-fill-line view-cart">{{__('lang.viewcart')}}</a><a href="#" class="btn btn-fill-out checkout">{{__('lang.checkout')}}</a></p>
+                                <p class="cart_buttons"><a href="/{{ Config('app.locale') }}/cart" class="btn btn-fill-line view-cart">{{__('lang.viewcart')}}</a><a href="#" class="btn btn-fill-out checkout">{{__('lang.checkout')}}</a></p>
                             </div>
                         </div>
                     </li>

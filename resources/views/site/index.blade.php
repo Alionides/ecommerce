@@ -1097,7 +1097,7 @@ $desc = 'desc_'.$ln;
 
 @section('js')
 <script>
-      $.ajaxSetup({
+    $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
@@ -1120,7 +1120,11 @@ $desc = 'desc_'.$ln;
                         var id = response[i]['products'][0]['id'];
                         var title = response[i]['products'][0]['title_'+lang];
                         var image = response[i]['products'][0]['image'];
-                        var price = response[i]['products'][0]['price'];
+                        if(response[i]['products'][0]['saleprice'] > 0){
+                            var price = response[i]['products'][0]['saleprice'];
+                        }else{
+                            var price = response[i]['products'][0]['price'];
+                        }                        
                         var quantity = response[i]['quantity'];
                         totalcartprice += response[i]['quantity'] * price;
                         options += "<li>\n" +

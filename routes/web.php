@@ -29,8 +29,11 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
     Route::get('user', [SiteController::class, 'user']);
     Route::post('apiaddcart', [SiteController::class, 'apiaddcart']);
+    Route::post('apiremovecart', [SiteController::class, 'apiremovecart']);
     Route::post('apiaddfavo', [SiteController::class, 'apiaddfavo']);
-    Route::get('getcookie', [SiteController::class, 'getcookie']);
+    Route::get('cart', [SiteController::class, 'cart']);
+    Route::get('checkout', [SiteController::class, 'checkout']);
+    Route::post('checkout', [SiteController::class, 'checkout'])->middleware('web');
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
@@ -75,12 +78,12 @@ View::composer('layouts.app', function ($view) {
     $curcookie = Cookie::get('ACSESSID');
     $rand = Str::random(26);
     isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
-    Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
+    //Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
 
     $curcookiefav = Cookie::get('ACFAVOSESSID');
     $randfav = Str::random(26);
     isset($curcookiefav) ? $cookiefav = $curcookiefav : $cookiefav = $randfav;
-    Cookie::queue(Cookie::make('ACFAVOSESSID', $cookiefav, 525600));
+    //Cookie::queue(Cookie::make('ACFAVOSESSID', $cookiefav, 525600));
     
     $view->with('shop', \App\Shop::select('id', 'name', 'image','slug','created_at')->get())
     ->with('allcart', \App\Cart::with(['products'])->where('session_id', $cookie)->get())

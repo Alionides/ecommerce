@@ -5,7 +5,6 @@ $ln = App::getLocale();
 $title = 'title_'.$ln;
 $desc = 'desc_'.$ln;
 @endphp
-
 <!-- START SECTION BREADCRUMB -->
 <div class="breadcrumb_section bg_gray page-title-mini">
     <div class="container"><!-- STRART CONTAINER -->

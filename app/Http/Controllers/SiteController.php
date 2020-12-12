@@ -12,6 +12,8 @@ use App\Favourite;
 use App\Shop;
 use App\Page;
 use App\Cart;
+use App\Order;
+use App\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
@@ -91,17 +93,14 @@ class SiteController extends Controller
         return view('site.shop')->with('data',$data)->with('shop',$shop);
     }
 
-    private function getName($n) { 
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-        $randomString = ''; 
-      
-        for ($i = 0; $i < $n; $i++) { 
-            $index = rand(0, strlen($characters) - 1); 
-            $randomString .= $characters[$index]; 
-        } 
-      
-        return $randomString; 
-    } 
+    public function cart(Request $request){
+        $ln = App::getLocale();
+        $curcookie = Cookie::get('ACSESSID');
+        $rand = Str::random(26);
+        isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+        $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
+        return view('site.cart')->with('allcart',$allcart);
+    }
     public function apiAddCart(Request $request){
         $product_id = $request->product_id;
         Auth::check() ? $userid = Auth::user()->id : $userid = 0;
@@ -127,10 +126,36 @@ class SiteController extends Controller
             $shop->quantity = 1;
             $shop->save();
         }
-
         $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
+        return response($allcart);
+    }
 
+    public function apiRemoveCart(Request $request){
+        $product_id = $request->product_id;
+        Auth::check() ? $userid = Auth::user()->id : $userid = 0;
+        $curcookie = Cookie::get('ACSESSID');
+        $rand = Str::random(26);
+        isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+        Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
 
+        $iscart = Cart::select('*')
+        ->where('session_id', $cookie)
+        ->where('product_id',$product_id)
+        ->first();
+        
+        if(isset($iscart)){
+            $iscart->user_id = $userid;
+            $iscart->quantity--;
+            $iscart->save();
+        }else{
+            $shop = new Cart;
+            $shop->user_id = $userid;
+            $shop->session_id = $cookie;
+            $shop->product_id = $product_id;
+            $shop->quantity = 1;
+            $shop->save();
+        }
+        $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
         return response($allcart);
     }
     public function apiAddFavo(Request $request){
@@ -158,20 +183,50 @@ class SiteController extends Controller
             //$shop->quantity = 1;
             $shop->save();
         }
-
         $allfavo = Favourite::with(['products'])->where('session_id', $cookie)->get();
-
-
         return response($allfavo);
     }
 
+    public function checkout(Request $request){
 
-    public function getCookie(Request $request){
-        $rand = Str::random(26);
+        if ($request->isMethod('post')) {
 
-        $rands = Str::random(26);
-        //$value = Cookie::get('ACSESSID');
+            $order = new Order;
+            $order->billing_name = $request->billing_name;
+            $order->billing_email = $request->billing_email;
+            $order->billing_phone = $request->billing_phone;
+            $order->billing_address = $request->billing_address;
+            $order->billing_city = $request->billing_city;
+            $order->billing_postalcode = $request->billing_postalcode;
+            $order->billing_total = $request->billing_total;
+            $order->payment_gateway = $request->payment_option;
+            //$order->save();
+            if($order->save()){
+                
+                $curcookie = Cookie::get('ACSESSID');
+                Cart::where('session_id', $curcookie)->delete();
 
-        return response($rand.'-----'.$rands);
+
+            }
+
+            foreach ($request->productid as $key => $op) {
+                $oproduct = new OrderProduct;
+                $oproduct->order_id = $order->id;
+                $oproduct->product_id = $op;
+                $oproduct->quantity = $request->quantity[$key];
+                $oproduct->save();
+            }
+            
+            
+            return response($request);            
+        }else{
+            $ln = App::getLocale();
+            $curcookie = Cookie::get('ACSESSID');
+            $rand = Str::random(26);
+            isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
+            $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
+            return view('site.checkout')->with('allcart',$allcart);
+        }
     }
+
 }
