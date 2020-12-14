@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Voyager;
 
 use App\Order;
+use App\OrderProduct;
 use Validator;
 use App\Product;
 use App\Category;
@@ -77,7 +78,7 @@ class OrdersController extends VoyagerBaseController
 
         $order = Order::find($id);
         $products = $order->products;
-
+        
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'products'));
     }
 }

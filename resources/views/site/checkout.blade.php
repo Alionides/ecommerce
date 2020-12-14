@@ -163,7 +163,7 @@ $desc = 'desc_'.$ln;
                         <h4>Additional information</h4>
                     </div>
                     <div class="form-group mb-0">
-                        <textarea rows="5" class="form-control" placeholder="Order notes"></textarea>
+                        <textarea name="comment" rows="5" class="form-control" placeholder="Order notes"></textarea>
                     </div>
                 {{-- </form> --}}
             </div>
@@ -196,6 +196,7 @@ $desc = 'desc_'.$ln;
                                         <td>{{$c->quantity*$price}} Azn</td>
                                         <input type="hidden" type="text" name="productid[]" value="{{$ca->id}}"/>
                                         <input type="hidden" type="text" name="quantity[]" value="{{$c->quantity}}"/>
+                                        <input type="hidden" type="text" name="product_price[]" value="{{$price}}"/>
                                         
                                     </tr>
                                     @endforeach   
@@ -297,14 +298,25 @@ $desc = 'desc_'.$ln;
                 success: function(response) {
                    // var len = response.length;
                     console.log(response);
-                    // Swal.fire(
-                    // 'Ugurlu!',
-                    // 'Mehsul sebete elave olundu!',
-                    // 'success'
-                    // );
-                    // setTimeout(function(){
-                    //     location.reload();
-                    // }, 1000);                     
+                    if(response.statuscode == 200){
+                        Swal.fire(
+                        'Ugurlu!',
+                        'Sifarişiniz qəbul edildi!',
+                        'success'
+                        );
+                        // setTimeout(function(){
+                        //     location.reload();
+                        // }, 1000);
+                    }else{
+                        Swal.fire(
+                        'Xəta!',
+                        'Sifarişiniz qəbul edilmədi!',
+                        'error'
+                        );
+                        // setTimeout(function(){
+                        //     location.reload();
+                        // }, 1000);
+                    }                     
                 },
                 error: function(response) {                    
                 }

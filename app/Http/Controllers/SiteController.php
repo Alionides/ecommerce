@@ -16,6 +16,7 @@ use App\Order;
 use App\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 
 class SiteController extends Controller
 {
@@ -80,10 +81,12 @@ class SiteController extends Controller
 
     public function productdetail($ln,$id){ 
         $ln = App::getLocale();          
-        $data = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('slug', $id)->firstOrFail();
+        $data = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug','category_id')->where('slug', $id)->firstOrFail();
         $data->viewed++;
         $data->save();
-        return view('site.productdetail')->with('data',$data);
+        $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->get(8);
+        //dd($similar);
+        return view('site.productdetail')->with('data',$data)->with('similar',$similar);;
     }
     public function shop($ln,$id){ 
         $ln = App::getLocale();   
@@ -190,35 +193,54 @@ class SiteController extends Controller
     public function checkout(Request $request){
 
         if ($request->isMethod('post')) {
+            // $ifvalid = $request->validate([
+            //     'productid' => ['required', 'string'],
+            // ]);
 
-            $order = new Order;
-            $order->billing_name = $request->billing_name;
-            $order->billing_email = $request->billing_email;
-            $order->billing_phone = $request->billing_phone;
-            $order->billing_address = $request->billing_address;
-            $order->billing_city = $request->billing_city;
-            $order->billing_postalcode = $request->billing_postalcode;
-            $order->billing_total = $request->billing_total;
-            $order->payment_gateway = $request->payment_option;
-            //$order->save();
-            if($order->save()){
-                
-                $curcookie = Cookie::get('ACSESSID');
-                Cart::where('session_id', $curcookie)->delete();
+            $validator = Validator::make($request->all(), [
+                'productid' => ['required', 'string'],
+                'quantity' => ['required', 'string'],
+                'product_price' => ['required', 'string'],
+             ]); 
 
+            if($validator->fails()){
+                return response()->json([
+                  $validator->messages('Xeta base verdi'), 
+                  'statuscode' => 400
+                ]);
+            }else{
 
-            }
+                $order = new Order;
+                $order->billing_name = $request->billing_name;
+                $order->billing_email = $request->billing_email;
+                $order->billing_phone = $request->billing_phone;
+                $order->billing_address = $request->billing_address;
+                $order->billing_city = $request->billing_city;
+                $order->billing_postalcode = $request->billing_postalcode;
+                $order->billing_total = $request->billing_total;
+                $order->payment_gateway = $request->payment_option;
+                $order->comment = $request->comment;
+                $order->status = 0;
 
-            foreach ($request->productid as $key => $op) {
-                $oproduct = new OrderProduct;
-                $oproduct->order_id = $order->id;
-                $oproduct->product_id = $op;
-                $oproduct->quantity = $request->quantity[$key];
-                $oproduct->save();
-            }
+                    if($order->save()){                
+                        $curcookie = Cookie::get('ACSESSID');
+                        Cart::where('session_id', $curcookie)->delete();
+                        foreach ($request->productid as $key => $op) {
+                            $oproduct = new OrderProduct;
+                            $oproduct->order_id = $order->id;
+                            $oproduct->product_id = $op;
+                            $oproduct->quantity = $request->quantity[$key];
+                            $oproduct->product_price = $request->product_price[$key];
+                            $oproduct->save();
+                        }
+                    }
+                return response()->json([
+                    $validator->messages(), 
+                    'statuscode' => 200
+                ]);
+            }                       
             
-            
-            return response($request);            
+           // return response($request->productid);            
         }else{
             $ln = App::getLocale();
             $curcookie = Cookie::get('ACSESSID');

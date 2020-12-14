@@ -232,8 +232,8 @@ $desc = 'desc_'.$ln;
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
                                                     <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                    <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                    <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
@@ -286,8 +286,8 @@ $desc = 'desc_'.$ln;
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
                                                     <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                    <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                    <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
@@ -339,8 +339,8 @@ $desc = 'desc_'.$ln;
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
                                                     <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                    <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                    <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
@@ -392,8 +392,8 @@ $desc = 'desc_'.$ln;
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
                                                     <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                    <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                    <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
+                                                    <li><a href="#" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
@@ -610,8 +610,8 @@ $desc = 'desc_'.$ln;
                                         <div class="product_action_box">
                                             <ul class="list_none pr_action_btn">
                                                 <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                <li><a href="#" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
+                                                <li><a href="#" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                 <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                             </ul>
                                         </div>
@@ -1107,88 +1107,68 @@ $desc = 'desc_'.$ln;
     
     $('.cartpid').click('onclick',function(){        
         var productid = $(this).attr('data-productid');
-            $.ajax({
-                type: 'post',
-                url: baseurl+'/apiaddcart',
-                data: {'product_id':productid},
-                success: function(response) {
-                    var len = response.length;
-                    //console.log(len);
-                    var options = "";
-                    var totalcartprice = 0;
-                    for( var i = 0; i<len; i++){
-                        var id = response[i]['products'][0]['id'];
-                        var title = response[i]['products'][0]['title_'+lang];
-                        var image = response[i]['products'][0]['image'];
-                        if(response[i]['products'][0]['saleprice'] > 0){
-                            var price = response[i]['products'][0]['saleprice'];
-                        }else{
-                            var price = response[i]['products'][0]['price'];
-                        }                        
-                        var quantity = response[i]['quantity'];
-                        totalcartprice += response[i]['quantity'] * price;
-                        options += "<li>\n" +
-                                        "<a href='#' class='item_remove'><i class='ion-close'></i></a>\n" +
-                                        "<a href='#'><img src='/storage/"+image+"' alt='cart_thumb1'>"+title+"</a>\n" +
-                                        "<span class='cart_quantity'> "+quantity+" x <span class='cart_amount'> "+price+"</span><span class='price_symbole'> Azn</span></span>\n" +
-                                    "</li>";
-                    }
-
-                    $('.cart_list').empty().append(options);
-                    $('.cart_price').empty().append(totalcartprice);
-                    $('.cart_count').empty().append(len);
-                        Swal.fire(
-                        'Ugurlu!',
-                        'Mehsul sebete elave olundu!',
-                        'success'
-                        )
-                },
-                error: function(response) {                    
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddcart',
+            data: {'product_id':productid},
+            success: function(response) {
+                var len = response.length;
+                //console.log(len);
+                var options = "";
+                var totalcartprice = 0;
+                for( var i = 0; i<len; i++){
+                    var id = response[i]['products'][0]['id'];
+                    var title = response[i]['products'][0]['title_'+lang];
+                    var image = response[i]['products'][0]['image'];
+                    if(response[i]['products'][0]['saleprice'] > 0){
+                        var price = response[i]['products'][0]['saleprice'];
+                    }else{
+                        var price = response[i]['products'][0]['price'];
+                    }                        
+                    var quantity = response[i]['quantity'];
+                    totalcartprice += response[i]['quantity'] * price;
+                    options += "<li>\n" +
+                                    "<a href='#' class='item_remove'><i class='ion-close'></i></a>\n" +
+                                    "<a href='#'><img src='/storage/"+image+"' alt='cart_thumb1'>"+title+"</a>\n" +
+                                    "<span class='cart_quantity'> "+quantity+" x <span class='cart_amount'> "+price+"</span><span class='price_symbole'> Azn</span></span>\n" +
+                                "</li>";
                 }
-            });
+
+                $('.cart_list').empty().append(options);
+                $('.cart_price').empty().append(totalcartprice);
+                $('.cart_count').empty().append(len);
+                    Swal.fire(
+                    'Ugurlu!',
+                    'Mehsul sebete elave olundu!',
+                    'success'
+                    )
+            },
+            error: function(response) {                    
+            }
+        });
 
     })
 
 
     $('.favopid').click('onclick',function(){           
         var productid = $(this).attr('data-productid');
-            $.ajax({
-                type: 'post',
-                url: baseurl+'/apiaddfavo',
-                data: {'product_id':productid},
-                success: function(response) {
-                    
-                     var len = response.length;
-                    // console.log(response);
-                    // var options = "";
-                    // var totalcartprice = 0;
-                    // for( var i = 0; i<len; i++){
-                    //     var id = response[i]['products'][0]['id'];
-                    //     var title = response[i]['products'][0]['title_'+lang];
-                    //     var image = response[i]['products'][0]['image'];
-                    //     var price = response[i]['products'][0]['price'];
-                    //     var quantity = response[i]['quantity'];
-                    //     totalcartprice += response[i]['quantity'] * price;
-                    //     options += "<li>\n" +
-                    //                     "<a href='#' class='item_remove'><i class='ion-close'></i></a>\n" +
-                    //                     "<a href='#'><img src='/storage/"+image+"' alt='cart_thumb1'>"+title+"</a>\n" +
-                    //                     "<span class='cart_quantity'> "+quantity+" x <span class='cart_amount'> "+price+"</span><span class='price_symbole'> Azn</span></span>\n" +
-                    //                 "</li>";
-                    // }
-
-                    // $('.cart_list').empty().append(options);
-                    // $('.cart_price').empty().append(totalcartprice);
-                    $('.wishlist_count').empty().append(len);
-                    Swal.fire(
-                    'Ugurlu!',
-                    'Mehsul favorilere elave olundu!',
-                    'success'
-                    )
-                },
-                error: function(response) {                    
-                }
-            });
-            
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddfavo',
+            data: {'product_id':productid},
+            success: function(response) {
+                
+                var len = response.length;
+                $('.wishlist_count').empty().append(len);
+                Swal.fire(
+                'Ugurlu!',
+                'Mehsul favorilere elave olundu!',
+                'success'
+                )
+            },
+            error: function(response) {                    
+            }
+        });            
     })
 
 </script>

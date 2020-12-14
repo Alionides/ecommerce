@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
-
+@php
+$ln = App::getLocale();
+$title = 'title_'.$ln;
+$desc = 'desc_'.$ln;
+@endphp
 <!-- START SECTION BREADCRUMB -->
 <div class="breadcrumb_section bg_gray page-title-mini">
     <div class="container"><!-- STRART CONTAINER -->
@@ -69,11 +73,13 @@
                     <div class="product_description">
                         <h4 class="product_title"><a href="#">{{$data->title}}</a></h4>
                         <div class="product_price">
-                            <span class="price">{{$data->price}}</span>
-                            <del>$55.25</del>
-                            <div class="on_sale">
-                                <span>35% Off</span>
-                            </div>
+                            <span class="price">{{$data->saleprice > 0 ? $data->saleprice : $data->price}} Azn</span>
+                            @if ($data->saleprice > 0)
+                                <del>{{$data->price}} Azn</del>
+                                <div class="on_sale" >
+                                    <span>{{100-round($data->saleprice/$data->price * 100)}}%</span>
+                                </div>
+                            @endif
                         </div>
                         <div class="rating_wrap">
                                 <div class="rating">
@@ -82,7 +88,7 @@
                                 <span class="rating_num">(21)</span>
                             </div>
                         <div class="pr_desc">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+                            <p>{{ Str::limit($data->desc, 200) }}</p>
                         </div>
                         <div class="product_sort_info">
                             <ul>
@@ -120,9 +126,9 @@
                             </div>
                         </div>
                         <div class="cart_btn">
-                            <button class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> Add to cart</button>
+                            <button class="btn btn-fill-out btn-addtocart cartpid"  data-productid="{{$data->id}}" type="button"><i class="icon-basket-loaded"></i> Add to cart</button>
                             <a class="add_compare" href="#"><i class="icon-shuffle"></i></a>
-                            <a class="add_wishlist" href="#"><i class="icon-heart"></i></a>
+                            <a class="add_wishlist favopid"  data-productid="{{$data->id}}" href="#"><i class="icon-heart"></i></a>
                         </div>
                     </div>
                     <hr />
@@ -166,8 +172,7 @@
                     </ul>
                 	<div class="tab-content shop_info_tab">
                       	<div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
-                        	<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Vivamus bibendum magna Lorem ipsum dolor sit amet, consectetur adipiscing elit.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-                        	<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
+                        	<p>{{ $data->desc }}</p>
                       	</div>
                       	<div class="tab-pane fade" id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab">
                         	<table class="table table-bordered">
@@ -278,29 +283,40 @@
                 	<h3>Releted Products</h3>
                 </div>
             	<div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
-                	<div class="item">
+                    @foreach ($similar as $d)
+                    <div class="item">
                         <div class="product">
                             <div class="product_img">
                                 <a href="shop-product-detail.html">
-                                    <img src="/assets/images/product_img1.jpg" alt="product_img1">
+                                    <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="product_img1">
+                                    @php 
+                                        $pictures = json_decode($d->allimage); 
+                                        $pic = $pictures[0];
+                                        $ext = pathinfo($pic, PATHINFO_EXTENSION);
+                                        $name = rtrim($pic, '.'.$ext);
+                                        $imggridpic = $name.'-imggrid.'.$ext;
+                                    @endphp
+                                    <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt=""> 
                                 </a>
                                 <div class="product_action_box">
                                     <ul class="list_none pr_action_btn">
-                                        <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                        <li class="add-to-cart cartpid" data-productid="{{$d->id}}"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
                                         <li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
                                         <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                        <li><a href="#"><i class="icon-heart"></i></a></li>
+                                        <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="product_info">
-                                <h6 class="product_title"><a href="shop-product-detail.html">Blue Dress For Woman</a></h6>
+                                <h6 class="product_title"><a href="/{{ Config('app.locale') }}/product/{{$d->slug}}">{{$d->title}}</a></h6>
                                 <div class="product_price">
-                                    <span class="price">$45.00</span>
-                                    <del>$55.25</del>
-                                    <div class="on_sale">
-                                        <span>35% Off</span>
-                                    </div>
+                                    <span class="price">{{$d->saleprice > 0 ? $d->saleprice : $d->price}} Azn</span>
+                                    @if ($d->saleprice > 0)
+                                        <del>{{$d->price}} Azn</del>
+                                        <div class="on_sale" >
+                                            <span>{{100-round($d->saleprice/$d->price * 100)}}%</span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="rating_wrap">
                                     <div class="rating">
@@ -321,177 +337,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="product">
-                            <div class="product_img">
-                                <a href="shop-product-detail.html">
-                                    <img src="/assets/images/product_img2.jpg" alt="product_img2">
-                                </a>
-                                <div class="product_action_box">
-                                    <ul class="list_none pr_action_btn">
-                                        <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                        <li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-                                        <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                        <li><a href="#"><i class="icon-heart"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product_info">
-                                <h6 class="product_title"><a href="shop-product-detail.html">Lether Gray Tuxedo</a></h6>
-                                <div class="product_price">
-                                    <span class="price">$55.00</span>
-                                    <del>$95.00</del>
-                                    <div class="on_sale">
-                                        <span>25% Off</span>
-                                    </div>
-                                </div>
-                                <div class="rating_wrap">
-                                    <div class="rating">
-                                        <div class="product_rate" style="width:68%"></div>
-                                    </div>
-                                    <span class="rating_num">(15)</span>
-                                </div>
-                                <div class="pr_desc">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
-                                </div>
-                                <div class="pr_switch_wrap">
-                                    <div class="product_color_switch">
-                                        <span class="active" data-color="#847764"></span>
-                                        <span data-color="#0393B5"></span>
-                                        <span data-color="#DA323F"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product">
-                            <span class="pr_flash">New</span>
-                            <div class="product_img">
-                                <a href="shop-product-detail.html">
-                                    <img src="/assets/images/product_img3.jpg" alt="product_img3">
-                                </a>
-                                <div class="product_action_box">
-                                    <ul class="list_none pr_action_btn">
-                                        <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                        <li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-                                        <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                        <li><a href="#"><i class="icon-heart"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product_info">
-                                <h6 class="product_title"><a href="shop-product-detail.html">woman full sliv dress</a></h6>
-                                <div class="product_price">
-                                    <span class="price">$68.00</span>
-                                    <del>$99.00</del>
-                                </div>
-                                <div class="rating_wrap">
-                                    <div class="rating">
-                                        <div class="product_rate" style="width:87%"></div>
-                                    </div>
-                                    <span class="rating_num">(25)</span>
-                                </div>
-                                <div class="pr_desc">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
-                                </div>
-                                <div class="pr_switch_wrap">
-                                    <div class="product_color_switch">
-                                        <span class="active" data-color="#333333"></span>
-                                        <span data-color="#7C502F"></span>
-                                        <span data-color="#2F366C"></span>
-                                        <span data-color="#874A3D"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product">
-                            <div class="product_img">
-                                <a href="shop-product-detail.html">
-                                    <img src="/assets/images/product_img4.jpg" alt="product_img4">
-                                </a>
-                                <div class="product_action_box">
-                                    <ul class="list_none pr_action_btn">
-                                        <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                        <li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-                                        <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                        <li><a href="#"><i class="icon-heart"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product_info">
-                                <h6 class="product_title"><a href="shop-product-detail.html">light blue Shirt</a></h6>
-                                <div class="product_price">
-                                    <span class="price">$69.00</span>
-                                    <del>$89.00</del>
-                                    <div class="on_sale">
-                                        <span>20% Off</span>
-                                    </div>
-                                </div>
-                                <div class="rating_wrap">
-                                    <div class="rating">
-                                        <div class="product_rate" style="width:70%"></div>
-                                    </div>
-                                    <span class="rating_num">(22)</span>
-                                </div>
-                                <div class="pr_desc">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
-                                </div>
-                                <div class="pr_switch_wrap">
-                                    <div class="product_color_switch">
-                                        <span class="active" data-color="#333333"></span>
-                                        <span data-color="#A92534"></span>
-                                        <span data-color="#B9C2DF"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product">
-                            <div class="product_img">
-                                <a href="shop-product-detail.html">
-                                    <img src="/assets/images/product_img5.jpg" alt="product_img5">
-                                </a>
-                                <div class="product_action_box">
-                                    <ul class="list_none pr_action_btn">
-                                        <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                        <li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-                                        <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                        <li><a href="#"><i class="icon-heart"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product_info">
-                                <h6 class="product_title"><a href="shop-product-detail.html">blue dress for woman</a></h6>
-                                <div class="product_price">
-                                    <span class="price">$45.00</span>
-                                    <del>$55.25</del>
-                                    <div class="on_sale">
-                                        <span>35% Off</span>
-                                    </div>
-                                </div>
-                                <div class="rating_wrap">
-                                    <div class="rating">
-                                        <div class="product_rate" style="width:80%"></div>
-                                    </div>
-                                    <span class="rating_num">(21)</span>
-                                </div>
-                                <div class="pr_desc">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
-                                </div>
-                                <div class="pr_switch_wrap">
-                                    <div class="product_color_switch">
-                                        <span class="active" data-color="#87554B"></span>
-                                        <span data-color="#333333"></span>
-                                        <span data-color="#5FB7D4"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach                    
                 </div>
             </div>
         </div>
@@ -528,6 +374,80 @@
 
 @section('js')
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var baseurl = $('.baseurl').attr('data-url');
+    var lang = $('html').attr('lang');
+    
+    $('.cartpid').click('onclick',function(){        
+        var productid = $(this).attr('data-productid');
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddcart',
+            data: {'product_id':productid},
+            success: function(response) {
+                var len = response.length;
+                //console.log(len);
+                var options = "";
+                var totalcartprice = 0;
+                for( var i = 0; i<len; i++){
+                    var id = response[i]['products'][0]['id'];
+                    var title = response[i]['products'][0]['title_'+lang];
+                    var image = response[i]['products'][0]['image'];
+                    if(response[i]['products'][0]['saleprice'] > 0){
+                        var price = response[i]['products'][0]['saleprice'];
+                    }else{
+                        var price = response[i]['products'][0]['price'];
+                    }                        
+                    var quantity = response[i]['quantity'];
+                    totalcartprice += response[i]['quantity'] * price;
+                    options += "<li>\n" +
+                                    "<a href='#' class='item_remove'><i class='ion-close'></i></a>\n" +
+                                    "<a href='#'><img src='/storage/"+image+"' alt='cart_thumb1'>"+title+"</a>\n" +
+                                    "<span class='cart_quantity'> "+quantity+" x <span class='cart_amount'> "+price+"</span><span class='price_symbole'> Azn</span></span>\n" +
+                                "</li>";
+                }
+
+                $('.cart_list').empty().append(options);
+                $('.cart_price').empty().append(totalcartprice);
+                $('.cart_count').empty().append(len);
+                    Swal.fire(
+                    'Ugurlu!',
+                    'Mehsul sebete elave olundu!',
+                    'success'
+                    )
+            },
+            error: function(response) {                    
+            }
+        });
+
+    })
+
+
+    $('.favopid').click('onclick',function(){           
+        var productid = $(this).attr('data-productid');
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddfavo',
+            data: {'product_id':productid},
+            success: function(response) {
+                
+                var len = response.length;
+                $('.wishlist_count').empty().append(len);
+                Swal.fire(
+                'Ugurlu!',
+                'Mehsul favorilere elave olundu!',
+                'success'
+                )
+            },
+            error: function(response) {                    
+            }
+        });            
+    })
+
 </script>
 @endsection
 

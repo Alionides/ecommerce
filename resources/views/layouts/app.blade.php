@@ -264,7 +264,7 @@
                             </ul>
                             <div class="cart_footer">
                                 <p class="cart_total"><strong>{{__('lang.subtotal')}}:</strong> <span class="cart_price"> {{$totalcartprice}} </span> <span class="price_symbole"> Azn</span></p>
-                                <p class="cart_buttons"><a href="/{{ Config('app.locale') }}/cart" class="btn btn-fill-line view-cart">{{__('lang.viewcart')}}</a><a href="#" class="btn btn-fill-out checkout">{{__('lang.checkout')}}</a></p>
+                                <p class="cart_buttons"><a href="/{{ Config('app.locale') }}/cart" class="btn btn-fill-line view-cart">{{__('lang.viewcart')}}</a><a href="/{{ Config('app.locale') }}/checkout" class="btn btn-fill-out checkout">{{__('lang.checkout')}}</a></p>
                             </div>
                         </div>
                     </li>

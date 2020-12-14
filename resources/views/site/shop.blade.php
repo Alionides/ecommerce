@@ -112,7 +112,7 @@ $desc = 'desc_'.$ln;
                                                     <li class="add-to-cart cartpid" data-productid="{{$d->id}}""><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
                                                     <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                     <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-                                                    <li><a href="#"><i class="icon-heart"></i></a></li>
+                                                    <li class="favopid" data-productid="{{$d->id}}"><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -200,28 +200,25 @@ $desc = 'desc_'.$ln;
     $('.cartpid').click('onclick',function(){        
         var productid = $(this).attr('data-productid');
         $.ajax({
-                type: 'post',
-                url: baseurl+'/apiaddcart',
-                data: {'product_id':productid},
-                success: function(response) {
-
+            type: 'post',
+            url: baseurl+'/apiaddcart',
+            data: {'product_id':productid},
+            success: function(response) {
                 var len = response.length;
+                //console.log(len);
                 var options = "";
                 var totalcartprice = 0;
                 for( var i = 0; i<len; i++){
                     var id = response[i]['products'][0]['id'];
                     var title = response[i]['products'][0]['title_'+lang];
                     var image = response[i]['products'][0]['image'];
-                    var price = response[i]['products'][0]['price'];
+                    if(response[i]['products'][0]['saleprice'] > 0){
+                        var price = response[i]['products'][0]['saleprice'];
+                    }else{
+                        var price = response[i]['products'][0]['price'];
+                    }                        
                     var quantity = response[i]['quantity'];
-                        totalcartprice += response[i]['quantity'] * price;
-                    // options += "<div class='mydiv' style='display:inline-block; height:185px; width: 120px; background-color: rgb(255, 245, 211); float:left; padding:5px; margin:5px;'>\n" +
-                    //                     "<div class='image'>\n" +
-                    //                         "<img height='80px'  src='"+image+"' alt=''>\n" +
-                    //                     "</div>\n" +
-                    //                     "<div class='title' style='display: inline-block;'><a href='"+link+"' target='_blank'><p>"+title+"</p></a></div>\n" +
-                    //                     "<div class='price'>"+price+" Azn</div>\n" +
-                    //             "</div>";
+                    totalcartprice += response[i]['quantity'] * price;
                     options += "<li>\n" +
                                     "<a href='#' class='item_remove'><i class='ion-close'></i></a>\n" +
                                     "<a href='#'><img src='/storage/"+image+"' alt='cart_thumb1'>"+title+"</a>\n" +
@@ -232,19 +229,40 @@ $desc = 'desc_'.$ln;
                 $('.cart_list').empty().append(options);
                 $('.cart_price').empty().append(totalcartprice);
                 $('.cart_count').empty().append(len);
-
-                    console.log(len);
                     Swal.fire(
                     'Ugurlu!',
                     'Mehsul sebete elave olundu!',
                     'success'
                     )
-                },
-                error: function(response) {                    
-                }
-        });    
+            },
+            error: function(response) {                    
+            }
+        });
 
     })
+
+
+    $('.favopid').click('onclick',function(){           
+        var productid = $(this).attr('data-productid');
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddfavo',
+            data: {'product_id':productid},
+            success: function(response) {
+                
+                var len = response.length;
+                $('.wishlist_count').empty().append(len);
+                Swal.fire(
+                'Ugurlu!',
+                'Mehsul favorilere elave olundu!',
+                'success'
+                )
+            },
+            error: function(response) {                    
+            }
+        });            
+    })
+
 </script>
 @endsection
 

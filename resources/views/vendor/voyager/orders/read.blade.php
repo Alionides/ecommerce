@@ -57,12 +57,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $product)                                    
+                                    @foreach ($products as $key => $product)
                                     <tr>
                                         <td><img src="{{Voyager::image($product->thumbnail('imgslider'))}}" /></td>
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->title_az }}</td>
-                                        <td>{{ $product->price }}</td>
+                                        <td>{{ $product->pivot->product_price }}</td>
                                         <td>{{ $product->pivot->quantity }}</td>
                                     </tr>
                                     @endforeach
