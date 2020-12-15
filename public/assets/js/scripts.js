@@ -420,7 +420,25 @@ PAGE JS
         infinite: true,
         centerMode: true,
         slidesToShow: 15,
-        slidesToScroll: 3
+		slidesToScroll: 3,
+		responsive: [
+			{
+			  breakpoint: 768,
+			  settings: {
+			  slidesToShow: 5,
+			  centerMode: true, /* set centerMode to false to show complete slide instead of 3 */
+			  slidesToScroll: 3
+			  }
+			},
+			{
+			  breakpoint: 991,
+			  settings: {
+			  slidesToShow: 9,
+			  centerMode: true, /* set centerMode to false to show complete slide instead of 3 */
+			  slidesToScroll: 3
+			  }
+			}
+		   ]
       });
 	
 	function carousel_slider() {
