@@ -191,10 +191,10 @@ $desc = 'desc_'.$ln;
                             </button>
                             <ul class="nav nav-tabs justify-content-center justify-content-md-end" id="tabmenubar" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="arrival-tab" data-toggle="tab" href="#arrival" role="tab" aria-controls="arrival" aria-selected="true">{{__('lang.new')}}</a>
+                                    <a class="nav-link" id="arrival-tab" data-toggle="tab" href="#arrival" role="tab" aria-controls="arrival" aria-selected="true">{{__('lang.new')}}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="sale-tab" data-toggle="tab" href="#sale" role="tab" aria-controls="sale" aria-selected="false">{{__('lang.sale')}}</a>
+                                    <a class="nav-link active" id="sale-tab" data-toggle="tab" href="#sale" role="tab" aria-controls="sale" aria-selected="false">{{__('lang.sale')}}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="mostview-tab" data-toggle="tab" href="#mostview" role="tab" aria-controls="mostview" aria-selected="false">{{__('lang.mostview')}}</a>
@@ -210,7 +210,7 @@ $desc = 'desc_'.$ln;
             <div class="row">
                 <div class="col-12">
                     <div class="tab_slider">
-                        <div class="tab-pane fade show active" id="arrival" role="tabpanel" aria-labelledby="arrival-tab">
+                        <div class="tab-pane fade" id="arrival" role="tabpanel" aria-labelledby="arrival-tab">
                             <div class="product_slider carousel_slider owl-carousel owl-theme dot_style1" data-loop="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "991":{"items": "4"}}'>                                
                                 @foreach ($datanew as $d)
                                 <div class="item">
@@ -264,7 +264,7 @@ $desc = 'desc_'.$ln;
                                 @endforeach
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab">
+                        <div class="tab-pane fade show active" id="sale" role="tabpanel" aria-labelledby="sale-tab">
                             <div class="product_slider carousel_slider owl-carousel owl-theme dot_style1" data-loop="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "991":{"items": "4"}}'>
                                 @foreach ($datasale as $d)
                                 <div class="item">
