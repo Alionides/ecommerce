@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Password Reset Language Lines
@@ -13,10 +12,9 @@ return [
     |
     */
 
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have emailed your password reset link!',
+    'reset'     => 'Şifrə yeniləndi',
+    'sent'      => 'Şifrə yeniləmə adresi sizə email olaraq göndərildi',
     'throttled' => 'Please wait before retrying.',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that email address.",
-
+    'token'     => 'Bu şifrə yeniləmə kodu yanlışdır',
+    'user'      => "Bu email'ə uyğun istifadəçi tapılmadı",
 ];

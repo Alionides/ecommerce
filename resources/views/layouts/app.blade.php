@@ -217,8 +217,8 @@
                 </div>
                 <ul class="navbar-nav attr-nav align-items-center">
                     <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="linearicons-user"></i>Hesabim
+                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="linearicons-user"></i>{{__('lang.myaccount')}}
                         </button>
                         @auth
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -361,7 +361,7 @@
                         <ul class="contact_info">
                             <li>
                                 <i class="ti-location-pin"></i>
-                                <p>{{__('lang.address')}}</p>
+                                <p>{{__('lang.addresstxt')}}</p>
                             </li>
                             <li>
                                 <i class="ti-email"></i>
@@ -388,7 +388,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                 	<div class="widget">
-                        <h6 class="widget_title">My Account</h6>
+                        <h6 class="widget_title">{{__('lang.myaccount')}}</h6>
                         <ul class="widget_links">
                             <li><a href="#">My Account</a></li>
                             <li><a href="#">Discount</a></li>

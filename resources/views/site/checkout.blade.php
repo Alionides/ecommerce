@@ -32,7 +32,7 @@ $desc = 'desc_'.$ln;
 <!-- START SECTION SHOP -->
 <div class="section">
 	<div class="container">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-lg-6">
             	<div class="toggle_info">
                 	<span><i class="fas fa-user"></i>Returning customer? <a href="#loginform" data-toggle="collapse" class="collapsed" aria-expanded="false">Click here to login</a></span>
@@ -79,10 +79,10 @@ $desc = 'desc_'.$ln;
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-12">
-            	<div class="medium_divider"></div>
+            	{{-- <div class="medium_divider"></div> --}}
             	<div class="divider center_icon"><i class="linearicons-credit-card"></i></div>
             	<div class="medium_divider"></div>
             </div>
@@ -92,25 +92,27 @@ $desc = 'desc_'.$ln;
         <div class="row">
         	<div class="col-md-6">
             	<div class="heading_s1">
-            		<h4>Billing Details</h4>
+            		<h4>{{__('lang.billdet')}}</h4>
                 </div>
+                    
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="billing_name" placeholder="Name Surname *">
+                        <label for=""></label>
+                        <input type="text" required class="form-control" name="billing_name" placeholder="{{__('lang.entername')}} *">
                     </div>
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="billing_email" placeholder="Email *">
+                        <input type="text" required class="form-control" name="billing_email" placeholder="{{__('lang.enteremail')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_phone" placeholder="Phone *">
+                        <input class="form-control" required type="text" name="billing_phone" placeholder="{{__('lang.enterphone')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_address" placeholder="Address *">
+                        <input class="form-control" required type="text" name="billing_address" placeholder="{{__('lang.address')}} *">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="billing_city" required="" placeholder="City / Town *">
+                        <input type="text" class="form-control" name="billing_city" required="" placeholder="{{__('lang.city')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_postalcode" placeholder="Postal code *">
+                        <input class="form-control" required type="text" name="billing_postalcode" placeholder="{{__('lang.postalcode')}} *">
                     </div>
                     {{-- <div class="form-group">
                         <div class="chek-form">
@@ -160,24 +162,24 @@ $desc = 'desc_'.$ln;
                     </div>
                     </div> --}}
                     <div class="heading_s1">
-                        <h4>Additional information</h4>
+                        <h4>{{__('lang.additionalinform')}}</h4>
                     </div>
                     <div class="form-group mb-0">
-                        <textarea name="comment" rows="5" class="form-control" placeholder="Order notes"></textarea>
+                        <textarea name="comment" rows="5" class="form-control" placeholder="{{__('lang.ordernote')}}"></textarea>
                     </div>
                 {{-- </form> --}}
             </div>
             <div class="col-md-6">
                 <div class="order_review">
                     <div class="heading_s1">
-                        <h4>Your Orders</h4>
+                        <h4>{{__('lang.yourorder')}}</h4>
                     </div>
                     <div class="table-responsive order_table">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Total</th>
+                                    <th>{{__('lang.product')}}</th>
+                                    <th>{{__('lang.total')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,16 +207,16 @@ $desc = 'desc_'.$ln;
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>SubTotal</th>
+                                    <th>{{__('lang.subtotal')}}</th>
                                     <td class="product-subtotal">{{$totalcartprice}} Azn</td>
                                     <input type="hidden" type="text" name="billing_total" value="{{$totalcartprice}}"/>
                                 </tr>
                                 <tr>
-                                    <th>Shipping</th>
-                                    <td>Free Shipping</td>
+                                    <th>{{__('lang.shipping')}}</th>
+                                    <td>{{__('lang.freeshipping')}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>{{__('lang.total')}}</th>
                                     <td class="product-subtotal">{{$totalcartprice}} Azn</td>
                                 </tr>
                             </tfoot>
@@ -222,12 +224,12 @@ $desc = 'desc_'.$ln;
                     </div>
                     <div class="payment_method">
                         <div class="heading_s1">
-                            <h4>Payment</h4>
+                            <h4>{{__('lang.payment')}}</h4>
                         </div>
                         <div class="payment_option">
                             <div class="custome-radio">
                                 <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="option3" checked="">
-                                <label class="form-check-label" for="exampleRadios3">Qapida odeme</label>
+                                <label class="form-check-label" for="exampleRadios3">{{__('lang.payatdoor')}}</label>
                                 <p data-method="option3" class="payment-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
                             </div>
                             <div class="custome-radio">
@@ -237,7 +239,7 @@ $desc = 'desc_'.$ln;
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-fill-out btn-block checkoutbtn">Place Order</a>
+                    <a href="#" class="btn btn-fill-out btn-block checkoutbtn">{{__('lang.placeorder')}}</a>
                 </div>
             </div>
         </div>
@@ -252,14 +254,14 @@ $desc = 'desc_'.$ln;
     	<div class="row align-items-center">	
             <div class="col-md-6">
                 <div class="heading_s1 mb-md-0 heading_light">
-                    <h3>Subscribe Our Newsletter</h3>
+                    <h3>{{__('lang.subscribeus')}}</h3>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="newsletter_form">
                     <form>
-                        <input type="text" required="" class="form-control rounded-0" placeholder="Enter Email Address">
-                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">Subscribe</button>
+                        <input type="text" required="" class="form-control rounded-0" placeholder="{{__('lang.subscribeenteremail')}}">
+                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">{{__('lang.subscribe')}}</button>
                     </form>
                 </div>
             </div>
@@ -304,6 +306,7 @@ $desc = 'desc_'.$ln;
                         'Sifarişiniz qəbul edildi!',
                         'success'
                         );
+                        $('.checkoutform')[0].reset();
                         // setTimeout(function(){
                         //     location.reload();
                         // }, 1000);

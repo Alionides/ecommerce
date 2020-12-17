@@ -191,17 +191,22 @@ class SiteController extends Controller
     }
 
     public function checkout(Request $request){
-
+        $ln = App::getLocale();
         if ($request->isMethod('post')) {
-            // $ifvalid = $request->validate([
-            //     'productid' => ['required', 'string'],
-            // ]);
 
             $validator = Validator::make($request->all(), [
-                'productid' => ['required', 'string'],
-                'quantity' => ['required', 'string'],
-                'product_price' => ['required', 'string'],
+                'productid' => ['required',],
+                'quantity' => ['required', ],
+                'product_price' => ['required',],
+                'billing_name' => ['required', 'string'],
+                'billing_email' => ['required', 'email',],
+                'billing_phone' => ['required'],
+                'billing_address' => ['required'],
+                'billing_city' => ['required'],
+                'billing_postalcode' => ['required'],
+                'payment_option' => ['required'],
              ]); 
+             $validator->getTranslator()->setLocale($ln);
 
             if($validator->fails()){
                 return response()->json([

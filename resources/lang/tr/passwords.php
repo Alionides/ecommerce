@@ -4,19 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Language Lines
+    | Parola Sıfırlama Dil Satırları
     |--------------------------------------------------------------------------
     |
-    | The following language lines are the default lines which match reasons
-    | that are given by the password broker for a password update attempt
-    | has failed, such as for an invalid token or invalid new password.
+    | Aşağıdaki dil satırları, geçersiz kod veya geçersiz yeni parola gibi
+    | bir parola güncelleme girişimi sırasında parola aracısı tarafından
+    | verilen nedenlerle eşleşen, değiştirebileceğiniz, satırlardır.
     |
     */
 
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have emailed your password reset link!',
-    'throttled' => 'Please wait before retrying.',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that email address.",
+    'reset'     => 'Parolanız sıfırlandı!',
+    'sent'      => 'Parola sıfırlama bağlantınız e-posta ile gönderildi!',
+    'throttled' => 'Tekrar denemeden önce lütfen bekleyin.',
+    'token'     => 'Parola sıfırlama kodu geçersiz.',
+    'user'      => 'Bu e-posta adresi ile kayıtlı bir üye bulunamadı.',
 
 ];

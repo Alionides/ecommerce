@@ -38,11 +38,11 @@ $desc = 'desc_'.$ln;
                     	<thead>
                         	<tr>
                             	<th class="product-thumbnail">&nbsp;</th>
-                                <th class="product-name">Product</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-subtotal">Total</th>
-                                <th class="product-remove">Remove</th>
+                                <th class="product-name">{{__('lang.product')}}</th>
+                                <th class="product-price">{{__('lang.price')}}</th>
+                                <th class="product-quantity">{{__('lang.quantity')}}</th>
+                                <th class="product-subtotal">{{__('lang.total')}}</th>
+                                <th class="product-remove">{{__('lang.remove')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,14 +79,14 @@ $desc = 'desc_'.$ln;
 
                                     	<div class="col-lg-4 col-md-6 mb-3 mb-md-0">
                                             <div class="coupon field_form input-group">
-                                                <input type="text" value="" class="form-control form-control-sm" placeholder="Enter Coupon Code..">
+                                                <input type="text" value="" class="form-control form-control-sm" placeholder="{{__('lang.coupontxt')}}">
                                                 <div class="input-group-append">
-                                                	<button class="btn btn-fill-out btn-sm" type="submit">Apply Coupon</button>
+                                                	<button class="btn btn-fill-out btn-sm" type="submit">{{__('lang.coupon')}}</button>
                                                 </div>
                                             </div>
                                     	</div>
                                         <div class="col-lg-8 col-md-6 text-left text-md-right">
-                                            <button class="btn btn-line-fill btn-sm updatecart" type="submit">Update Cart</button>
+                                            <button class="btn btn-line-fill btn-sm updatecart" type="submit">{{__('lang.updatecart')}}</button>
                                         </div>
                                     </div>
                                 </td>
@@ -150,27 +150,27 @@ $desc = 'desc_'.$ln;
             <div class="col-md-6">
             	<div class="border p-3 p-md-4">
                     <div class="heading_s1 mb-3">
-                        <h6>Cart Totals</h6>
+                        <h6>{{__('lang.carttotals')}}</h6>
                     </div>
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td class="cart_total_label">Cart Subtotal</td>
+                                    <td class="cart_total_label">{{__('lang.cartsubtotal')}}</td>
                                     <td class="cart_total_amount">{{$totalcartprice}} Azn</td>
                                 </tr>
                                 <tr>
-                                    <td class="cart_total_label">Shipping</td>
-                                    <td class="cart_total_amount">Free Shipping</td>
+                                    <td class="cart_total_label">{{__('lang.shipping')}}</td>
+                                    <td class="cart_total_amount">{{__('lang.freeshipping')}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="cart_total_label">Total</td>
+                                    <td class="cart_total_label">{{__('lang.carttotal')}}</td>
                                     <td class="cart_total_amount"><strong>{{$totalcartprice}} Azn</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <a href="/{{ Config('app.locale') }}/checkout" class="btn btn-fill-out checkout">Proceed To CheckOut</a>
+                    <a href="/{{ Config('app.locale') }}/checkout" class="btn btn-fill-out checkout">{{__('lang.placeorder')}}</a>
                 </div>
             </div>
         </div>
