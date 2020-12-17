@@ -66,7 +66,7 @@ class Menu extends Model
             return false;
         }
 
-        event(new MenuDisplay($menu));
+        // event(new MenuDisplay($menu));  bu hisseni ozum komente aldim
 
         // Convert options array into object
         $options = (object) $options;
@@ -95,7 +95,8 @@ class Menu extends Model
         //     return $items;
         // }
         if ($type == '_json') {
-            return $items = static::processItems($items);
+             $items = static::processItems($items);
+            return $items;
         }
 
         return new \Illuminate\Support\HtmlString(
