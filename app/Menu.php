@@ -94,7 +94,7 @@ class Menu extends Model
         // if ($type === '_json') {
         //     return $items;
         // }
-        if ($type === '_json') {
+        if ($type == '_json') {
             return $items = static::processItems($items);
         }
 
