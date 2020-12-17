@@ -105,7 +105,7 @@
                                     </tr>
                                 </thead>
 
-                                @if(Auth::user()->id ==1)
+                                @if(Auth::user()->role_id == 1 or Auth::user()->role_id == 2)
                                 <tbody>
                                     {{-- @foreach($dataTypeContent as $data) --}}
                                     
