@@ -524,7 +524,7 @@
 <!-- elevatezoom js -->
 <script src="/assets/js/jquery.elevatezoom.js"></script>
 <!-- sweetalert js -->
-<script src="/assets/js/sweetalert2@10"></script>
+<script src="/assets/js/sweetalert2.js"></script>
 <!-- scripts js --> 
 <script src="/assets/js/scripts.js"></script>
 @yield('js')
