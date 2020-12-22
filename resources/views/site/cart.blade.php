@@ -67,7 +67,7 @@ $desc = 'desc_'.$ln;
                                             </div>
                                         </td>
                                         <td class="product-subtotal ac_total" data-total="Total">{{$c->quantity*$price}} Azn</td>
-                                        <td class="product-remove" data-title="Remove"><a href="#"><i class="ti-close"></i></a></td>
+                                        <td class="product-remove" data-title="Remove" data-productid="{{$ca->id}}"><a href="#"><i class="ti-close"></i></a></td>
                                     </tr>
                                 @endforeach   
                             @endforeach
@@ -185,14 +185,14 @@ $desc = 'desc_'.$ln;
     	<div class="row align-items-center">	
             <div class="col-md-6">
                 <div class="heading_s1 mb-md-0 heading_light">
-                    <h3>Subscribe Our Newsletter</h3>
+                    <h3>{{__('lang.subscribeus')}}</h3>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="newsletter_form">
                     <form>
-                        <input type="text" required="" class="form-control rounded-0" placeholder="Enter Email Address">
-                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">Subscribe</button>
+                        <input type="text" required="" class="form-control rounded-0" placeholder="{{__('lang.subscribeenteremail')}}">
+                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">{{__('lang.subscribe')}}</button>
                     </form>
                 </div>
             </div>
@@ -229,8 +229,8 @@ $desc = 'desc_'.$ln;
                     var len = response.length;
                     //console.log(len);
                     Swal.fire(
-                    'Ugurlu!',
-                    'Mehsul sebete elave olundu!',
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
                     'success'
                     );
                     setTimeout(function(){
@@ -256,8 +256,8 @@ $desc = 'desc_'.$ln;
                     var len = response.length;
                     //console.log(len);
                     Swal.fire(
-                    'Ugurlu!',
-                    'Mehsul sebete elave olundu!',
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
                     'success'
                     );
                     setTimeout(function(){
@@ -268,6 +268,29 @@ $desc = 'desc_'.$ln;
                 }
             });
         }
+    })
+    $('.product-remove').click('onclick',function(){
+
+            var productid = $(this).attr('data-productid');
+            $.ajax({
+                type: 'post',
+                url: baseurl+'/apiremovecart',
+                data: {'product_id':productid,'removeit':1},
+                success: function(response) {
+                    var len = response.length;
+                    //console.log(len);
+                    Swal.fire(
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
+                    'success'
+                    );
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);                     
+                },
+                error: function(response) {                    
+                }
+            });
     })
 
 </script>

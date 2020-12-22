@@ -97,22 +97,22 @@ $desc = 'desc_'.$ln;
                     
                     <div class="form-group">
                         <label for=""></label>
-                        <input type="text" required class="form-control" name="billing_name" placeholder="{{__('lang.entername')}} *">
+                        <input type="text" value="{{Auth::check() ? Auth::user()->name : ''}}" required class="form-control" name="billing_name" placeholder="{{__('lang.entername')}} *">
                     </div>
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="billing_email" placeholder="{{__('lang.enteremail')}} *">
+                        <input type="text" value="{{Auth::check() ? Auth::user()->email : ''}}" required class="form-control" name="billing_email" placeholder="{{__('lang.enteremail')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_phone" placeholder="{{__('lang.enterphone')}} *">
+                        <input class="form-control phone" value="{{Auth::check() ? Auth::user()->phone : ''}}" required type="text" name="billing_phone" placeholder="{{__('lang.enterphone')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_address" placeholder="{{__('lang.address')}} *">
+                        <input class="form-control" value="{{Auth::check() ? Auth::user()->address : ''}}" required type="text" name="billing_address" placeholder="{{__('lang.address')}} *">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="billing_city" required="" placeholder="{{__('lang.city')}} *">
+                        <input type="text" class="form-control" value="{{Auth::check() ? Auth::user()->city : ''}}" name="billing_city" required="" placeholder="{{__('lang.city')}} *">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" required type="text" name="billing_postalcode" placeholder="{{__('lang.postalcode')}} *">
+                        <input class="form-control postal" value="{{Auth::check() ? Auth::user()->postal : ''}}" required type="text" name="billing_postalcode" placeholder="{{__('lang.postalcode')}} *">
                     </div>
                     {{-- <div class="form-group">
                         <div class="chek-form">
@@ -228,14 +228,14 @@ $desc = 'desc_'.$ln;
                         </div>
                         <div class="payment_option">
                             <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="option3" checked="">
+                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="PayOnDoor" checked="">
                                 <label class="form-check-label" for="exampleRadios3">{{__('lang.payatdoor')}}</label>
-                                <p data-method="option3" class="payment-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
+                                {{-- <p data-method="option3" class="payment-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p> --}}
                             </div>
                             <div class="custome-radio">
-                                <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" value="option5">
+                                <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" value="BankCard">
                                 <label class="form-check-label" for="exampleRadios5">Visa/MasterCard</label>
-                                <p data-method="option5" class="payment-text">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                                {{-- <p data-method="option5" class="payment-text">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p> --}}
                             </div>
                         </div>
                     </div>
@@ -276,6 +276,7 @@ $desc = 'desc_'.$ln;
 @endsection
 
 @section('js')
+<script src="/assets/js/jquery.mask.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -284,13 +285,29 @@ $desc = 'desc_'.$ln;
     });
     var baseurl = $('.baseurl').attr('data-url');
     var lang = $('html').attr('lang');
+    
+    $(".phone").mask("+994 00-000-00-00");
 
-    // $.ajax({
-    //     url: 'http://localhost/blog/save-form' ,
-    //     type: "POST",
-    //     data: $('#contact_us').serialize(),
-    //     success: function( response ) {
+    $('.phone').click('onclick',function(){
+       // console.log($(".phone").val());
+        var val = $(".phone").val()
+        if (val == '') {
+            $(".phone").val('+994');
+        }else{
+            $(".phone").mask("+994 00-000-00-00");
+        }
+    });
 
+    $(".postal").mask("AZ0000");
+    $('.postal').click('onclick',function(){
+       // console.log($(".phone").val());
+        var val = $(".postal").val()
+        if (val == '') {
+            $(".postal").val('AZ');
+        }else{
+            $(".postal").mask("AZ0000");
+        }
+    });
 
     $('.checkoutbtn').click('onclick',function(){
             $.ajax({
@@ -302,8 +319,8 @@ $desc = 'desc_'.$ln;
                     console.log(response);
                     if(response.statuscode == 200){
                         Swal.fire(
-                        'Ugurlu!',
-                        'Sifarişiniz qəbul edildi!',
+                        <?= json_encode(__('lang.success')); ?>,
+                        <?= json_encode(__('lang.successorder')); ?>,
                         'success'
                         );
                         $('.checkoutform')[0].reset();
@@ -312,8 +329,8 @@ $desc = 'desc_'.$ln;
                         // }, 1000);
                     }else{
                         Swal.fire(
-                        'Xəta!',
-                        'Sifarişiniz qəbul edilmədi!',
+                        <?= json_encode(__('lang.error')); ?>,
+                        <?= json_encode(__('lang.errorfields')); ?>,
                         'error'
                         );
                         // setTimeout(function(){

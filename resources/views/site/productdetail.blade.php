@@ -351,14 +351,14 @@ $desc = 'desc_'.$ln;
     	<div class="row align-items-center">	
             <div class="col-md-6">
                 <div class="heading_s1 mb-md-0 heading_light">
-                    <h3>Subscribe Our Newsletter</h3>
+                    <h3>{{__('lang.subscribeus')}}</h3>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="newsletter_form">
                     <form>
-                        <input type="text" required="" class="form-control rounded-0" placeholder="Enter Email Address">
-                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">Subscribe</button>
+                        <input type="text" required="" class="form-control rounded-0" placeholder="{{__('lang.subscribeenteremail')}}">
+                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">{{__('lang.subscribe')}}</button>
                     </form>
                 </div>
             </div>
@@ -415,8 +415,8 @@ $desc = 'desc_'.$ln;
                 $('.cart_price').empty().append(totalcartprice);
                 $('.cart_count').empty().append(len);
                     Swal.fire(
-                    'Ugurlu!',
-                    'Mehsul sebete elave olundu!',
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
                     'success'
                     )
             },
@@ -438,8 +438,8 @@ $desc = 'desc_'.$ln;
                 var len = response.length;
                 $('.wishlist_count').empty().append(len);
                 Swal.fire(
-                'Ugurlu!',
-                'Mehsul favorilere elave olundu!',
+                <?= json_encode(__('lang.success')); ?>,
+                <?= json_encode(__('lang.successfavo')); ?>,
                 'success'
                 )
             },

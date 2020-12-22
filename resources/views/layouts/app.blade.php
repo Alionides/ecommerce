@@ -223,7 +223,7 @@
                         @auth
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <a class="dropdown-item" href="#">{{ Auth::user()->email }}</a>
-                          <a class="dropdown-item" href="{{ route('profile.show')}}">Profile</a>
+                          <a class="dropdown-item" href="{{ route('profile')}}">Profile</a>
                           <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

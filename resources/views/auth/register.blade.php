@@ -1,3 +1,6 @@
+@extends('layouts.app')
+@section('content')
+
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
@@ -8,7 +11,6 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-
             <div>
                 <x-jet-label for="name" value="{{ __('Name') }}" />
                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
@@ -41,3 +43,14 @@
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
+@endsection
+
+@section('js')
+<script>
+</script>
+@endsection
+
+@section('css')
+<style>
+</style>
+@endsection

@@ -17,6 +17,7 @@ use App\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class SiteController extends Controller
 {
@@ -96,6 +97,109 @@ class SiteController extends Controller
         return view('site.shop')->with('data',$data)->with('shop',$shop);
     }
 
+    
+
+    public function profilepassword(Request $request){
+        $ln = App::getLocale();
+        
+        if ($request->isMethod('post')) {           
+            
+            $validator = Validator::make($request->all(), [
+                //'password' => ['required',],
+                'password' => [
+                    'required', function ($attribute, $value, $fail) {
+                        if (!Hash::check($value, Auth::user()->password)) {
+                            $fail('Old Password didn\'t match');
+                        }
+                    },
+                ],
+                'npassword' => ['required',],
+                'cpassword' => ['required',],
+             ]); 
+             $validator->getTranslator()->setLocale($ln);
+
+            if($validator->fails()){
+                return response()->json([
+                  $validator->messages('Xeta base verdi'), 
+                  'statuscode' => 400
+                ]);
+            }else{
+                $userid = Auth::user()->id;
+
+                $users = App\Models\User::select('*')
+                ->where('id',$userid)
+                ->first();
+                if($request->npassword === $request->cpassword){
+                    $users->password = Hash::make($request->cpassword);                    
+                    $users->save();
+
+                    return response()->json([
+                        $validator->messages(), 
+                        'statuscode' => 200
+                    ]);
+                } else {
+                    return response()->json([
+                        $validator->messages(), 
+                        'statuscode' => 300
+                    ]);
+                }                
+            }
+        
+        }else{
+            $userid = Auth::user()->id;
+            $user = App\Models\User::select('*')
+                ->where('id',$userid)
+                ->first();
+
+            return view('site.profile')->with('user',$user);
+        }
+    }
+
+    public function profile(Request $request){
+        $ln = App::getLocale();
+        
+        if ($request->isMethod('post')) {           
+            
+            $validator = Validator::make($request->all(), [
+                'name' => ['required',],
+             ]); 
+             $validator->getTranslator()->setLocale($ln);
+
+            if($validator->fails()){
+                return response()->json([
+                  $validator->messages('Xeta base verdi'), 
+                  'statuscode' => 400
+                ]);
+            }else{
+                $userid = Auth::user()->id;
+                $users = App\Models\User::select('*')
+                ->where('id',$userid)
+                ->first();
+                $users->name = $request->name;
+                $users->phone = $request->phone;  
+                $users->address = $request->address;                    
+                $users->city = $request->city;                    
+                $users->postal = $request->postal;                    
+                $users->save();
+
+                return response()->json([
+                    $validator->messages(), 
+                    'statuscode' => 200
+                ]);
+            }
+        
+        }else{
+            $userid = Auth::user()->id;
+            $user = App\Models\User::select('*')
+                ->where('id',$userid)
+                ->first();
+            $order = Order::select('*')
+            ->where('user_id',$userid)
+            ->get();           
+
+            return view('site.profile')->with('user',$user)->with('order',$order);
+        }
+    }
     public function cart(Request $request){
         $ln = App::getLocale();
         $curcookie = Cookie::get('ACSESSID');
@@ -103,6 +207,18 @@ class SiteController extends Controller
         isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
         $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
         return view('site.cart')->with('allcart',$allcart);
+    }
+    public function apiOrderProducts(Request $request){
+        $orderid = $request->order_id;
+        $userid = Auth::user()->id;
+        
+        $order = Order::select('*')
+        ->where('id', $orderid)
+        ->where('user_id',$userid)
+        ->first();
+        $products = $order->products;
+
+        return response($products);
     }
     public function apiAddCart(Request $request){
         $product_id = $request->product_id;
@@ -147,9 +263,13 @@ class SiteController extends Controller
         ->first();
         
         if(isset($iscart)){
-            $iscart->user_id = $userid;
-            $iscart->quantity--;
-            $iscart->save();
+            if(isset($request->removeit) == 1){            
+                $iscart->delete();
+            }else{
+                $iscart->user_id = $userid;
+                $iscart->quantity--;
+                $iscart->save();
+            }
         }else{
             $shop = new Cart;
             $shop->user_id = $userid;
@@ -193,6 +313,7 @@ class SiteController extends Controller
     public function checkout(Request $request){
         $ln = App::getLocale();
         if ($request->isMethod('post')) {
+            Auth::check() ? $userid = Auth::user()->id : $userid = null;
 
             $validator = Validator::make($request->all(), [
                 'productid' => ['required',],
@@ -216,6 +337,7 @@ class SiteController extends Controller
             }else{
 
                 $order = new Order;
+                $order->user_id = $userid;
                 $order->billing_name = $request->billing_name;
                 $order->billing_email = $request->billing_email;
                 $order->billing_phone = $request->billing_phone;

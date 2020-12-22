@@ -1069,24 +1069,23 @@ $desc = 'desc_'.$ln;
 
 <!-- START SECTION SUBSCRIBE NEWSLETTER -->
 <div class="section bg_default small_pt small_pb">
-<div class="custom-container">	
-    <div class="row align-items-center">	
-        <div class="col-md-6">
-            <div class="newsletter_text text_white">
-                <h3>Join Our Newsletter Now</h3>
-                <p> Register now to get updates on promotions. </p>
+	<div class="container">	
+    	<div class="row align-items-center">	
+            <div class="col-md-6">
+                <div class="heading_s1 mb-md-0 heading_light">
+                    <h3>{{__('lang.subscribeus')}}</h3>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="newsletter_form2 rounded_input">
-                <form>
-                    <input type="text" required="" class="form-control" placeholder="Enter Email Address">
-                    <button type="submit" class="btn btn-dark btn-radius" name="submit" value="Submit">Subscribe</button>
-                </form>
+            <div class="col-md-6">
+                <div class="newsletter_form">
+                    <form>
+                        <input type="text" required="" class="form-control rounded-0" placeholder="{{__('lang.subscribeenteremail')}}">
+                        <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">{{__('lang.subscribe')}}</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- START SECTION SUBSCRIBE NEWSLETTER -->
 
@@ -1138,8 +1137,8 @@ $desc = 'desc_'.$ln;
                 $('.cart_price').empty().append(totalcartprice);
                 $('.cart_count').empty().append(len);
                     Swal.fire(
-                    'Ugurlu!',
-                    'Mehsul sebete elave olundu!',
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
                     'success'
                     )
             },
@@ -1161,8 +1160,8 @@ $desc = 'desc_'.$ln;
                 var len = response.length;
                 $('.wishlist_count').empty().append(len);
                 Swal.fire(
-                'Ugurlu!',
-                'Mehsul favorilere elave olundu!',
+                <?= json_encode(__('lang.success')); ?>,
+                <?= json_encode(__('lang.successfavo')); ?>,
                 'success'
                 )
             },
