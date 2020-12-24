@@ -224,7 +224,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <a class="dropdown-item" href="#">{{ Auth::user()->email }}</a>
                           <a class="dropdown-item" href="{{ route('profile')}}">Profile</a>
-                          <form method="POST" action="{{ route('logout') }}">
+                          <form method="POST" action="/{{ Config('app.locale') }}/logout">
                             @csrf
 
                             <x-jet-dropdown-link href="{{ route('logout') }}"

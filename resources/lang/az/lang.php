@@ -75,6 +75,10 @@ return [
     'status'=> 'Status',
     'image'=> 'Şəkil',
     'postal'=> 'Poçt İndeksi',
+    'forgotpassword'=> 'Şifrəni unutdun?',
+    'donthaveaccount'=> 'Hesabınız yoxdur?',
+    'registernow'=> 'Qeydiyyatdan keç',
+    'createaccount'=> 'Hesab Yarat',
 
     'news' => 'Xəbər',
     'about' => 'Haqqımızda',

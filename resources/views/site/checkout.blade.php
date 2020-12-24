@@ -11,9 +11,8 @@ $desc = 'desc_'.$ln;
         <div class="row align-items-center">
             <div class="col-md-6">
                 <ol class="breadcrumb justify-content-md-start">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item active">Product Detail Thumbnails Left</li>
+                    <li class="breadcrumb-item"><a href="#">{{__('lang.home')}}</a></li>
+                    <li class="breadcrumb-item active"><a href="#">{{__('lang.checkout')}}</a></li>
                 </ol>
             </div>
         	<div class="col-md-6">

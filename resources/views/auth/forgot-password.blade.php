@@ -1,34 +1,52 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@extends('layouts.app')
+@section('content')
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+<!-- START LOGIN SECTION -->
+<div class="login_register_wrap section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-md-10">
+                <div class="login_wrap">
+            		<div class="padding_eight_all bg-white">
+                        <div class="heading_s1">
+                            <h3>{{__('lang.forgotpassword')}}</h3>
+                        </div>
+                        @if (session('status'))
+                            <div class="mb-4 font-medium text-sm text-green-600">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        <form method="POST" action="/{{ Config('app.locale') }}/forgot-password">
+                            @csrf
+                            <div class="form-group">
+                                {{-- <input type="text" required="" class="form-control" name="email" placeholder="Your Email"> --}}                                
+                                <x-jet-input id="email" class="form-control block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus placeholder="{{__('lang.enteremail')}}"/>
+                            </div>  
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-fill-out btn-block" name="login">{{__('lang.send')}}</button>
+                            </div>
+                        </form>
+                        <div class="different_login">
+                            <span> or</span>
+                        </div>
+                        <div class="form-note text-center">{{__('lang.donthaveaccount')}} <a href="/{{ Config('app.locale') }}/register">{{__('lang.registernow')}}</a></div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+<!-- END LOGIN SECTION -->
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
+@endsection
 
-        <x-jet-validation-errors class="mb-4" />
+@section('js')
+<script>
+</script>
+@endsection
 
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
+@section('css')
+<style>
+</style>
+@endsection
 
-            <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>

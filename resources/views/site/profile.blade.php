@@ -45,7 +45,7 @@
                         <a class="nav-link" id="account-detail-tab" data-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="ti-id-badge"></i>{{__('lang.accountdetails')}}</a>
                       </li>
                       <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="/{{ Config('app.locale') }}/logout">
                             @csrf
                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" type="submit" class="nav-link" href="{{route('logout')}}"><i class="ti-lock"></i>{{__('lang.logout')}}</a>
                         </form>

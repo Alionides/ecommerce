@@ -146,13 +146,8 @@ $desc = 'desc_'.$ln;
                 </div>
         		<div class="row">
                     <div class="col-12">
-                        <ul class="pagination mt-3 justify-content-center pagination_style1">
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#"><i class="linearicons-arrow-right"></i></a></li>
-                        </ul>
-                    </div>
+                        {{ $data->links() }}
+                    </div>                    
                 </div>
         	</div>
             <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
@@ -367,5 +362,6 @@ $desc = 'desc_'.$ln;
 
 @section('css')
 <style>
+
 </style>
 @endsection

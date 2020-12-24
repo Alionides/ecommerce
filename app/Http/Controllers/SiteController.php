@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\CollectionHelper;
 
 class SiteController extends Controller
 {
@@ -74,7 +75,12 @@ class SiteController extends Controller
         }
 
         $category = Category::with(['products', 'subproducts'])->where('slug', $slug)->firstOrFail();
-        $allProducts = $category->products->merge($category->subproducts);
+        $alldata = $category->products->merge($category->subproducts);
+
+        
+        $pageSize = 24;
+        
+        $allProducts = CollectionHelper::paginate($alldata, $pageSize);
         
         // return response($category);
         return view('site.category',compact('breadcrumb','blink'))->with('data',$allProducts)->with('category',$category);
@@ -92,8 +98,11 @@ class SiteController extends Controller
     public function shop($ln,$id){ 
         $ln = App::getLocale();   
         $shop = Shop::select('id', 'name', 'image','slug','user_id','created_at')->where('slug', $id)->firstOrFail();
-        $data = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('author_id', $shop->user_id)->get();
+        $alldata = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('author_id', $shop->user_id)->get();
         //return response($data);
+        $pageSize = 24;
+        
+        $data = CollectionHelper::paginate($alldata, $pageSize);
         return view('site.shop')->with('data',$data)->with('shop',$shop);
     }
 

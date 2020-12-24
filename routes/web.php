@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FacebookController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +48,17 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
     Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);
     Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
-    
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+                ->name('password.reset');
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         //return view('dashboard');

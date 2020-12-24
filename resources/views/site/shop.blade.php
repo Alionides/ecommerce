@@ -62,16 +62,16 @@ $desc = 'desc_'.$ln;
 <!-- START SECTION SHOP -->
 <div class="section small_pt pb_70">
 	<div class="container">
-		<div class="row justify-content-center">
+		{{-- <div class="row justify-content-center">
 			<div class="col-md-6">
             	<div class="heading_s1 text-center">
                 	<h2>Exclusive Products</h2>
                 </div>
             </div>
-		</div>
+		</div> --}}
         <div class="row">
         	<div class="col-12">
-            	<div class="tab-style1">
+            	{{-- <div class="tab-style1">
                     <ul class="nav nav-tabs justify-content-center" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="arrival-tab" data-toggle="tab" href="#arrival" role="tab" aria-controls="arrival" aria-selected="true">New Arrival</a>
@@ -86,7 +86,7 @@ $desc = 'desc_'.$ln;
                             <a class="nav-link" id="special-tab" data-toggle="tab" href="#special" role="tab" aria-controls="special" aria-selected="false">Special Offer</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="tab-content">
                 	<div class="tab-pane fade show active" id="arrival" role="tabpanel" aria-labelledby="arrival-tab">
                         <div class="row shop_container">
@@ -144,13 +144,8 @@ $desc = 'desc_'.$ln;
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <ul class="pagination mt-3 justify-content-center pagination_style1">
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><i class="linearicons-arrow-right"></i></a></li>
-                                </ul>
-                            </div>
+                                {{ $data->links() }}
+                            </div>                              
                         </div>
                     </div>                    
                 </div>
