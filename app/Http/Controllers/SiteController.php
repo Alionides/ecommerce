@@ -50,11 +50,19 @@ class SiteController extends Controller
     }
 
     public function user(){
-        //$user = Auth::id();
         $user = Auth::user();
-
         return response($user);
+    }
+    public function search(Request $request,$ln){
+        $ln = App::getLocale();
+        $colorfilter = Color::get();
+        $sizefilter = Size::get();
+        $search = $request->q;
+        
+        $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->paginate(1)->withQueryString();
+        //return response($data);
 
+        return view('site.search',compact('colorfilter','sizefilter'))->with('data',$data);
     }
 
     public function category(Request $request, $ln, $cat=null, $subcat=null, $subsubcat=null){
@@ -164,7 +172,7 @@ class SiteController extends Controller
 
         $collection = collect($lastdata); // arraydan collection duzeltmey ucun        
         $pageSize = 24;        
-        $allProducts = CollectionHelper::paginate($collection, $pageSize);
+        $allProducts = CollectionHelper::paginate($collection, $pageSize)->withQueryString();
         $colorfilter = Color::get();
         $sizefilter = Size::get();
         

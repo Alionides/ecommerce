@@ -32,7 +32,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
-    Route::get('user', [SiteController::class, 'user']);
+    //Route::get('user', [SiteController::class, 'user']);
+    Route::get('search', [SiteController::class, 'search']);
     Route::post('apiaddcart', [SiteController::class, 'apiaddcart']);
     Route::post('apiorderproducts', [SiteController::class, 'apiorderproducts']);
     Route::post('apiremovecart', [SiteController::class, 'apiremovecart']);
