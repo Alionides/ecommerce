@@ -196,7 +196,8 @@
                     <img class="logo_dark" src="/assets/images/logo_dark_alisveris1.png" alt="logo" />
                 </a>
                 <div class="product_search_form rounded_input">
-                    <form>
+                    <form method="GET" action="/{{ Config('app.locale') }}/search">
+                        @csrf
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="custom_select">
@@ -210,7 +211,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="{{__('lang.search')}}" required=""  type="text">
+                            <input class="form-control" placeholder="{{__('lang.search')}}" required="" name="q"  type="text">
                             <button type="submit" class="search_btn2"><i class="fa fa-search"></i></button>
                         </div>
                     </form>
