@@ -167,15 +167,15 @@ $desc = 'desc_'.$ln;
                     <div class="widget">
                     	<h5 class="widget_title">Filter</h5>
                         <div class="filter_price">
-                             <div id="price_filter" data-min="0" data-max="500" data-min-value="50" data-max-value="300" data-price-sign="$"></div>
+                             <div id="price_filter" data-min="0" data-max="1000" data-min-value="@if (isset($requestall['min'])) {{$requestall['min']}} @else {{0}} @endif" data-max-value="@if (isset($requestall['max'])) {{$requestall['max']}} @else {{500}} @endif" data-price-sign="Azn"></div>
                              <div class="price_range">
-                                 <span>Price: <span id="flt_price"></span></span>
+                                 <span>{{__('lang.price')}}: <span id="flt_price"></span></span>
                                  <input type="hidden" id="price_first">
                                  <input type="hidden" id="price_second">
                              </div>
                          </div>
                     </div>
-                    <div class="widget">
+                    {{-- <div class="widget">
                     	<h5 class="widget_title">Brand</h5>	
                         <ul class="list_brand">
                             <li>
@@ -209,30 +209,21 @@ $desc = 'desc_'.$ln;
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
                     <div class="widget">
                     	<h5 class="widget_title">Size</h5>
                         <div class="product_size_switch">
-                            <span>xs</span>
-                            <span>s</span>
-                            <span>m</span>
-                            <span>l</span>
-                            <span>xl</span>
-                            <span>2xl</span>
-                            <span>3xl</span>
+                            @foreach ($sizefilter as $s)
+                                <span class="sizefilter @if (isset($requestall['size'])) {{$s->id==$requestall['size'] ? 'active' : ''}} @endif" data-sizefilter="{{$s->id}}">{{$s->title}}</span>
+                            @endforeach
                         </div>
                     </div>
                     <div class="widget">
                     	<h5 class="widget_title">Color</h5>
                         <div class="product_color_switch">
-                            <span data-color="#87554B"></span>
-                            <span data-color="#333333"></span>
-                            <span data-color="#DA323F"></span>
-                            <span data-color="#2F366C"></span>
-                            <span data-color="#B5B6BB"></span>
-                            <span data-color="#B9C2DF"></span>
-                            <span data-color="#5FB7D4"></span>
-                            <span data-color="#2F366C"></span>
+                            @foreach ($colorfilter as $c)
+                                    <span class="@if (isset($requestall['color'])) {{$c->id==$requestall['color'] ? 'active' : ''}} @endif" data-colorfilter="{{$c->id}}" data-color="{{$c->code}}"></span>
+                            @endforeach
                         </div>
                     </div>
                     <div class="widget">
@@ -290,6 +281,103 @@ $desc = 'desc_'.$ln;
     });
     var baseurl = $('.baseurl').attr('data-url');
     var lang = $('html').attr('lang');
+
+    $.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null) {
+       return null;
+    }
+    return decodeURI(results[1]) || 0;
+    }
+
+    $('#price_filter').each( function() {
+		var $filter_selector = $(this);
+		var a = $filter_selector.data("min-value");
+		var b = $filter_selector.data("max-value");
+		var c = $filter_selector.data("price-sign");
+		$filter_selector.slider({
+			range: true,
+			min: $filter_selector.data("min"),
+			max: $filter_selector.data("max"),
+            values: [ a, b ],
+            change: function( event, ui ) {                
+                var params = [];
+                var minn = ui.values[ 0 ];
+                var maxx = ui.values[ 1 ];
+                var s = $.urlParam('size');
+                var c = $.urlParam('color');
+                if(minn != null){
+                    params.min = minn;
+                    params.max = maxx;
+                }
+                if(c != null){
+                    params.color = c;
+                }
+                if(s != null){
+                    params.size = s;
+                }
+                params = Object.assign({}, params);
+                var str = jQuery.param( params );
+                window.location.href = "?"+str; 
+
+               },
+			slide: function( event, ui ) {
+				$( "#flt_price" ).html( ui.values[ 0 ] + c +" - "+ ui.values[ 1 ] + c );
+				$( "#price_first" ).val(ui.values[ 0 ]);
+				$( "#price_second" ).val(ui.values[ 1 ]);
+			}
+		});
+		$( "#flt_price" ).html( $filter_selector.slider( "values", 0 ) + c +" - " + $filter_selector.slider( "values", 1 ) + c );
+    });
+    
+    
+    $('.product_size_switch span').click('onclick',function(){   
+       // alert($( "#price_first" ).val());
+        var params = [];
+        var minn = $.urlParam('min');
+        var maxx = $.urlParam('max');
+        var c = $.urlParam('color');
+        var s = $(this).attr('data-sizefilter');
+        
+        if(minn != null){
+            params.min = minn;
+            params.max = maxx;
+        }
+        if(c != null){
+            params.color = c;
+        }
+        if(s != null){
+            params.size = s;
+        }
+        params = Object.assign({}, params);
+        var str = jQuery.param( params );
+        window.location.href = "?"+str; 
+        
+    });
+    $('.product_color_switch span').click('onclick',function(){  
+        var params = [];
+        var minn = $.urlParam('min');
+        var maxx = $.urlParam('max');
+        var s = $.urlParam('size');
+        var c = $(this).attr('data-colorfilter');
+        
+                
+        if(minn != null){
+            params.min = minn;
+            params.max = maxx;
+        }
+        if(c != null){
+            params.color = c;
+        }
+        if(s != null){
+            params.size = s;
+        }
+        params = Object.assign({}, params);
+        var str = jQuery.param( params );
+        window.location.href = "?"+str; 
+
+    });
+    
     
     $('.cartpid').click('onclick',function(){        
         var productid = $(this).attr('data-productid');

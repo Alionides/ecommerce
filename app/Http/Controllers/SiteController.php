@@ -14,11 +14,14 @@ use App\Page;
 use App\Cart;
 use App\Order;
 use App\OrderProduct;
+use App\Color;
+use App\Size;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\CollectionHelper;
+use Illuminate\Support\Facades\Input;
 
 class SiteController extends Controller
 {
@@ -54,9 +57,33 @@ class SiteController extends Controller
 
     }
 
-    public function category($ln, $cat=null, $subcat=null, $subsubcat=null){
+    public function category(Request $request, $ln, $cat=null, $subcat=null, $subsubcat=null){
 
         $ln = App::getLocale();
+        if(isset($request->max)){
+            $min = $request->min;
+            $max = $request->max;
+        }else{
+            $min = 0;
+            $max = 1000;
+        }
+        
+        $color = $request->color;
+        $color =  explode(",", $color);
+        $size = $request->size;
+        $size =  explode(",", $size);
+        
+        
+
+        // $validator = Validator::make($request->all(), [
+        //     'color' => 'required|string',           
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect('/');
+        // }
+        //dd($color);
+
 
         $slug = $subsubcat ?? $subcat ?? $cat;
         $breadcrumb = '';
@@ -75,15 +102,74 @@ class SiteController extends Controller
         }
 
         $category = Category::with(['products', 'subproducts'])->where('slug', $slug)->firstOrFail();
-        $alldata = $category->products->merge($category->subproducts);
+        $alldata = $category->products->merge($category->subproducts)->where('lastprice', '>=', $min )->where('lastprice', '<=', $max );
 
-        
-        $pageSize = 24;
-        
-        $allProducts = CollectionHelper::paginate($alldata, $pageSize);
+        $lastdata = false;
+        $colordata = [];
+        $sizedata = [];
+
+        if(!empty($color[0]) && !empty($size[0])){
+            foreach($alldata as $all){
+                if(isset($all->color) and isset($all->size)){
+                    // foreach(json_decode($all->size) as $sc){  
+
+                    // }
+                    foreach(json_decode($all->size) as $sc){   
+                        if(in_array($sc, $size)){
+                            $sizedata[] = $all;
+                           // break;
+                        }           
+                    } 
+                        
+                    foreach(json_decode($all->color) as $ac){   
+                        if(in_array($ac, $color)){
+                            $colordata[] = $all;
+                            //break;
+                        }           
+                    } 
+                }
+            }
+            
+            //$lastdata = array_intersect_key($colordata,$sizedata); //$colordata;
+            $lastdata = array_unique (array_merge($colordata,$sizedata)); // bu eslinde duz ishlemir;
+        }elseif(!empty($color[0])){
+            foreach($alldata as $all){
+                if(isset($all->color)){
+                    foreach(json_decode($all->color) as $ac){   
+                        if(in_array($ac, $color)){
+                            $colordata[] = $all;
+                            break;
+                        }           
+                    } 
+                }
+            }
+            $lastdata = $colordata;
+        }elseif(!empty($size[0])){
+            foreach($alldata as $all){
+                if(isset($all->size)){
+                    foreach(json_decode($all->size) as $sc){   
+                        if(in_array($sc, $size)){
+                            $sizedata[] = $all;
+                            break;
+                        }           
+                    } 
+                }
+            }
+            $lastdata = $sizedata;
+        }else{
+            $lastdata = $alldata;
+        }
+
+   
+
+        $collection = collect($lastdata); // arraydan collection duzeltmey ucun        
+        $pageSize = 24;        
+        $allProducts = CollectionHelper::paginate($collection, $pageSize);
+        $colorfilter = Color::get();
+        $sizefilter = Size::get();
         
         // return response($category);
-        return view('site.category',compact('breadcrumb','blink'))->with('data',$allProducts)->with('category',$category);
+        return view('site.category',compact('breadcrumb','blink','colorfilter','sizefilter'))->with('data',$allProducts)->with('category',$category)->with('requestall',$request->all());
     }
 
     public function productdetail($ln,$id){ 

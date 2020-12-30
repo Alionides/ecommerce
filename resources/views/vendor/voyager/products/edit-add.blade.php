@@ -93,11 +93,27 @@
                                         @endforeach
                                     @endif
                                 </div>
+                                
                             @endforeach
                             <!-- alicart -->                            
                             <div class="form-group hidden  col-md-12 ">
                                 <input type="text" class="form-control" name="author_id" placeholder="Author id" value="{{$currentUser}}">
+                                <input type="text" class="form-control" name="lastprice" placeholder="Author id" value="">
                             </div>
+
+                            <div class="form-group  col-md-12 ">
+                                <label class="control-label" for="name">Rəng</label><br>
+                                @foreach ($colors as $d)                                
+                                    <input type="checkbox"  name="color[]" placeholder="Color" value="{{$d['id']}}"> <span style="background-color:{{$d['code']}} " class="pl-2 pr-2 m-2 btn-sm"></span> &nbsp; {{$d['title_az']}}<br><br>
+                                @endforeach
+                            </div>
+                            <div class="form-group  col-md-12 ">
+                                <label class="control-label" for="name">Ölçü</label><br>
+                                @foreach ($sizes as $d)                                
+                                    <input type="checkbox"  name="size[]" placeholder="Size" value="{{$d['id']}}">  &nbsp; {{$d['title']}}<br><br>
+                                @endforeach
+                            </div>
+
                         </div><!-- panel-body -->
 
                         <div class="panel-footer">
@@ -148,6 +164,18 @@
 
 @section('javascript')
     <script>
+        $('.save').click('onclick',function(){   
+            var price = $( "input[name='price']").val();
+            var saleprice = $( "input[name='saleprice']").val();
+            var lastprice = price;
+            if(saleprice != 0){
+                lastprice = saleprice;
+            }
+            $( "input[name='lastprice']").val(lastprice);
+        });
+        
+        
+
         var params = {};
         var $file;
 
