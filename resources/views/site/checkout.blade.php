@@ -15,10 +15,8 @@ $desc = 'desc_'.$ln;
                     <li class="breadcrumb-item active"><a href="#">{{__('lang.checkout')}}</a></li>
                 </ol>
             </div>
-        	<div class="col-md-6">
-                
-            </div>
-            
+        	<div class="col-md-6">                
+            </div>            
         </div>
     </div><!-- END CONTAINER-->
 </div>
@@ -227,12 +225,12 @@ $desc = 'desc_'.$ln;
                         </div>
                         <div class="payment_option">
                             <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="PayOnDoor" checked="">
+                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="Qapıda Ödəmə" checked="">
                                 <label class="form-check-label" for="exampleRadios3">{{__('lang.payatdoor')}}</label>
                                 {{-- <p data-method="option3" class="payment-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p> --}}
                             </div>
                             <div class="custome-radio">
-                                <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" value="BankCard">
+                                <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" value="Kartla Ödəmə">
                                 <label class="form-check-label" for="exampleRadios5">Visa/MasterCard</label>
                                 {{-- <p data-method="option5" class="payment-text">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p> --}}
                             </div>

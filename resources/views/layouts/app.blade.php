@@ -7,8 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="Anil z" name="author">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Shopwise is Powerful features and You Can Use The Perfect Build this Template For Any eCommerce Website. The template is built for sell Fashion Products, Shoes, Bags, Cosmetics, Clothes, Sunglasses, Furniture, Kids Products, Electronics, Stationery Products and Sporting Goods.">
-<meta name="keywords" content="ecommerce, electronics store, Fashion store, furniture store,  bootstrap 4, clean, minimal, modern, online store, responsive, retail, shopping, ecommerce store">
+<meta name="description" content="Alisveris.com">
+<meta name="keywords" content="geyim,paltar,telefon,acki,tshirt">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- SITE TITLE -->
 <title>Alisveris.com</title>
@@ -197,7 +197,6 @@
                 </a>
                 <div class="product_search_form rounded_input">
                     <form method="GET" action="/{{ Config('app.locale') }}/search">
-                        @csrf
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="custom_select">
@@ -358,7 +357,7 @@
                         <div class="footer_logo">
                             <a href="#"><img src="/assets/images/logo_dark_alisveris1.png" alt="logo"/></a>
                         </div>
-                        <p class="mb-3">If you are going to use of Lorem Ipsum need to be sure there isn't anything hidden of text</p>
+                        <p class="mb-3">{{__('lang.weloveshopping')}}</p>
                         <ul class="contact_info">
                             <li>
                                 <i class="ti-location-pin"></i>
@@ -366,11 +365,11 @@
                             </li>
                             <li>
                                 <i class="ti-email"></i>
-                                <a href="mailto:info@sitename.com">info@sitename.com</a>
+                                <a href="mailto:info@sitename.com">info@alisveris.com</a>
                             </li>
                             <li>
                                 <i class="ti-mobile"></i>
-                                <p>+ 457 789 789 65</p>
+                                <p>+ 994 70 412 55 44</p>
                             </li>
                         </ul>
                     </div>
@@ -524,6 +523,8 @@
 <script src="/assets/js/slick.min.js"></script>
 <!-- elevatezoom js -->
 <script src="/assets/js/jquery.elevatezoom.js"></script>
+<!-- Google Map Js -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ&amp;callback=initMap"></script>
 <!-- sweetalert js -->
 <script src="/assets/js/sweetalert2.js"></script>
 <!-- scripts js --> 

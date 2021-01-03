@@ -39,6 +39,8 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::post('apiremovecart', [SiteController::class, 'apiremovecart']);
     Route::post('apiaddfavo', [SiteController::class, 'apiaddfavo']);
     Route::get('cart', [SiteController::class, 'cart']);
+    Route::get('contact', [SiteController::class, 'contact']);
+    Route::post('contact', [SiteController::class, 'contact'])->middleware('web');
     Route::get('profile', [SiteController::class, 'profile'])->name('profile')->middleware('auth');
     Route::post('profile', [SiteController::class, 'profile'])->middleware('web');
     Route::post('profilepassword', [SiteController::class, 'profilepassword'])->middleware('web');

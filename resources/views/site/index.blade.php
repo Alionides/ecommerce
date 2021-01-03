@@ -90,42 +90,20 @@ $desc = 'desc_'.$ln;
             <div class="banner_section shop_el_slider">
                 <div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active background_bg" data-img-src="/assets/images/banner13.jpg">
+                        @foreach ($slider as $d)
+                        <div class="carousel-item active background_bg" data-img-src="{{Voyager::image($d->image)}}">
                             <div class="banner_slide_content banner_content_inner">
                                 <div class="col-lg-7 col-10">
                                     <div class="banner_content3 overflow-hidden">
-                                        <h5 class="mb-3 staggered-animation font-weight-light" data-animation="slideInLeft" data-animation-delay="0.5s">Get up to 50% off Today Only!</h5>
-                                        <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s">Dual Camera 20MP</h2>
-                                        <h4 class="staggered-animation mb-4 product-price" data-animation="slideInLeft" data-animation-delay="1.2s"><span class="price">$45.00</span><del>$55.25</del></h4>
-                                        <a class="btn btn-fill-out btn-radius staggered-animation text-uppercase" href="shop-left-sidebar.html" data-animation="slideInLeft" data-animation-delay="1.5s">Shop Now</a>
+                                        <h5 class="mb-3 staggered-animation font-weight-light" data-animation="slideInLeft" data-animation-delay="0.5s">{{$d->title}}</h5>
+                                        <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s">{{$d->desc}}</h2>
+                                        <h4 class="staggered-animation mb-4 product-price" data-animation="slideInLeft" data-animation-delay="1.2s"><span class="price">{{$d->price}}</span></h4>
+                                        <a class="btn btn-fill-out btn-radius staggered-animation text-uppercase" href="{{$d->link}}" data-animation="slideInLeft" data-animation-delay="1.5s">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item background_bg" data-img-src="/assets/images/banner14.jpg">
-                            <div class="banner_slide_content banner_content_inner">
-                                <div class="col-lg-8 col-10">
-                                    <div class="banner_content3 overflow-hidden">
-                                        <h5 class="mb-3 staggered-animation font-weight-light" data-animation="slideInLeft" data-animation-delay="0.5s">50% off in all products</h5>
-                                        <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s">Smart Watches</h2>
-                                        <h4 class="staggered-animation mb-3 mb-sm-4 product-price" data-animation="slideInLeft" data-animation-delay="1.2s"><span class="price">$45.00</span><del>$55.25</del></h4>
-                                        <a class="btn btn-fill-out btn-radius staggered-animation text-uppercase" href="shop-left-sidebar.html" data-animation="slideInLeft" data-animation-delay="1.5s">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item background_bg" data-img-src="/assets/images/banner15.jpg">
-                            <div class="banner_slide_content banner_content_inner">
-                                <div class="col-lg-8 col-10">
-                                    <div class="banner_content3 overflow-hidden">
-                                        <h5 class="mb-3 staggered-animation font-weight-light" data-animation="slideInLeft" data-animation-delay="0.5s">Taking your Viewing Experience to Next Level</h5>
-                                        <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s">Beat Headphone</h2>
-                                        <h4 class="staggered-animation mb-4 product-price" data-animation="slideInLeft" data-animation-delay="1.2s"><span class="price">$45.00</span><del>$55.25</del></h4>
-                                        <a class="btn btn-fill-out btn-radius staggered-animation text-uppercase" href="shop-left-sidebar.html" data-animation="slideInLeft" data-animation-delay="1.5s">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach                         
                     </div>
                     <ol class="carousel-indicators indicators_style3">
                         <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
@@ -136,7 +114,7 @@ $desc = 'desc_'.$ln;
             </div>
         </div>
         <div class="col-lg-2 d-none d-lg-block">
-            <div class="shop_banner2 el_banner1">
+            {{-- <div class="shop_banner2 el_banner1">
                 <a href="#" class="hover_effect1">
                     <div class="el_title text_white">
                         <h6>iphone Collection</h6>
@@ -157,7 +135,26 @@ $desc = 'desc_'.$ln;
                         <img src="/assets/images/shop_banner_img7.png" alt="shop_banner_img7">
                     </div>
                 </a>
-            </div>
+            </div> --}}
+            @foreach ($banner as $d)
+                @if ($d->type == 1)
+                <div class="sale-banner p-3">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach
+
+            @foreach ($banner as $d)
+                @if ($d->type == 2)
+                <div class="sale-banner p-3">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach            
         </div>
     </div>
 </div>
@@ -171,12 +168,16 @@ $desc = 'desc_'.$ln;
 <div class="section small_pt pb-0">
 <div class="custom-container">
     <div class="row">
-        <div class="col-xl-3 d-none d-xl-block">
-            <div class="sale-banner">
-                <a class="hover_effect1" href="#">
-                    <img src="/assets/images/shop_banner_img6.jpg" alt="shop_banner_img6">
-                </a>
-            </div>
+        <div class="col-xl-3 d-none d-xl-block">           
+            @foreach ($banner as $d)
+                @if ($d->type == 3)
+                <div class="sale-banner p-3">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach 
         </div>
         <div class="col-xl-9">
             <div class="row">
@@ -438,25 +439,37 @@ $desc = 'desc_'.$ln;
 <div class="custom-container">
     <div class="row">
         <div class="col-md-4">
-            <div class="sale-banner mb-3 mb-md-4">
-                <a class="hover_effect1" href="#">
-                    <img src="/assets/images/shop_banner_img7.jpg" alt="shop_banner_img7">
-                </a>
-            </div>
+            @foreach ($banner as $d)
+                @if ($d->type == 5)
+                <div class="sale-banner mb-3 mb-md-4">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach 
         </div>
         <div class="col-md-4">
-            <div class="sale-banner mb-3 mb-md-4">
-                <a class="hover_effect1" href="#">
-                    <img src="/assets/images/shop_banner_img8.jpg" alt="shop_banner_img8">
-                </a>
-            </div>
+            @foreach ($banner as $d)
+                @if ($d->type == 6)
+                <div class="sale-banner mb-3 mb-md-4">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach 
         </div>
         <div class="col-md-4">
-            <div class="sale-banner mb-3 mb-md-4">
-                <a class="hover_effect1" href="#">
-                    <img src="/assets/images/shop_banner_img9.jpg" alt="shop_banner_img9">
-                </a>
-            </div>
+            @foreach ($banner as $d)
+                @if ($d->type == 7)
+                <div class="sale-banner mb-3 mb-md-4">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach 
         </div>
     </div>
 </div>
@@ -568,11 +581,15 @@ $desc = 'desc_'.$ln;
 <div class="custom-container">
     <div class="row">
         <div class="col-xl-3 d-none d-xl-block">
-            <div class="sale-banner">
-                <a class="hover_effect1" href="#">
-                    <img src="/assets/images/shop_banner_img10.jpg" alt="shop_banner_img10">
-                </a>
-            </div>
+            @foreach ($banner as $d)
+                @if ($d->type == 4)
+                <div class="sale-banner p-3">
+                    <a class="hover_effect1" href="{{$d->link}}">
+                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                    </a>
+                </div>
+                @endif
+            @endforeach 
         </div>
         <div class="col-xl-9">
             <div class="row">

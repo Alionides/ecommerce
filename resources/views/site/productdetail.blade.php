@@ -9,18 +9,14 @@ $desc = 'desc_'.$ln;
 <div class="breadcrumb_section bg_gray page-title-mini">
     <div class="container"><!-- STRART CONTAINER -->
         <div class="row align-items-center">
-        	<div class="col-md-6">
-                <div class="page-title">
-            		<h1>Product Detail Thumbnails Left</h1>
-                </div>
-            </div>
             <div class="col-md-6">
-                <ol class="breadcrumb justify-content-md-end">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item active">Product Detail Thumbnails Left</li>
+                <ol class="breadcrumb justify-content-md-start">
+                    <li class="breadcrumb-item"><a href="#">{{__('lang.home')}}</a></li>
+                    <li class="breadcrumb-item active"><a href="#">{{__('lang.product')}}</a></li>
                 </ol>
             </div>
+        	<div class="col-md-6">                
+            </div>            
         </div>
     </div><!-- END CONTAINER-->
 </div>
@@ -100,19 +96,22 @@ $desc = 'desc_'.$ln;
                         <div class="pr_switch_wrap">
                             <span class="switch_lable">Color</span>
                             <div class="product_color_switch">
-                                <span class="active" data-color="#87554B"></span>
-                                <span data-color="#333333"></span>
-                                <span data-color="#DA323F"></span>
+                                @php 
+                                    $color = json_decode($data->color); 
+                                    $size = json_decode($data->size); 
+                                @endphp
+
+                                @foreach ($color as $c)
+                                <span data-color="{{ $colorfilter[$c-1]->code}}"></span>
+                                @endforeach
                             </div>
                         </div>
                         <div class="pr_switch_wrap">
                             <span class="switch_lable">Size</span>
                             <div class="product_size_switch">
-                                <span>xs</span>
-                                <span>s</span>
-                                <span>m</span>
-                                <span>l</span>
-                                <span>xl</span>
+                                @foreach ($size as $c)
+                                <span>{{ $sizefilter[$c-1]->title}}</span>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -134,8 +133,8 @@ $desc = 'desc_'.$ln;
                     <hr />
                     <ul class="product-meta">
                         <li>SKU: <a href="#">{{uniqid()}}</a></li>
-                        <li>Category: <a href="#">Clothing</a></li>
-                        <li>Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">printed</a> </li>
+                        <li>Category: <a href="#">{{$data->categories->title_az}}</a></li>
+                        {{-- <li>Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">printed</a> </li> --}}
                     </ul>
                     
                     <div class="product_share">

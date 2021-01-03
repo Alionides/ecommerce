@@ -16,6 +16,8 @@ use App\Order;
 use App\OrderProduct;
 use App\Color;
 use App\Size;
+use App\Slider;
+use App\Banner;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +32,10 @@ class SiteController extends Controller
 
     public function index(){
         $ln = App::getLocale();
-
+        $slider = Slider::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image', 'price','link')->where('status','>',0)->orderBy('created_at', 'desc')
+        ->get(4);
+        $banner = Banner::select('image','link','type')->where('status','>',0)->orderBy('created_at', 'desc')
+        ->get();
         $datasale = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('saleprice','>',0)->orderBy('created_at', 'desc')
         ->get(12);
         $datanew = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->whereDate('created_at',Carbon::today())->orderBy('created_at', 'desc')
@@ -46,28 +51,137 @@ class SiteController extends Controller
         $parentCategories = Category::select('id', 'parent_id', 'title_' . $ln . ' as title', 'slug', 'icon')->where('parent_id',null)->get();
         // return response($favo);
         // dd($parentCategories);
-        return view('site.index', compact('parentCategories','pages'))->with('datasale',$datasale)->with('datanew',$datanew)->with('dataviewed',$dataviewed)->with('datasold',$datasold)->with('favo',$favo);
+        return view('site.index', compact('parentCategories','pages','slider','banner'))->with('datasale',$datasale)->with('datanew',$datanew)->with('dataviewed',$dataviewed)->with('datasold',$datasold)->with('favo',$favo);
     }
 
+    public function contact(Request $request,$ln){
+
+        return view('site.contact');
+    }
     public function user(){
         $user = Auth::user();
         return response($user);
     }
     public function search(Request $request,$ln){
         $ln = App::getLocale();
+        $banner = Banner::select('image','link','type')->where('status','>',0)->orderBy('created_at', 'desc')
+        ->get();
         $colorfilter = Color::get();
         $sizefilter = Size::get();
         $search = $request->q;
+        $color = $request->color;
+        $color =  explode(",", $color);
+        $size = $request->size;
+        $size =  explode(",", $size);
+        if(isset($request->max)){
+            $min = $request->min;
+            $max = $request->max;
+        }else{
+            $min = 0;
+            $max = 1000;
+        }
         
-        $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->paginate(1)->withQueryString();
-        //return response($data);
+        $alldata = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->get();
+        
+        $lastdata = false;
+        $colordata = [];
+        $sizedata = [];
 
-        return view('site.search',compact('colorfilter','sizefilter'))->with('data',$data);
+        if(!empty($color[0]) && !empty($size[0])){
+            foreach($alldata as $all){
+                if(isset($all->color) and isset($all->size)){
+                    // foreach(json_decode($all->size) as $sc){  
+
+                    // }
+                    foreach(json_decode($all->size) as $sc){   
+                        if(in_array($sc, $size)){
+                            $sizedata[] = $all;
+                           // break;
+                        }           
+                    } 
+                        
+                    foreach(json_decode($all->color) as $ac){   
+                        if(in_array($ac, $color)){
+                            $colordata[] = $all;
+                            //break;
+                        }           
+                    } 
+                }
+            }
+            
+            //$lastdata = array_intersect_key($colordata,$sizedata); //$colordata;
+            $lastdata = array_unique (array_merge($colordata,$sizedata)); // bu eslinde duz ishlemir;
+        }elseif(!empty($color[0])){
+            foreach($alldata as $all){
+                if(isset($all->color)){
+                    foreach(json_decode($all->color) as $ac){   
+                        if(in_array($ac, $color)){
+                            $colordata[] = $all;
+                            break;
+                        }           
+                    } 
+                }
+            }
+            $lastdata = $colordata;
+        }elseif(!empty($size[0])){
+            foreach($alldata as $all){
+                if(isset($all->size)){
+                    foreach(json_decode($all->size) as $sc){   
+                        if(in_array($sc, $size)){
+                            $sizedata[] = $all;
+                            break;
+                        }           
+                    } 
+                }
+            }
+            $lastdata = $sizedata;
+        }else{
+            $lastdata = $alldata;
+        }
+
+        $collection = collect($lastdata); // arraydan collection duzeltmey ucun        
+        $pageSize = 24;        
+        $allProducts = CollectionHelper::paginate($collection, $pageSize)->withQueryString();
+        
+        return view('site.search',compact('colorfilter','sizefilter','banner'))->with('data',$allProducts)->with('requestall',$request->all());
     }
+    // public function search(Request $request,$ln){
+    //     $ln = App::getLocale();
+    //     $colorfilter = Color::get();
+    //     $sizefilter = Size::get();
+    //     $search = $request->q;
+    //     $color = $request->color;
+    //     $color =  explode(",", $color);
+    //     $size = $request->size;
+    //     $size =  explode(",", $size);
+    //     if(isset($request->max)){
+    //         $min = $request->min;
+    //         $max = $request->max;
+    //     }else{
+    //         $min = 0;
+    //         $max = 1000;
+    //     }
+        
+    //     //$data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->paginate(1)->withQueryString();
+    //     if(!empty($color[0]) && !empty($size[0])){
+    //         $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('color', $color )->where('size', $size )->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->paginate(1)->withQueryString();
+    //     }elseif(!empty($color[0])){
+    //         $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('color', $color )->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->paginate(1)->withQueryString();
+    //     }elseif(!empty($size[0])){
+    //         $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('size', $size )->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->paginate(1)->withQueryString();
+    //     }else{
+    //         $data = Product::where('title_'.$ln, 'LIKE', "%{$search}%")->where('lastprice', '>=', $min )->where('lastprice', '<=', $max )->paginate(1)->withQueryString();
+    //     }
+
+    //     return view('site.search',compact('colorfilter','sizefilter'))->with('data',$data)->with('requestall',$request->all());
+    // }
 
     public function category(Request $request, $ln, $cat=null, $subcat=null, $subsubcat=null){
 
         $ln = App::getLocale();
+        $banner = Banner::select('image','link','type')->where('status','>',0)->orderBy('created_at', 'desc')
+        ->get();
+
         if(isset($request->max)){
             $min = $request->min;
             $max = $request->max;
@@ -80,17 +194,6 @@ class SiteController extends Controller
         $color =  explode(",", $color);
         $size = $request->size;
         $size =  explode(",", $size);
-        
-        
-
-        // $validator = Validator::make($request->all(), [
-        //     'color' => 'required|string',           
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return redirect('/');
-        // }
-        //dd($color);
 
 
         $slug = $subsubcat ?? $subcat ?? $cat;
@@ -177,17 +280,19 @@ class SiteController extends Controller
         $sizefilter = Size::get();
         
         // return response($category);
-        return view('site.category',compact('breadcrumb','blink','colorfilter','sizefilter'))->with('data',$allProducts)->with('category',$category)->with('requestall',$request->all());
+        return view('site.category',compact('breadcrumb','blink','colorfilter','sizefilter','banner'))->with('data',$allProducts)->with('category',$category)->with('requestall',$request->all());
     }
 
     public function productdetail($ln,$id){ 
-        $ln = App::getLocale();          
-        $data = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug','category_id')->where('slug', $id)->firstOrFail();
+        $ln = App::getLocale();     
+        $colorfilter = Color::get();
+        $sizefilter = Size::get();     
+        $data = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug','category_id','color','size')->where('slug', $id)->firstOrFail();
         $data->viewed++;
         $data->save();
         $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->get(8);
-        //dd($similar);
-        return view('site.productdetail')->with('data',$data)->with('similar',$similar);;
+        //return response($colorfilter);
+        return view('site.productdetail',compact('colorfilter','sizefilter'))->with('data',$data)->with('similar',$similar);;
     }
     public function shop($ln,$id){ 
         $ln = App::getLocale();   

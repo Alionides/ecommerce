@@ -36,7 +36,7 @@ $desc = 'desc_'.$ln;
                     <div class="col-12">
                         <div class="product_header">
                             <div class="product_header_left">
-                                <div class="custom_select">
+                                {{-- <div class="custom_select">
                                     <select class="form-control form-control-sm">
                                         <option value="order">Default sorting</option>
                                         <option value="popularity">Sort by popularity</option>
@@ -44,7 +44,7 @@ $desc = 'desc_'.$ln;
                                         <option value="price">Sort by price: low to high</option>
                                         <option value="price-desc">Sort by price: high to low</option>
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="product_header_right">
                             	<div class="products_view">
@@ -166,14 +166,26 @@ $desc = 'desc_'.$ln;
                     </div>
                     <div class="widget">
                         <div class="shop_banner">
-                            <div class="banner_img overlay_bg_20">
-                                <img src="/assets/images/sidebar_banner_img.jpg" alt="sidebar_banner_img">
-                            </div> 
-                            <div class="shop_bn_content2 text_white">
-                                <h5 class="text-uppercase shop_subtitle">New Collection</h5>
-                                <h3 class="text-uppercase shop_title">Sale 30% Off</h3>
-                                <a href="#" class="btn btn-white rounded-0 btn-sm text-uppercase">Shop Now</a>
-                            </div>
+                            @foreach ($banner as $d)
+                                @if ($d->type == 3)
+                                <div class="sale-banner p-3">
+                                    <a class="hover_effect1" href="{{$d->link}}">
+                                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                                    </a>
+                                </div>
+                                @endif
+                            @endforeach 
+                        </div>
+                        <div class="shop_banner">
+                            @foreach ($banner as $d)
+                                @if ($d->type == 4)
+                                <div class="sale-banner p-3">
+                                    <a class="hover_effect1" href="{{$d->link}}">
+                                        <img src="{{Voyager::image($d->image)}}" alt="shop_banner_img6">
+                                    </a>
+                                </div>
+                                @endif
+                            @endforeach 
                         </div>
                     </div>
                 </div>
@@ -244,6 +256,7 @@ $desc = 'desc_'.$ln;
                 var maxx = ui.values[ 1 ];
                 var s = $.urlParam('size');
                 var c = $.urlParam('color');
+                var q = $.urlParam('q');
                 if(minn != null){
                     params.min = minn;
                     params.max = maxx;
@@ -253,6 +266,9 @@ $desc = 'desc_'.$ln;
                 }
                 if(s != null){
                     params.size = s;
+                }
+                if(q != null){
+                    params.q = q;
                 }
                 params = Object.assign({}, params);
                 var str = jQuery.param( params );
@@ -275,6 +291,7 @@ $desc = 'desc_'.$ln;
         var minn = $.urlParam('min');
         var maxx = $.urlParam('max');
         var c = $.urlParam('color');
+        var q = $.urlParam('q');
         var s = $(this).attr('data-sizefilter');
         
         if(minn != null){
@@ -287,6 +304,9 @@ $desc = 'desc_'.$ln;
         if(s != null){
             params.size = s;
         }
+        if(q != null){
+            params.q = q;
+        }
         params = Object.assign({}, params);
         var str = jQuery.param( params );
         window.location.href = "?"+str; 
@@ -297,6 +317,7 @@ $desc = 'desc_'.$ln;
         var minn = $.urlParam('min');
         var maxx = $.urlParam('max');
         var s = $.urlParam('size');
+        var q = $.urlParam('q');
         var c = $(this).attr('data-colorfilter');
         
                 
@@ -309,6 +330,9 @@ $desc = 'desc_'.$ln;
         }
         if(s != null){
             params.size = s;
+        }
+        if(q != null){
+            params.q = q;
         }
         params = Object.assign({}, params);
         var str = jQuery.param( params );

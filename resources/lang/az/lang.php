@@ -79,6 +79,9 @@ return [
     'donthaveaccount'=> 'Hesabınız yoxdur?',
     'registernow'=> 'Qeydiyyatdan keç',
     'createaccount'=> 'Hesab Yarat',
+    'cart'=> 'Səbət',
+    'writeustxt'=> 'Əməkdaşlıq istəyiniz və digər fikirləriniz üçün bizimlə əlaqə saxlayın.',
+    'weloveshopping'=> ' Biz Alışverişi Sevirik ❤ ',
 
     'news' => 'Xəbər',
     'about' => 'Haqqımızda',
