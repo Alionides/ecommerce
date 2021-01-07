@@ -11,7 +11,7 @@ $desc = 'desc_'.$ln;
         <div class="row align-items-center">
         	<div class="col-md-6">
                 <ol class="breadcrumb justify-content-md-start">
-                <li class="breadcrumb-item"><a href="/">Ana Səhifə</a></li> 
+                <li class="breadcrumb-item"><a href="/">{{__('lang.home')}}</a></li> 
             </div>
             <div class="col-md-6">
                 <div class="page-title">
@@ -109,13 +109,13 @@ $desc = 'desc_'.$ln;
                                 <div class="pr_desc">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
                                 </div>
-                                <div class="pr_switch_wrap">
+                                {{-- <div class="pr_switch_wrap">
                                     <div class="product_color_switch">
                                         <span class="active" data-color="#87554B"></span>
                                         <span data-color="#333333"></span>
                                         <span data-color="#DA323F"></span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="list_product_action_box">
                                     <ul class="list_none pr_action_btn">
                                         <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
@@ -149,7 +149,7 @@ $desc = 'desc_'.$ln;
                          </div>
                     </div>
                     <div class="widget">
-                    	<h5 class="widget_title">Size</h5>
+                    	<h5 class="widget_title">{{__('lang.size')}}</h5>
                         <div class="product_size_switch">
                             @foreach ($sizefilter as $s)
                                 <span class="sizefilter @if (isset($requestall['size'])) {{$s->id==$requestall['size'] ? 'active' : ''}} @endif" data-sizefilter="{{$s->id}}">{{$s->title}}</span>
@@ -157,7 +157,7 @@ $desc = 'desc_'.$ln;
                         </div>
                     </div>
                     <div class="widget">
-                    	<h5 class="widget_title">Color</h5>
+                    	<h5 class="widget_title">{{__('lang.color')}}</h5>
                         <div class="product_color_switch">
                             @foreach ($colorfilter as $c)
                                     <span class="@if (isset($requestall['color'])) {{$c->id==$requestall['color'] ? 'active' : ''}} @endif" data-colorfilter="{{$c->id}}" data-color="{{$c->code}}"></span>

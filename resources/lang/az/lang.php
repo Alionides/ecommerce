@@ -68,7 +68,6 @@ return [
     'profile'=> 'Profil',
     'myaccount'=> 'Hesabım',
     'save'=> 'Yadda saxla',
-    'signin'=> 'Giriş',
     'orders'=> 'Sifarişlərim',
     'order'=> 'Sifariş',
     'date'=> 'Tarix',
@@ -81,7 +80,9 @@ return [
     'createaccount'=> 'Hesab Yarat',
     'cart'=> 'Səbət',
     'writeustxt'=> 'Əməkdaşlıq istəyiniz və digər fikirləriniz üçün bizimlə əlaqə saxlayın.',
-    'weloveshopping'=> ' Biz Alışverişi Sevirik ❤ ',
+    'weloveshopping'=> 'Biz Alışverişi Sevirik ❤ ',
+    'color'=> 'Rəng',
+    'size'=> 'Ölçü',
 
     'news' => 'Xəbər',
     'about' => 'Haqqımızda',

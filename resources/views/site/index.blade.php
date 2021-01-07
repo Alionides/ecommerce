@@ -90,8 +90,8 @@ $desc = 'desc_'.$ln;
             <div class="banner_section shop_el_slider">
                 <div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
                     <div class="carousel-inner">
-                        @foreach ($slider as $d)
-                        <div class="carousel-item active background_bg" data-img-src="{{Voyager::image($d->image)}}">
+                        @foreach ($slider as $key => $d)
+                        <div class="carousel-item {{$key==0 ? 'active' : ''}} background_bg" data-img-src="{{Voyager::image($d->image)}}">
                             <div class="banner_slide_content banner_content_inner">
                                 <div class="col-lg-7 col-10">
                                     <div class="banner_content3 overflow-hidden">
@@ -106,9 +106,11 @@ $desc = 'desc_'.$ln;
                         @endforeach                         
                     </div>
                     <ol class="carousel-indicators indicators_style3">
-                        <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleControls" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleControls" data-slide-to="2"></li>
+                        @if(count($slider)>1)
+                            @foreach ($slider as $key => $d)
+                                <li data-target="#carouselExampleControls" data-slide-to="{{$key}}" class="{{$key==0 ? 'active' : ''}}"></li>
+                            @endforeach
+                        @endif
                     </ol>
                 </div>
             </div>

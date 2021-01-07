@@ -32,7 +32,7 @@ class SiteController extends Controller
 
     public function index(){
         $ln = App::getLocale();
-        $slider = Slider::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image', 'price','link')->where('status','>',0)->orderBy('created_at', 'desc')
+        $slider = Slider::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image', 'price','link')->where('status','>',0)->orderBy('created_at', 'asc')
         ->get(4);
         $banner = Banner::select('image','link','type')->where('status','>',0)->orderBy('created_at', 'desc')
         ->get();
@@ -566,7 +566,11 @@ class SiteController extends Controller
                             $oproduct->product_id = $op;
                             $oproduct->quantity = $request->quantity[$key];
                             $oproduct->product_price = $request->product_price[$key];
-                            $oproduct->save();
+                            if($oproduct->save()){
+                                $data = Product::where('id', $op)->firstOrFail();
+                                $data->sold++;
+                                $data->save();
+                            }
                         }
                     }
                 return response()->json([
