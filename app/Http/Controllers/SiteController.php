@@ -568,7 +568,8 @@ class SiteController extends Controller
                             $oproduct->product_price = $request->product_price[$key];
                             if($oproduct->save()){
                                 $data = Product::where('id', $op)->firstOrFail();
-                                $data->sold++;
+                                $data->sold= $data->sold+$request->quantity[$key];
+                                $data->stock= $data->stock-$request->quantity[$key];
                                 $data->save();
                             }
                         }
