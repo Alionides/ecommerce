@@ -37,9 +37,9 @@ class SiteController extends Controller
         $banner = Banner::select('image','link','type')->where('status','>',0)->orderBy('created_at', 'desc')
         ->get();
         $datasale = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('saleprice','>',0)->orderBy('created_at', 'desc')
-        ->get(12);
+        ->take(12)->get();
         $datanew = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->whereDate('created_at',Carbon::today())->orderBy('created_at', 'desc')
-        ->get(12);
+        ->take(12)->get();
         $dataviewed = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug','viewed')->orderBy('viewed', 'desc')->orderBy('created_at', 'desc')
         ->take(12)->get();
         $datasold = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug','viewed','sold')->where('sold','>',0)->orderBy('sold', 'desc')->orderBy('created_at', 'desc')
@@ -52,6 +52,23 @@ class SiteController extends Controller
         // return response($favo);
         // dd($parentCategories);
         return view('site.index', compact('parentCategories','pages','slider','banner'))->with('datasale',$datasale)->with('datanew',$datanew)->with('dataviewed',$dataviewed)->with('datasold',$datasold)->with('favo',$favo);
+    }
+
+    public function xml(){
+        $url = 'http://gercekspot.xmlbankasi.com/image/data/xml/alisveris.xml';
+        // Read entire file into string 
+        $xmlfile = file_get_contents($url); 
+        
+        // Convert xml string into an object 
+        $new = simplexml_load_string($xmlfile); 
+        
+        // Convert into json 
+        $con = json_encode($new); 
+        
+        // Convert into associative array 
+        $newArr = json_decode($con, true); 
+        
+        return response($newArr); 
     }
 
     public function contact(Request $request,$ln){
@@ -288,8 +305,11 @@ class SiteController extends Controller
         $colorfilter = Color::get();
         $sizefilter = Size::get();     
         $data = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug','category_id','color','size')->where('slug', $id)->firstOrFail();
-        $data->viewed++;
-        $data->save();
+        
+        $inc = Product::find($data->id);
+        $inc->viewed++;
+        $inc->save();
+
         $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->get(8);
         //return response($colorfilter);
         return view('site.productdetail',compact('colorfilter','sizefilter'))->with('data',$data)->with('similar',$similar);;
@@ -430,15 +450,19 @@ class SiteController extends Controller
     }
     public function apiAddCart(Request $request){
         $product_id = $request->product_id;
+        isset($request->color) ? $color = $request->color : $color = 'seçilməyib';
+        isset($request->size) ? $size = $request->size : $size = 'seçilməyib';
         Auth::check() ? $userid = Auth::user()->id : $userid = 0;
         $curcookie = Cookie::get('ACSESSID');
         $rand = Str::random(26);
         isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
         Cookie::queue(Cookie::make('ACSESSID', $cookie, 525600));
-
+        
         $iscart = Cart::select('*')
         ->where('session_id', $cookie)
         ->where('product_id',$product_id)
+        ->where('color',$color)
+        ->where('size',$size)
         ->first();
         
         if(isset($iscart)){
@@ -451,6 +475,8 @@ class SiteController extends Controller
             $shop->session_id = $cookie;
             $shop->product_id = $product_id;
             $shop->quantity = 1;
+            $shop->color = $color;
+            $shop->size = $size;
             $shop->save();
         }
         $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
@@ -459,6 +485,8 @@ class SiteController extends Controller
 
     public function apiRemoveCart(Request $request){
         $product_id = $request->product_id;
+        isset($request->color) ? $color = $request->color : $color = 'seçilməyib';
+        isset($request->size) ? $size = $request->size : $size = 'seçilməyib';
         Auth::check() ? $userid = Auth::user()->id : $userid = 0;
         $curcookie = Cookie::get('ACSESSID');
         $rand = Str::random(26);
@@ -468,6 +496,8 @@ class SiteController extends Controller
         $iscart = Cart::select('*')
         ->where('session_id', $cookie)
         ->where('product_id',$product_id)
+        ->where('color',$color)
+        ->where('size',$size)
         ->first();
         
         if(isset($iscart)){
@@ -478,13 +508,6 @@ class SiteController extends Controller
                 $iscart->quantity--;
                 $iscart->save();
             }
-        }else{
-            $shop = new Cart;
-            $shop->user_id = $userid;
-            $shop->session_id = $cookie;
-            $shop->product_id = $product_id;
-            $shop->quantity = 1;
-            $shop->save();
         }
         $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
         return response($allcart);

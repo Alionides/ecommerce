@@ -218,7 +218,7 @@ $desc = 'desc_'.$ln;
                                 @foreach ($datanew as $d)
                                 <div class="item">
                                     <div class="product_wrap">
-                                        <span class="pr_flash">Yeni</span>
+                                        <span class="pr_flash">{{__('lang.new')}}</span>
                                         <div class="product_img">
                                             <a href="shop-product-detail.html">
                                                 <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img1">
@@ -272,7 +272,7 @@ $desc = 'desc_'.$ln;
                                 @foreach ($datasale as $d)
                                 <div class="item">
                                     <div class="product_wrap">
-                                        <span class="pr_flash bg-success">Endirim</span>
+                                        <span class="pr_flash bg-success">{{__('lang.sale')}}</span>
                                         <div class="product_img">
                                             <a href="shop-product-detail.html">
                                                 <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img1">
@@ -757,10 +757,10 @@ $desc = 'desc_'.$ln;
                                 $count++;
                             @endphp                         
                             <div class="product_wrap">
-                                <span class="pr_flash bg-success">Endirim</span>
+                                <span class="pr_flash bg-success">{{__('lang.sale')}}</span>
                                 <div class="product_img">
                                     <a href="shop-product-detail.html">
-                                        <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img3">
+                                        <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="">
                                         @php 
                                             $pictures = json_decode($d->allimage); 
                                             $pic = $pictures[0];
@@ -768,7 +768,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">
@@ -815,7 +815,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">
@@ -874,7 +874,7 @@ $desc = 'desc_'.$ln;
                                 $count++;
                             @endphp                         
                             <div class="product_wrap">
-                                <span class="pr_flash">Yeni</span>
+                                <span class="pr_flash">{{__('lang.new')}}</span>
                                 <div class="product_img">
                                     <a href="shop-product-detail.html">
                                         <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img3">
@@ -885,7 +885,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">
@@ -921,7 +921,7 @@ $desc = 'desc_'.$ln;
                                 $count++;
                             @endphp
                             <div class="product_wrap">
-                                <span class="pr_flash">Yeni</span>
+                                <span class="pr_flash">{{__('lang.new')}}</span>
                                 <div class="product_img">
                                     <a href="shop-product-detail.html">
                                         <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img3">
@@ -932,7 +932,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">
@@ -1002,7 +1002,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">
@@ -1049,7 +1049,7 @@ $desc = 'desc_'.$ln;
                                             $name = rtrim($pic, '.'.$ext);
                                             $imggridpic = $name.'-imggrid.'.$ext;
                                         @endphp
-                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="el_hover_img3">
+                                        <img class="product_hover_img" src="{{Voyager::image($imggridpic)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="product_info">

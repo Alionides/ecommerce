@@ -37,6 +37,8 @@ $desc = 'desc_'.$ln;
                             	<th class="product-thumbnail">&nbsp;</th>
                                 <th class="product-name">{{__('lang.product')}}</th>
                                 <th class="product-price">{{__('lang.price')}}</th>
+                                <th class="product-price">{{__('lang.color')}}</th>
+                                <th class="product-price">{{__('lang.size')}}</th>
                                 <th class="product-quantity">{{__('lang.quantity')}}</th>
                                 <th class="product-subtotal">{{__('lang.total')}}</th>
                                 <th class="product-remove">{{__('lang.remove')}}</th>
@@ -56,15 +58,17 @@ $desc = 'desc_'.$ln;
                                         <td class="product-thumbnail"><a href="#"><img src="/storage/{{$ca->image}}" alt="product1"></a></td>
                                         <td class="product-name" data-title=""><a href="#">{{$ca->$title}}</a></td>
                                         <td class="product-price ac_price" data-price="{{$price}}">{{$price}} Azn</td>
+                                        <td class="product-color ac_color" data-color="{{$c->color}}">{{$c->color}}</td>
+                                        <td class="product-size ac_size" data-size="{{$c->size}}">{{$c->size}}</td>
                                         <td class="product-quantity ac_quantity" data-quantity="{{$c->quantity}}">
                                             <div class="quantity">
-                                                <input type="button" value="-" class="minus ac_minus" data-minuskey="{{$key}}" data-productid="{{$ca->id}}">
+                                                <input type="button" value="-" class="minus ac_minus" data-minuskey="{{$key}}" data-productid="{{$ca->id}}" data-selectedcolor="{{$c->color}}" data-selectedsize="{{$c->size}}">
                                                 <input type="text" name="quantity" value="{{$c->quantity}}" title="Qty" class="qty" size="4">
-                                                <input type="button" value="+" class="plus ac_plus" data-pluskey="{{$key}}" data-productid="{{$ca->id}}">
+                                                <input type="button" value="+" class="plus ac_plus" data-pluskey="{{$key}}" data-productid="{{$ca->id}}" data-selectedcolor="{{$c->color}}" data-selectedsize="{{$c->size}}">
                                             </div>
                                         </td>
                                         <td class="product-subtotal ac_total" data-total="Total">{{$c->quantity*$price}} Azn</td>
-                                        <td class="product-remove" data-title="Remove" data-productid="{{$ca->id}}"><a href="#"><i class="ti-close"></i></a></td>
+                                        <td class="product-remove" data-title="Remove" data-productid="{{$ca->id}}" data-selectedcolor="{{$c->color}}" data-selectedsize="{{$c->size}}"><a href="#"><i class="ti-close"></i></a></td>
                                     </tr>
                                 @endforeach   
                             @endforeach
@@ -218,10 +222,12 @@ $desc = 'desc_'.$ln;
             //this code is inside scripts.js commented
             $(this).prev().val(+$(this).prev().val() + 1);  
             var productid = $(this).attr('data-productid');
+            var color = $(this).attr('data-selectedcolor');
+            var size = $(this).attr('data-selectedsize');
             $.ajax({
                 type: 'post',
                 url: baseurl+'/apiaddcart',
-                data: {'product_id':productid},
+                data: {'product_id':productid,'color':color,'size':size},
                 success: function(response) {
                     var len = response.length;
                     //console.log(len);
@@ -243,12 +249,13 @@ $desc = 'desc_'.$ln;
         if ($(this).next().val() > 1) {    
             //this code is inside scripts.js commented
             if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
-
             var productid = $(this).attr('data-productid');
+            var color = $(this).attr('data-selectedcolor');
+            var size = $(this).attr('data-selectedsize');
             $.ajax({
                 type: 'post',
                 url: baseurl+'/apiremovecart',
-                data: {'product_id':productid},
+                data: {'product_id':productid,'color':color,'size':size},
                 success: function(response) {
                     var len = response.length;
                     //console.log(len);
@@ -269,10 +276,12 @@ $desc = 'desc_'.$ln;
     $('.product-remove').click('onclick',function(){
 
             var productid = $(this).attr('data-productid');
+            var color = $(this).attr('data-selectedcolor');
+            var size = $(this).attr('data-selectedsize');
             $.ajax({
                 type: 'post',
                 url: baseurl+'/apiremovecart',
-                data: {'product_id':productid,'removeit':1},
+                data: {'product_id':productid,'color':color,'size':size,'removeit':1},
                 success: function(response) {
                     var len = response.length;
                     //console.log(len);

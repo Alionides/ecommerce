@@ -465,7 +465,7 @@
         <div class="custom-container">
             <div class="row">
                 <div class="col-lg-4">
-                    <p class="mb-lg-0 text-center">© 2020 {{__('lang.copyright')}}</p>
+                    <p class="mb-lg-0 text-center">Site by <a href="https://shikhiyev.com/" target="_blank">Shikhiyev Digital Agency </a> © 2020 {{__('lang.copyright')}}</p>
                 </div>
                 <div class="col-lg-4 order-lg-first">
                     <div class="widget mb-lg-0">

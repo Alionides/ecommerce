@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\Voyager\ProductsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FacebookController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -25,14 +26,20 @@ use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 // });
 //Route::get('/', [SiteController::class, 'index']);
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
+Route::group(['prefix' => 'admin'], function () { 
+    //Route::get('products/xml',[ProductsController::class,'xml'])->name('products.xml');
+    Route::get('products/xml',	[ProductsController::class,'xml'])->name('products.xml');
+    Route::post('products/xml',	[ProductsController::class,'xml'])->name('products.xml');
+    Voyager::routes(); 
+    });
 
 
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
-    //Route::get('user', [SiteController::class, 'user']);
+    Route::get('xml', [SiteController::class, 'xml']);
+    //Route::get('post/preview/{post_slug}',	'PostController@preview')->name('posts.preview');
+    //Route::get('products/xml/{product_slug}',	'ProductsController@xml')->name('products.xml');
+    //Route::get('products/xml',	[ProductsController::class,'xml'])->name('products.xml');
     Route::get('search', [SiteController::class, 'search']);
     Route::post('apiaddcart', [SiteController::class, 'apiaddcart']);
     Route::post('apiorderproducts', [SiteController::class, 'apiorderproducts']);

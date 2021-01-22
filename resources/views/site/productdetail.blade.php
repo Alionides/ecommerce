@@ -93,6 +93,8 @@ $desc = 'desc_'.$ln;
                                 <li><i class="linearicons-bag-dollar"></i> Cash on Delivery available</li>
                             </ul>
                         </div>
+                        <span class="selectedcolor" data-selectedcolor=''></span>
+                        <span class="selectedsize" data-selectedsize=''></span>
                         <div class="pr_switch_wrap">
                             <span class="switch_lable">Color</span>
                             <div class="product_color_switch">
@@ -100,18 +102,21 @@ $desc = 'desc_'.$ln;
                                     $color = json_decode($data->color); 
                                     $size = json_decode($data->size); 
                                 @endphp
-
-                                @foreach ($color as $c)
-                                <span data-color="{{ $colorfilter[$c-1]->code}}"></span>
-                                @endforeach
+                                @if(!is_null($color))
+                                    @foreach ($color as $c)
+                                    <span class="color" data-colorname="{{ $colorfilter[$c-1]->title_az}}" data-color="{{ $colorfilter[$c-1]->code}}"></span>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                         <div class="pr_switch_wrap">
                             <span class="switch_lable">Size</span>
                             <div class="product_size_switch">
-                                @foreach ($size as $c)
-                                <span>{{ $sizefilter[$c-1]->title}}</span>
-                                @endforeach
+                                @if(!is_null($size))
+                                    @foreach ($size as $c)
+                                    <span class="size" data-size="{{ $sizefilter[$c-1]->title}}">{{ $sizefilter[$c-1]->title}}</span>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -119,9 +124,9 @@ $desc = 'desc_'.$ln;
                     <div class="cart_extra">
                         <div class="cart-product-quantity">
                             <div class="quantity">
-                                <input type="button" value="-" class="minus">
+                                <input type="button" value="-" class="minus ac_minus" data-productid="{{$data->id}}">
                                 <input type="text" name="quantity" value="1" title="Qty" class="qty" size="4">
-                                <input type="button" value="+" class="plus">
+                                <input type="button" value="+" class="plus ac_plus" data-productid="{{$data->id}}">
                             </div>
                         </div>
                         <div class="cart_btn">
@@ -326,13 +331,13 @@ $desc = 'desc_'.$ln;
                                 <div class="pr_desc">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
                                 </div>
-                                <div class="pr_switch_wrap">
+                                {{-- <div class="pr_switch_wrap">
                                     <div class="product_color_switch">
                                         <span class="active" data-color="#87554B"></span>
                                         <span data-color="#333333"></span>
                                         <span data-color="#DA323F"></span>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -380,13 +385,89 @@ $desc = 'desc_'.$ln;
     });
     var baseurl = $('.baseurl').attr('data-url');
     var lang = $('html').attr('lang');
+
+    $('.product_color_switch span').click('onclick',function(){  
+        var c = $(this).attr('data-colorname');
+        $('.selectedcolor').attr('data-selectedcolor',c);
+    });
+    $('.product_size_switch span').click('onclick',function(){  
+        var s = $(this).attr('data-size');
+        $('.selectedsize').attr('data-selectedsize',s);
+    });
+    
+
+    $('.add_compare').click('onclick',function(){
+
+        var clr = $('.selectedcolor').attr('data-selectedcolor');
+        var sze = $('.selectedsize').attr('data-selectedsize');
+        console.log(sze);
+    });
+    $('.ac_plus').click('onclick',function(){
+        if ($(this).prev().val()) {   
+            //this code is inside scripts.js commented
+            $(this).prev().val(+$(this).prev().val() + 1);  
+            var productid = $(this).attr('data-productid');
+            var color = $('.selectedcolor').attr('data-selectedcolor');
+            var size = $('.selectedsize').attr('data-selectedsize');
+            $.ajax({
+                type: 'post',
+                url: baseurl+'/apiaddcart',
+                data: {'product_id':productid,'color':color,'size':size},
+                success: function(response) {
+                    var len = response.length;
+                    //console.log(len);
+                    Swal.fire(
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
+                    'success'
+                    );
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);                     
+                },
+                error: function(response) {                    
+                }
+            });
+        }
+    })
+    $('.ac_minus').click('onclick',function(){
+        if ($(this).next().val() > 1) {    
+            //this code is inside scripts.js commented
+            if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+
+            var productid = $(this).attr('data-productid');
+            var color = $('.selectedcolor').attr('data-selectedcolor');
+            var size = $('.selectedsize').attr('data-selectedsize');
+            $.ajax({
+                type: 'post',
+                url: baseurl+'/apiremovecart',
+                data: {'product_id':productid,'color':color,'size':size},
+                success: function(response) {
+                    var len = response.length;
+                    //console.log(len);
+                    Swal.fire(
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
+                    'success'
+                    );
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);                     
+                },
+                error: function(response) {                    
+                }
+            });
+        }
+    })
     
     $('.cartpid').click('onclick',function(){        
         var productid = $(this).attr('data-productid');
+        var color = $('.selectedcolor').attr('data-selectedcolor');
+        var size = $('.selectedsize').attr('data-selectedsize');
         $.ajax({
             type: 'post',
             url: baseurl+'/apiaddcart',
-            data: {'product_id':productid},
+            data: {'product_id':productid,'color':color,'size':size},
             success: function(response) {
                 var len = response.length;
                 //console.log(len);

@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
+use TCG\Voyager\Facades\Voyager;
+use App\Actions\Voyager\ProductsXmlAction;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.custom');
 
         Paginator::defaultSimpleView('vendor.pagination.custom');
+
+        Voyager::addAction(ProductsXmlAction::class);
     }
 }
