@@ -310,7 +310,7 @@ class SiteController extends Controller
         $inc->viewed++;
         $inc->save();
 
-        $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->get(8);
+        $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->take(12)->get();
         //return response($colorfilter);
         return view('site.productdetail',compact('colorfilter','sizefilter'))->with('data',$data)->with('similar',$similar);;
     }
