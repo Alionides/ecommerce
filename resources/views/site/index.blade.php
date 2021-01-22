@@ -991,7 +991,7 @@ $desc = 'desc_'.$ln;
                                 $count++;
                             @endphp                         
                             <div class="product_wrap">
-                                <span class="pr_flash bg-danger">Top satılan</span>
+                                <span class="pr_flash bg-danger">{{__('lang.mostsold')}}</span>
                                 <div class="product_img">
                                     <a href="shop-product-detail.html">
                                         <img src="{{Voyager::image($d->thumbnail('imggrid'))}}" alt="el_img3">

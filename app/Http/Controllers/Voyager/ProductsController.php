@@ -135,6 +135,12 @@ class ProductsController extends VoyagerBaseController
                 $productid = $n['Product_id'];
                 $title = empty($n['Name']) ? $productid : $n['Name'];
                 $desc = empty($n['Description']) ? '' : json_encode($n['Description']);
+                $price = empty($n['Price1']) ? 0 : $n['Price1'];
+                $saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
+                $lastprice = $price;
+                if($saleprice != 0){
+                    $lastprice = $saleprice;
+                }
 
                 $p = new Product;
                 $p->slug = $slug = Str::slug($title, '-');
@@ -149,8 +155,9 @@ class ProductsController extends VoyagerBaseController
                 $p->desc_tr = $desc;
                 $p->image = $dbimagename;
                 $p->allimage = empty($allimagearr) ? null : json_encode($allimagearr);
-                $p->price = empty($n['Price1']) ? 0 : $n['Price1'];
-                $p->saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
+                $p->price = $price;
+                $p->saleprice = $saleprice;
+                $p->lastprice = $lastprice;
                 $p->stock = empty($n['Stock']) ? 0 : $n['Stock'];
 
                 $p->save();                
