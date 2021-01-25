@@ -107,10 +107,10 @@
                                 <input type="text" class="form-control" name="saleprice" value=0>
                             </div>
                             <!-- alicart -->                            
-                            {{-- <div class="form-group hidden  col-md-12 ">
+                            <div class="form-group hidden  col-md-12 ">
                                 <input type="text" class="form-control" name="author_id" placeholder="Author id" value="{{$currentUser}}">
-                                <input type="text" class="form-control" name="lastprice" placeholder="Author id" value="">
-                            </div> --}}
+                                {{-- <input type="text" class="form-control" name="lastprice" placeholder="Author id" value=""> --}}
+                            </div>
 
                             {{-- <div class="form-group  col-md-12 ">
                                 <label class="control-label" for="name">Rəng</label><br>
