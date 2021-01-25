@@ -55,6 +55,7 @@ class ProductsController extends VoyagerBaseController
             foreach($newArr['Product'] as $key => $n){
 
                 $catid = $request->category_id;
+                $authorid = $request->author_id;
                 $allimagearr = [];
                 $mikrotime = md5(microtime(true));
                 
@@ -145,6 +146,7 @@ class ProductsController extends VoyagerBaseController
                 $p = new Product;
                 $p->slug = $slug = Str::slug($title, '-');
                 $p->category_id = $catid;
+                $p->author_id = $authorid;
                 $p->title_az = $title;
                 $p->desc_az = $desc;
                 $p->title_en = $title;
