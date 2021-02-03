@@ -253,11 +253,11 @@ $desc = 'desc_'.$ln;
                                                 @endif
                                             </div>
                                             <div class="rating_wrap">
-                                                <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
-                                                </div>
-                                                <span class="rating_num">(21)</span>
-                                            </div>
+    <div class="rating">
+        <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
+    </div>
+    <span class="rating_num">({{count($d->review)}})</span>
+</div>
                                             <div class="pr_desc">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
                                             </div>
@@ -308,9 +308,9 @@ $desc = 'desc_'.$ln;
                                             </div>
                                             <div class="rating_wrap">
                                                 <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
+                                                    <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                                 </div>
-                                                <span class="rating_num">(21)</span>
+                                                <span class="rating_num">({{count($d->review)}})</span>
                                             </div>
                                             <div class="pr_desc">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -361,9 +361,9 @@ $desc = 'desc_'.$ln;
                                             </div>
                                             <div class="rating_wrap">
                                                 <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
+                                                    <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                                 </div>
-                                                <span class="rating_num">(21)</span>
+                                                <span class="rating_num">({{count($d->review)}})</span>
                                             </div>
                                             <div class="pr_desc">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -414,9 +414,9 @@ $desc = 'desc_'.$ln;
                                             </div>
                                             <div class="rating_wrap">
                                                 <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
+                                                    <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                                 </div>
-                                                <span class="rating_num">(21)</span>
+                                                <span class="rating_num">({{count($d->review)}})</span>
                                             </div>
                                             <div class="pr_desc">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -784,9 +784,9 @@ $desc = 'desc_'.$ln;
                                     </div>
                                     <div class="rating_wrap">
                                         <div class="rating">
-                                            <div class="product_rate" style="width:87%"></div>
+                                            <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                         </div>
-                                        <span class="rating_num">(25)</span>
+                                        <span class="rating_num">({{count($d->review)}})</span>
                                     </div>
                                     <div class="pr_desc">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -831,9 +831,9 @@ $desc = 'desc_'.$ln;
                                     </div>
                                     <div class="rating_wrap">
                                         <div class="rating">
-                                            <div class="product_rate" style="width:87%"></div>
+                                            <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                         </div>
-                                        <span class="rating_num">(25)</span>
+                                        <span class="rating_num">({{count($d->review)}})</span>
                                     </div>
                                     <div class="pr_desc">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -901,9 +901,9 @@ $desc = 'desc_'.$ln;
                                     </div>
                                     <div class="rating_wrap">
                                         <div class="rating">
-                                            <div class="product_rate" style="width:87%"></div>
+                                            <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                         </div>
-                                        <span class="rating_num">(25)</span>
+                                        <span class="rating_num">({{count($d->review)}})</span>
                                     </div>
                                     <div class="pr_desc">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>

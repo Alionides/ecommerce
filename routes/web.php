@@ -41,6 +41,7 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     //Route::get('products/xml/{product_slug}',	'ProductsController@xml')->name('products.xml');
     //Route::get('products/xml',	[ProductsController::class,'xml'])->name('products.xml');
     Route::get('search', [SiteController::class, 'search']);
+    Route::post('apireview', [SiteController::class, 'apireview'])->middleware('web');
     Route::post('apiaddcart', [SiteController::class, 'apiaddcart']);
     Route::post('apiorderproducts', [SiteController::class, 'apiorderproducts']);
     Route::post('apiremovecart', [SiteController::class, 'apiremovecart']);

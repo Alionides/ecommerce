@@ -16,4 +16,12 @@ class Product extends Model
     public function favourite() {
         return $this->hasManyThrough(Favourite::class,self::class,'id','product_id');
     }
+    public function review() {
+        return $this->hasManyThrough(Review::class,self::class,'id','product_id')->orderBy('created_at','desc');
+    }
+
+    //this is for category relationsip
+    public function reviews() {
+        return $this->hasManyThrough(Review::class,self::class,'id','product_id');
+    }
 }

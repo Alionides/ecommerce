@@ -282,63 +282,63 @@
         @endforeach
         
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/nike__brand__1479.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Nike</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/adidas__brand__15.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Adidas</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/trendyolmilla__brand__40.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Trendol Milla</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/happiness__brand__8727.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Happiness</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/nike__brand__1479.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Nike</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/adidas__brand__15.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Adidas</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/trendyolmilla__brand__40.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Trendol Milla</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/koton__brand__842.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Cotton</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/nike__brand__1479.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Nike</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/adidas__brand__15.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Adidas</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/trendyolmilla__brand__40.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Trendol Milla</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/adidas__brand__15.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Adidas</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/trendyolmilla__brand__40.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Trendol Milla</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/adidas__brand__15.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Adidas</p></div>
         </div>
         <div class="text-center">
-          <img class="circlesliderimg" src="https://cdn.dsmcdn.com/assets/t/y/Creative/ds/Automation/SquareLogosIteration3/trendyolmilla__brand__40.png">
+          <img class="circlesliderimg" src="/assets/images/user1.jpg">
           <div><p class="circleslidertitle">Trendol Milla</p></div>
         </div>
         
@@ -524,7 +524,7 @@
 <!-- elevatezoom js -->
 <script src="/assets/js/jquery.elevatezoom.js"></script>
 <!-- Google Map Js -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ&amp;callback=initMap"></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ&amp;callback=initMap"></script> --}}
 <!-- sweetalert js -->
 <script src="/assets/js/sweetalert2.js"></script>
 <!-- scripts js --> 

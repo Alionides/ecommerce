@@ -18,6 +18,7 @@ use App\Color;
 use App\Size;
 use App\Slider;
 use App\Banner;
+use App\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +50,7 @@ class SiteController extends Controller
         $favo = Favourite::with(['products'])->orderBy('created_at', 'desc')->take(12)->get();
         //$category = Category::select()->get();
         $parentCategories = Category::select('id', 'parent_id', 'title_' . $ln . ' as title', 'slug', 'icon')->where('parent_id',null)->get();
-        // return response($favo);
+        //return response($datasale);
         // dd($parentCategories);
         return view('site.index', compact('parentCategories','pages','slider','banner'))->with('datasale',$datasale)->with('datanew',$datanew)->with('dataviewed',$dataviewed)->with('datasold',$datasold)->with('favo',$favo);
     }
@@ -229,9 +230,10 @@ class SiteController extends Controller
             $breadcrumb = $cat.'/'.$subcat.'/'.$subsubcat;
         }
 
-        $category = Category::with(['products', 'subproducts'])->where('slug', $slug)->firstOrFail();
+        $category = Category::with(['products', 'subproducts','products.reviews'])->where('slug', $slug)->firstOrFail();
+       // $review = Product::with(['review'])->get();
         $alldata = $category->products->merge($category->subproducts)->where('lastprice', '>=', $min )->where('lastprice', '<=', $max );
-
+         //return response($alldata);
         $lastdata = false;
         $colordata = [];
         $sizedata = [];
@@ -309,19 +311,18 @@ class SiteController extends Controller
         $inc = Product::find($data->id);
         $inc->viewed++;
         $inc->save();
-
+        //return response($data);
         $similar = Product::select('id', 'title_' . $ln . ' as title', 'desc_' . $ln . ' as desc', 'image',  'allimage', 'price','saleprice','slug')->where('category_id', $data->category_id)->whereNotIn('id', [$data->id])->take(12)->get();
-        //return response($colorfilter);
+       
         return view('site.productdetail',compact('colorfilter','sizefilter'))->with('data',$data)->with('similar',$similar);;
     }
     public function shop($ln,$id){ 
         $ln = App::getLocale();   
         $shop = Shop::select('id', 'name', 'image','slug','user_id','created_at')->where('slug', $id)->firstOrFail();
         $alldata = Product::select('id', 'title_' . $ln . ' as title', 'image',  'allimage', 'price','saleprice','slug')->where('author_id', $shop->user_id)->get();
-        //return response($data);
-        $pageSize = 24;
-        
+        $pageSize = 24;    
         $data = CollectionHelper::paginate($alldata, $pageSize);
+        //return response($data);
         return view('site.shop')->with('data',$data)->with('shop',$shop);
     }
 
@@ -435,6 +436,32 @@ class SiteController extends Controller
         isset($curcookie) ? $cookie = $curcookie : $cookie = $rand;
         $allcart = Cart::with(['products'])->where('session_id', $cookie)->get();
         return view('site.cart')->with('allcart',$allcart);
+    }
+    public function apiReview(Request $request){
+        $productid = $request->product_id;
+        $star = $request->star;
+        $text = $request->text;
+        $userid = Auth::user()->id;
+        $username = Auth::user()->name;
+        
+        $review = Review::select('*')
+        ->where('product_id', $productid)
+        ->where('user_id',$userid)
+        ->first();
+        if(isset($review)){
+            $review = 'hasreview';
+            return response($review);
+        }else{
+            $review->product_id = $productid;
+            $review->user_id = $userid;
+            $review->name = $username;
+            $review->desc = $text;
+            $review->review = $star;
+            $review->save();
+            return response($review);
+        }
+
+        
     }
     public function apiOrderProducts(Request $request){
         $orderid = $request->order_id;

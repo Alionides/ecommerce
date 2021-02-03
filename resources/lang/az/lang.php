@@ -83,6 +83,7 @@ return [
     'weloveshopping'=> 'Biz Alışverişi Sevirik ❤ ',
     'color'=> 'Rəng',
     'size'=> 'Ölçü',
+    'errorreview'=>'Siz bu məhsula artıq bir dəfə qiymət vermisiz',
 
     'news' => 'Xəbər',
     'about' => 'Haqqımızda',

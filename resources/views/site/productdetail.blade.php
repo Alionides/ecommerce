@@ -79,9 +79,9 @@ $desc = 'desc_'.$ln;
                         </div>
                         <div class="rating_wrap">
                                 <div class="rating">
-                                    <div class="product_rate" style="width:80%"></div>
+                                    <div class="product_rate" style="width:{{reviewPercent($data->review,count($data->review))}}%"></div>
                                 </div>
-                                <span class="rating_num">(21)</span>
+                                <span class="rating_num">({{count($data->review)}})</span>
                             </div>
                         <div class="pr_desc">
                             <p>{{ Str::limit($data->desc, 200) }}</p>
@@ -171,7 +171,7 @@ $desc = 'desc_'.$ln;
                         	<a class="nav-link" id="Additional-info-tab" data-toggle="tab" href="#Additional-info" role="tab" aria-controls="Additional-info" aria-selected="false">Additional info</a>
                       	</li>
                       	<li class="nav-item">
-                        	<a class="nav-link" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews" aria-selected="false">Reviews (2)</a>
+                        	<a class="nav-link" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews" aria-selected="false">Reviews ({{count($data->review)}})</a>
                       	</li>
                     </ul>
                 	<div class="tab-content shop_info_tab">
@@ -202,6 +202,9 @@ $desc = 'desc_'.$ln;
                         	<div class="comments">
                             	<h5 class="product_tab_title">2 Review For <span>Blue Dress For Woman</span></h5>
                                 <ul class="list_none comment_list mt-4">
+                                    @foreach ($data->review as $r)
+                                        
+                                    
                                     <li>
                                         <div class="comment_img">
                                             <img src="/assets/images/user1.jpg" alt="user1"/>
@@ -209,44 +212,29 @@ $desc = 'desc_'.$ln;
                                         <div class="comment_block">
                                             <div class="rating_wrap">
                                                 <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
+                                                    <div class="product_rate" style="width:{{$r->review}}%"></div>
                                                 </div>
                                             </div>
                                             <p class="customer_meta">
-                                                <span class="review_author">Alea Brooks</span>
-                                                <span class="comment-date">March 5, 2018</span>
+                                                <span class="review_author">{{$r->name}}</span>
+                                                <span class="comment-date">{{$r->created_at}}</span>
                                             </p>
                                             <div class="description">
-                                                <p>Lorem Ipsumin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate</p>
+                                                <p>{{$r->desc}}</p>
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="comment_img">
-                                            <img src="/assets/images/user2.jpg" alt="user2"/>
-                                        </div>
-                                        <div class="comment_block">
-                                            <div class="rating_wrap">
-                                                <div class="rating">
-                                                    <div class="product_rate" style="width:60%"></div>
-                                                </div>
-                                            </div>
-                                            <p class="customer_meta">
-                                                <span class="review_author">Grace Wong</span>
-                                                <span class="comment-date">June 17, 2018</span>
-                                            </p>
-                                            <div class="description">
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    @endforeach                                    
                                 </ul>
-                        	</div>
+                            </div>
+
+                            @if (auth()->user())
                             <div class="review_form field_form">
                                 <h5>Add a review</h5>
                                 <form class="row mt-3">
                                     <div class="form-group col-12">
-                                        <div class="star_rating">
+                                        <span class="selectedstar" data-star="0"></span>
+                                        <div class="star_rating">                                            
                                             <span data-value="1"><i class="far fa-star"></i></span>
                                             <span data-value="2"><i class="far fa-star"></i></span> 
                                             <span data-value="3"><i class="far fa-star"></i></span>
@@ -255,20 +243,21 @@ $desc = 'desc_'.$ln;
                                         </div>
                                     </div>
                                     <div class="form-group col-12">
-                                        <textarea required="required" placeholder="Your review *" class="form-control" name="message" rows="4"></textarea>
+                                        <textarea required="required" placeholder="Your review *" class="form-control reviewtext" name="message" rows="4"></textarea>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    {{-- <div class="form-group col-md-6">
                                         <input required="required" placeholder="Enter Name *" class="form-control" name="name" type="text">
                                      </div>
                                     <div class="form-group col-md-6">
                                         <input required="required" placeholder="Enter Email *" class="form-control" name="email" type="email">
-                                    </div>
+                                    </div> --}}
                                    
                                     <div class="form-group col-12">
-                                        <button type="submit" class="btn btn-fill-out" name="submit" value="Submit">Submit Review</button>
+                                        <a style="color:white" type="submit" class="btn btn-fill-out reviewbtn" name="submit" value="Submit" data-productid="{{$data->id}}">Submit Review</a>
                                     </div>
                                 </form>
                             </div>
+                            @endif
                       	</div>
                 	</div>
                 </div>
@@ -324,9 +313,9 @@ $desc = 'desc_'.$ln;
                                 </div>
                                 <div class="rating_wrap">
                                     <div class="rating">
-                                        <div class="product_rate" style="width:80%"></div>
+                                        <div class="product_rate" style="width:{{reviewPercent($d->review,count($d->review))}}%"></div>
                                     </div>
-                                    <span class="rating_num">(21)</span>
+                                    <span class="rating_num">({{count($d->review)}})</span>
                                 </div>
                                 <div class="pr_desc">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
@@ -386,6 +375,18 @@ $desc = 'desc_'.$ln;
     var baseurl = $('.baseurl').attr('data-url');
     var lang = $('html').attr('lang');
 
+    
+    $('.star_rating span').click('onclick',function(){  
+        var starvalue = $(this).attr('data-value');        
+        $('.selectedstar').attr('data-star',starvalue*20);
+        var selectedstar = $('.selectedstar').attr('data-star');
+        // Swal.fire(
+        // selectedstar,
+        // '',
+        // 'success'
+        // );
+    });
+
     $('.product_color_switch span').click('onclick',function(){  
         var c = $(this).attr('data-colorname');
         $('.selectedcolor').attr('data-selectedcolor',c);
@@ -397,10 +398,42 @@ $desc = 'desc_'.$ln;
     
 
     $('.add_compare').click('onclick',function(){
-
         var clr = $('.selectedcolor').attr('data-selectedcolor');
         var sze = $('.selectedsize').attr('data-selectedsize');
         console.log(sze);
+    });
+    $('.reviewbtn').click('onclick',function(){
+        var star = $('.selectedstar').attr('data-star');
+        var text = $('.reviewtext').val();
+        var productid = $(this).attr('data-productid');
+        //alert(productid);
+        $.ajax({
+                type: 'post',
+                url: baseurl+'/apireview',
+                data: {'product_id':productid,'star':star,'text':text},
+                success: function(response) {
+                    var len = response.length;
+                    console.log(response);
+                    if(response == 'hasreview'){
+                        Swal.fire(
+                        <?= json_encode(__('lang.error')); ?>,
+                        <?= json_encode(__('lang.errorreview')); ?>,
+                        'error'
+                        );
+                    }else{
+                    Swal.fire(
+                    <?= json_encode(__('lang.success')); ?>,
+                    <?= json_encode(__('lang.successcart')); ?>,
+                    'success'
+                    );
+                    // setTimeout(function(){
+                    //     location.reload();
+                    // }, 3000);    
+                    }                 
+                },
+                error: function(response) {                    
+                }
+        });
     });
     $('.ac_plus').click('onclick',function(){
         if ($(this).prev().val()) {   

@@ -55,7 +55,10 @@ return [
     'createaccount'=> 'Create Account',
     'cart'=> 'Cart',
     'writeustxt'=> 'Contact us for your cooperation and other ideas.',
-    'weloveshopping'=> ' We love shopping ❤ ', 
+    'weloveshopping'=> ' We love shopping ❤ ',
+    'color'=> 'Color',
+    'size'=> 'Size', 
+    'errorreview'=>'You have already reviewed this product',
     
     'myaccount' => 'Account',
     'product' => 'Product',
