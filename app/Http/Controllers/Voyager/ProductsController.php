@@ -350,9 +350,9 @@ class ProductsController extends VoyagerBaseController
 
         $view = 'voyager::bread.edit-add';
 
-        // if (view()->exists("voyager::$slug.edit-add")) {
-        //     $view = "voyager::$slug.edit-add";
-        // }
+        if (view()->exists("voyager::$slug.edit-add")) {
+            $view = "voyager::$slug.edit-add";
+        }
         $colors = Color::get();
         $sizes = Size::get();    
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'colors', 'sizes'));
