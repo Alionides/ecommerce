@@ -41,7 +41,7 @@
 <link rel="stylesheet" href="/assets/css/slick.css">
 <link rel="stylesheet" href="/assets/css/slick-theme.css">
 <!-- Style CSS -->
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css?newcache01">
 <link rel="stylesheet" href="/assets/css/responsive.css">
 @yield('css')
 </head>
