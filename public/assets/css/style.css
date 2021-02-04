@@ -2426,6 +2426,7 @@ input.text {
 #navCatContent li a {
 	text-transform: capitalize;
 	font-size: 14px;
+	white-space: pre-line;
 }
 #navCatContent li a i {
 	font-size: 22px;
