@@ -452,6 +452,7 @@ class SiteController extends Controller
             $review = 'hasreview';
             return response($review);
         }else{
+            $review = new Review;
             $review->product_id = $productid;
             $review->user_id = $userid;
             $review->name = $username;
