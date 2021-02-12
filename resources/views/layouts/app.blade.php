@@ -522,7 +522,7 @@
 <!-- sweetalert js -->
 <script src="/assets/js/sweetalert2.js"></script>
 <!-- scripts js --> 
-<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/scripts.js?newcache01"></script>
 @yield('js')
 </body>
 </html>
