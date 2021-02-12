@@ -202,11 +202,9 @@
                                 <div class="custom_select">
                                     <select class="first_null">
                                         <option value="">{{__('lang.category')}}</option>
-                                        <option value="Dresses">Dresses</option>
-                                        <option value="Shirt-Tops">Shirt & Tops</option>
-                                        <option value="T-Shirt">T-Shirt</option>
-                                        <option value="Pents">Pents</option>
-                                        <option value="Jeans">Jeans</option>
+                                        @foreach ($category as $c)
+                                            <option value="{{$c->title}}">{{$c->title}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -378,11 +376,9 @@
                 	<div class="widget">
                         <h6 class="widget_title">{{__('lang.links')}}</h6>
                         <ul class="widget_links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Location</a></li>
-                            <li><a href="#">Affiliates</a></li>
-                            <li><a href="#">Contact</a></li>
+                            @foreach ($pages as $p)
+                                <li><a href="{{$p->link}}">{{$p->title}}</a></li>
+                            @endforeach                            
                         </ul>
                     </div>
                 </div>
@@ -390,11 +386,9 @@
                 	<div class="widget">
                         <h6 class="widget_title">{{__('lang.myaccount')}}</h6>
                         <ul class="widget_links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Discount</a></li>
-                            <li><a href="#">Returns</a></li>
-                            <li><a href="#">Orders History</a></li>
-                            <li><a href="#">Order Tracking</a></li>
+                            <li><a href="/login">{{__('lang.signin')}}</a></li>
+                            <li><a href="/register">{{__('lang.register')}}</a></li>
+                            <li><a href="/cart">{{__('lang.cart')}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -524,7 +518,7 @@
 <!-- elevatezoom js -->
 <script src="/assets/js/jquery.elevatezoom.js"></script>
 <!-- Google Map Js -->
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ&amp;callback=initMap"></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ&amp;callback=initMap"></script>
 <!-- sweetalert js -->
 <script src="/assets/js/sweetalert2.js"></script>
 <!-- scripts js --> 

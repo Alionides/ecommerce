@@ -84,6 +84,7 @@ return [
     'color'=> 'Rəng',
     'size'=> 'Ölçü',
     'errorreview'=>'Siz bu məhsula artıq bir dəfə qiymət vermisiz',
+    'register'=>'Qeydiyyat',
 
     'news' => 'Xəbər',
     'about' => 'Haqqımızda',

@@ -151,7 +151,7 @@ $desc = 'desc_'.$ln;
             <div class="col-md-6">
             	<div class="border p-3 p-md-4">
                     <div class="heading_s1 mb-3">
-                        <h6>{{__('lang.carttotals')}}</h6>
+                        <h6>{{__('lang.carttotal')}}</h6>
                     </div>
                     <div class="table-responsive">
                         <table class="table">

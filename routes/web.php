@@ -5,6 +5,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Voyager\ProductsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\ContactController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
@@ -48,7 +49,7 @@ Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::post('apiaddfavo', [SiteController::class, 'apiaddfavo']);
     Route::get('cart', [SiteController::class, 'cart']);
     Route::get('contact', [SiteController::class, 'contact']);
-    Route::post('contact', [SiteController::class, 'contact'])->middleware('web');
+    Route::post('contact', [ContactController::class, 'store']);//->middleware('web');
     Route::get('profile', [SiteController::class, 'profile'])->name('profile')->middleware('auth');
     Route::post('profile', [SiteController::class, 'profile'])->middleware('web');
     Route::post('profilepassword', [SiteController::class, 'profilepassword'])->middleware('web');
@@ -117,6 +118,8 @@ View::composer('layouts.app', function ($view) {
     
     $view->with('shop', \App\Shop::select('id', 'name', 'image','slug','created_at')->get())
     ->with('allcart', \App\Cart::with(['products'])->where('session_id', $cookie)->get())
+    ->with('pages', \App\Page::select('id', 'title_' . $ln . ' as title', 'link')->take(6)->get())
+    ->with('category', \App\Category::select('id', 'title_' . $ln . ' as title')->where('parent_id',NULL)->take(12)->get())
     ->with('allfavo', \App\Favourite::with(['products'])->where('session_id', $cookiefav)->get());
 });
 

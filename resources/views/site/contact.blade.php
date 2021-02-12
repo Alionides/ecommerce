@@ -76,22 +76,22 @@ $desc = 'desc_'.$ln;
                 </div>
                 <p class="leads">{{__('lang.writeustxt')}}</p>
                 <div class="field_form">
-                    <form method="post" name="enq">
+                    <form action="" method="post" class="contact">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <input required placeholder="{{__('lang.entername')}} *" id="first-name" class="form-control" name="name" type="text">
+                                <input required placeholder="{{__('lang.entername')}} *" id="p_name" class="form-control" name="name" type="text">
                              </div>
                             <div class="form-group col-md-6">
-                                <input required placeholder="{{__('lang.enteremail')}} *" id="email" class="form-control" name="email" type="email">
+                                <input required placeholder="{{__('lang.enteremail')}} *" id="p_email" class="form-control" name="email" type="email">
                             </div>
                             <div class="form-group col-md-6">
-                                <input required placeholder="{{__('lang.enterphone')}} *" id="phone" class="form-control" name="phone">
+                                <input required placeholder="{{__('lang.enterphone')}} *" id="p_phone" class="form-control" name="phone">
                             </div>
                             <div class="form-group col-md-6">
-                                <input placeholder="{{__('lang.entersubject')}}" id="subject" class="form-control" name="subject">
+                                <input placeholder="{{__('lang.entersubject')}}" id="p_subject" class="form-control" name="subject">
                             </div>
                             <div class="form-group col-md-12">
-                                <textarea required placeholder="{{__('lang.entermessage')}} *" id="description" class="form-control" name="message" rows="4"></textarea>
+                                <textarea required placeholder="{{__('lang.entermessage')}} *" id="p_message"  class="form-control" name="message" rows="4"></textarea>
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" title="{{__('lang.send')}}" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit">{{__('lang.send')}}</button>
@@ -148,7 +148,52 @@ $desc = 'desc_'.$ln;
     var baseurl = $('.baseurl').attr('data-url');
     var lang = $('html').attr('lang');
     
-    
+    $('form.contact:first').on('submit', function(e) {
+        
+        e.preventDefault();
+
+        resetErrors();
+
+        var $this = $(this);
+
+        $.ajax({
+            type: $this.attr('method'),
+            url: '/az/contact', //$this.attr('action'),
+            data: $this.serializeArray(),
+            dataType: $this.data('type'),
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire('Uğurlu!', response.message, 'success');
+                    $('#p_name').val('');
+                    $('#p_email').val('');
+                    $('#p_subject').val('');
+                    $('#p_phone').val('');
+                    $('#p_message').val('');
+                }
+            },
+            error: function(response) {
+                if (response.status == 422) {
+                    var errors = response.responseJSON.errors;
+
+                    $.each(errors, function(i, v) {
+                        var msg = '<label class="error" for="' + i + '">' + v + '</label>';
+                        $('' +
+                            'form.contact input[name="' + i + '"], ' +
+                            'form.contact select[name="' + i + '"], ' +
+                            'form.contact textarea[name="' + i + '"]').addClass('inputTxtError').after(msg);
+                    });
+                    var keys = Object.keys(errors);
+
+                    $('form.login input[name="' + keys[0] + '"]').focus();
+                }
+            }
+        });
+    });
+
+    function resetErrors() {
+        $('form input, form select').removeClass('inputTxtError');
+        $('label.error').remove();
+    }
 
 </script>
 @endsection

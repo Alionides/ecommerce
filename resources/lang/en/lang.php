@@ -59,6 +59,7 @@ return [
     'color'=> 'Color',
     'size'=> 'Size', 
     'errorreview'=>'You have already reviewed this product',
+    'register'=>'Qeydiyyat',
     
     'myaccount' => 'Account',
     'product' => 'Product',
