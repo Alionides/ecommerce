@@ -88,7 +88,7 @@ $desc = 'desc_'.$ln;
                         </div>
                         <div class="product_sort_info">
                             <ul>
-                                <li><i class="linearicons-shield-check"></i> 1 Year AL Jazeera Brand Warranty</li>
+                                <li><i class="linearicons-shield-check"></i> 14 d Year AL Jazeera Brand Warranty</li>
                                 <li><i class="linearicons-sync"></i> 30 Day Return Policy</li>
                                 <li><i class="linearicons-bag-dollar"></i> Cash on Delivery available</li>
                             </ul>
@@ -138,7 +138,7 @@ $desc = 'desc_'.$ln;
                     <hr />
                     <ul class="product-meta">
                         <li>SKU: <a href="#">{{uniqid()}}</a></li>
-                        <li>Category: <a href="#">{{$data->categories->title_az}}</a></li>
+                        <li>Category: <a href="#">{{ isset($data->categories->title_az) ? $data->categories->title_az : __('lang.category')}}</a></li>
                         {{-- <li>Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">printed</a> </li> --}}
                     </ul>
                     
@@ -176,7 +176,7 @@ $desc = 'desc_'.$ln;
                     </ul>
                 	<div class="tab-content shop_info_tab">
                       	<div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
-                        	<p>{{ $data->desc }}</p>
+                        	<p>{{ strip_tags($data->desc) }}</p>
                       	</div>
                       	<div class="tab-pane fade" id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab">
                         	<table class="table table-bordered">
@@ -273,7 +273,7 @@ $desc = 'desc_'.$ln;
         <div class="row">
         	<div class="col-12">
             	<div class="heading_s1">
-                	<h3>Releted Products</h3>
+                	<h3>Related Products</h3>
                 </div>
             	<div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
                     @foreach ($similar as $d)

@@ -41,7 +41,7 @@ class ProductsController extends VoyagerBaseController
             $xmlfile = file_get_contents($url); 
             
             // Convert xml string into an object 
-            $new = simplexml_load_string($xmlfile); 
+            $new = simplexml_load_string($xmlfile, 'SimpleXMLElement', LIBXML_NOCDATA); 
             
             // Convert into json 
             $con = json_encode($new); 
@@ -52,124 +52,243 @@ class ProductsController extends VoyagerBaseController
             // $json = '{"Product":[{"Product_code":[],"Barcode":"01900008017","Product_id":"2519","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"37.8889","Price2":"31.5741","CurrencyType":"TRL","Tax":"8","Stock":"10","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1607.jpg","Image2":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1602.jpg","Image3":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1606.jpg","Image4":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1603.jpg","Image5":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1604.jpg","Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"3","productCode":[],"barcode":[],"gtin":[],"quantity":"6","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"56"}],"variantId":"4","productCode":[],"barcode":[],"gtin":[],"quantity":"2","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"54"}],"variantId":"5","productCode":[],"barcode":[],"gtin":[],"quantity":"2","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}},{"Product_code":[],"Barcode":[],"Product_id":"2520","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"29.8889","Price2":"24.9074","CurrencyType":"TRL","Tax":"8","Stock":"252","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/beyaz-berrak-1020-erkek-atlet-841.jpg","Image2":[],"Image3":[],"Image4":[],"Image5":[],"Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"51"}],"variantId":"6","productCode":[],"barcode":[],"gtin":[],"quantity":"42","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"68"}],"variantId":"8","productCode":[],"barcode":[],"gtin":[],"quantity":"18","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"9","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"64"}],"variantId":"10","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"48"}],"variantId":"11","productCode":[],"barcode":[],"gtin":[],"quantity":"24","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"54"}],"variantId":"12","productCode":[],"barcode":[],"gtin":[],"quantity":"24","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"45"}],"variantId":"13","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}},{"Product_code":[],"Barcode":[],"Product_id":"2521","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"36","Price2":"30","CurrencyType":"TRL","Tax":"8","Stock":"9","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1022-erkek-siyah-atlet-904.jpg","Image2":[],"Image3":[],"Image4":[],"Image5":[],"Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"14","productCode":[],"barcode":[],"gtin":[],"quantity":"4","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"45"}],"variantId":"19","productCode":[],"barcode":[],"gtin":[],"quantity":"5","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}}]}';
             
             // $newArr = json_decode($json, true); 
-            foreach($newArr['Product'] as $key => $n){
+            //return response($newArr);
 
-                $catid = $request->category_id;
-                $authorid = $request->author_id;
-                $allimagearr = [];
-                $mikrotime = md5(microtime(true));
+            if(isset($newArr['product'])){
+                foreach($newArr['product'] as $key => $n){
+
+                    $catid = $request->category_id;
+                    $authorid = $request->author_id;
+                    $allimagearr = [];
+                    $mikrotime = md5(microtime(true));
+                    
+                    $dbimagename = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml.jpg';
+                    $dbimagename_imgdetail = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgdetail.jpg';
+                    $dbimagename_imggrid = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imggrid.jpg';
+                    $dbimagename_imgslider = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgslider.jpg';
+                    
+                    $folderimagename = str_replace('\\', '/', $dbimagename);
+                    $folderimagename_imgdetail = str_replace('\\', '/', $dbimagename_imgdetail);
+                    $folderimagename_imggrid = str_replace('\\', '/', $dbimagename_imggrid);
+                    $folderimagename_imgslider = str_replace('\\', '/', $dbimagename_imgslider);
+
+                    $image = file_get_contents($n['images']['img_item'][0]);
+
+                    //return response($n['images']['img_item'][0]);
+
+                    Storage::disk('local')->put('public/'.$folderimagename, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imgdetail, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imggrid, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imgslider, $image);
+
+                    if(!empty($n['images']['img_item'][1])){
+                        $dbimagename2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml.jpg';
+                        $dbimagename_imgdetail2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgdetail.jpg';
+                        $dbimagename_imggrid2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imggrid.jpg';
+                        $dbimagename_imgslider2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgslider.jpg';
+                        
+                        $folderimagename2 = str_replace('\\', '/', $dbimagename2);
+                        $folderimagename_imgdetail2 = str_replace('\\', '/', $dbimagename_imgdetail2);
+                        $folderimagename_imggrid2 = str_replace('\\', '/', $dbimagename_imggrid2);
+                        $folderimagename_imgslider2 = str_replace('\\', '/', $dbimagename_imgslider2);
+                        
+                        $image2 = file_get_contents($n['images']['img_item'][1]);
+                        Storage::disk('local')->put('public/'.$folderimagename2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider2, $image2);        
+                        array_push($allimagearr, $dbimagename2);
+                    }
+
+                // return response($allimagearr);
+                    if(!empty($n['images']['img_item'][2])){
+                        $dbimagename3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml.jpg';
+                        $dbimagename_imgdetail3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgdetail.jpg';
+                        $dbimagename_imggrid3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imggrid.jpg';
+                        $dbimagename_imgslider3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgslider.jpg';
+                        
+                        $folderimagename3 = str_replace('\\', '/', $dbimagename3);
+                        $folderimagename_imgdetail3 = str_replace('\\', '/', $dbimagename_imgdetail3);
+                        $folderimagename_imggrid3 = str_replace('\\', '/', $dbimagename_imggrid3);
+                        $folderimagename_imgslider3 = str_replace('\\', '/', $dbimagename_imgslider3);
+                        
+                        $image3 = file_get_contents($n['images']['img_item'][2]);
+                        Storage::disk('local')->put('public/'.$folderimagename3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider3, $image3);           
+                        array_push($allimagearr, $dbimagename3);
+                    }
+                    if(!empty($n['images']['img_item'][3])){
+                        $dbimagename4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml.jpg';
+                        $dbimagename_imgdetail4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgdetail.jpg';
+                        $dbimagename_imggrid4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imggrid.jpg';
+                        $dbimagename_imgslider4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgslider.jpg';
+                        
+                        $folderimagename4 = str_replace('\\', '/', $dbimagename4);
+                        $folderimagename_imgdetail4 = str_replace('\\', '/', $dbimagename_imgdetail4);
+                        $folderimagename_imggrid4 = str_replace('\\', '/', $dbimagename_imggrid4);
+                        $folderimagename_imgslider4 = str_replace('\\', '/', $dbimagename_imgslider4);
+                        
+                        $image4 = file_get_contents($n['images']['img_item'][3]);
+                        Storage::disk('local')->put('public/'.$folderimagename4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider4, $image4);           
+                        array_push($allimagearr, $dbimagename4);
+                    }
+
+                    $productid = $n['code'];
+                    $title = empty($n['name']) ? $productid : $n['name'];
+                    $desc = $title; //empty($n['detail']) ? '' : json_encode($n['detail']);
+                    $price = empty($n['price_list']) ? 0 : $n['price_list'];
+                    $saleprice = empty($n['price_list_campaign']) ? 0 : $n['price_list_campaign'];
+                    $lastprice = $price;
+                    if($saleprice != 0){
+                        $lastprice = $saleprice;
+                    }
+
+                    $p = new Product;
+                    $p->slug = $slug = Str::slug($title, '-');
+                    $p->category_id = $catid;
+                    $p->author_id = $authorid;
+                    $p->title_az = $title;
+                    $p->desc_az = $desc;
+                    $p->title_en = $title;
+                    $p->desc_en = $desc;
+                    $p->title_ru = $title;
+                    $p->desc_ru = $desc;
+                    $p->title_tr = $title;
+                    $p->desc_tr = $desc;
+                    $p->image = $dbimagename;
+                    $p->allimage = empty($allimagearr) ? null : json_encode($allimagearr);
+                    $p->price = $price;
+                    $p->saleprice = $saleprice;
+                    $p->lastprice = $lastprice;
+                    $p->stock = empty($n['stock']) ? 0 : $n['stock'];
+
+                    $p->save();                
+
                 
-                $dbimagename = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml.jpg';
-                $dbimagename_imgdetail = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgdetail.jpg';
-                $dbimagename_imggrid = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imggrid.jpg';
-                $dbimagename_imgslider = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgslider.jpg';
-                
-                $folderimagename = str_replace('\\', '/', $dbimagename);
-                $folderimagename_imgdetail = str_replace('\\', '/', $dbimagename_imgdetail);
-                $folderimagename_imggrid = str_replace('\\', '/', $dbimagename_imggrid);
-                $folderimagename_imgslider = str_replace('\\', '/', $dbimagename_imgslider);
-
-                $image = file_get_contents($n['Image1']);
-
-                Storage::disk('local')->put('public/'.$folderimagename, $image);
-                Storage::disk('local')->put('public/'.$folderimagename_imgdetail, $image);
-                Storage::disk('local')->put('public/'.$folderimagename_imggrid, $image);
-                Storage::disk('local')->put('public/'.$folderimagename_imgslider, $image);
-
-                if(!empty($n['Image2'])){
-                    $dbimagename2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml.jpg';
-                    $dbimagename_imgdetail2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgdetail.jpg';
-                    $dbimagename_imggrid2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imggrid.jpg';
-                    $dbimagename_imgslider2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgslider.jpg';
                     
-                    $folderimagename2 = str_replace('\\', '/', $dbimagename2);
-                    $folderimagename_imgdetail2 = str_replace('\\', '/', $dbimagename_imgdetail2);
-                    $folderimagename_imggrid2 = str_replace('\\', '/', $dbimagename_imggrid2);
-                    $folderimagename_imgslider2 = str_replace('\\', '/', $dbimagename_imgslider2);
+                    // if($key > 1) {
+                    //         exit;
+                    // }
+                    //exit;
+                }
+            }else{
+                foreach($newArr['Product'] as $key => $n){
+
+                    $catid = $request->category_id;
+                    $authorid = $request->author_id;
+                    $allimagearr = [];
+                    $mikrotime = md5(microtime(true));
                     
-                    $image2 = file_get_contents($n['Image2']);
-                    Storage::disk('local')->put('public/'.$folderimagename2, $image2);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgdetail2, $image2);
-                    Storage::disk('local')->put('public/'.$folderimagename_imggrid2, $image2);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgslider2, $image2);        
-                    array_push($allimagearr, $dbimagename2);
+                    $dbimagename = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml.jpg';
+                    $dbimagename_imgdetail = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgdetail.jpg';
+                    $dbimagename_imggrid = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imggrid.jpg';
+                    $dbimagename_imgslider = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgslider.jpg';
+                    
+                    $folderimagename = str_replace('\\', '/', $dbimagename);
+                    $folderimagename_imgdetail = str_replace('\\', '/', $dbimagename_imgdetail);
+                    $folderimagename_imggrid = str_replace('\\', '/', $dbimagename_imggrid);
+                    $folderimagename_imgslider = str_replace('\\', '/', $dbimagename_imgslider);
+
+                    $image = file_get_contents($n['Image1']);
+
+                    Storage::disk('local')->put('public/'.$folderimagename, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imgdetail, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imggrid, $image);
+                    Storage::disk('local')->put('public/'.$folderimagename_imgslider, $image);
+
+                    if(!empty($n['Image2'])){
+                        $dbimagename2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml.jpg';
+                        $dbimagename_imgdetail2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgdetail.jpg';
+                        $dbimagename_imggrid2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imggrid.jpg';
+                        $dbimagename_imgslider2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgslider.jpg';
+                        
+                        $folderimagename2 = str_replace('\\', '/', $dbimagename2);
+                        $folderimagename_imgdetail2 = str_replace('\\', '/', $dbimagename_imgdetail2);
+                        $folderimagename_imggrid2 = str_replace('\\', '/', $dbimagename_imggrid2);
+                        $folderimagename_imgslider2 = str_replace('\\', '/', $dbimagename_imgslider2);
+                        
+                        $image2 = file_get_contents($n['Image2']);
+                        Storage::disk('local')->put('public/'.$folderimagename2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid2, $image2);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider2, $image2);        
+                        array_push($allimagearr, $dbimagename2);
+                    }
+
+                // return response($allimagearr);
+                    if(!empty($n['Image3'])){
+                        $dbimagename3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml.jpg';
+                        $dbimagename_imgdetail3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgdetail.jpg';
+                        $dbimagename_imggrid3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imggrid.jpg';
+                        $dbimagename_imgslider3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgslider.jpg';
+                        
+                        $folderimagename3 = str_replace('\\', '/', $dbimagename3);
+                        $folderimagename_imgdetail3 = str_replace('\\', '/', $dbimagename_imgdetail3);
+                        $folderimagename_imggrid3 = str_replace('\\', '/', $dbimagename_imggrid3);
+                        $folderimagename_imgslider3 = str_replace('\\', '/', $dbimagename_imgslider3);
+                        
+                        $image3 = file_get_contents($n['Image3']);
+                        Storage::disk('local')->put('public/'.$folderimagename3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid3, $image3);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider3, $image3);           
+                        array_push($allimagearr, $dbimagename3);
+                    }
+                    if(!empty($n['Image4'])){
+                        $dbimagename4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml.jpg';
+                        $dbimagename_imgdetail4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgdetail.jpg';
+                        $dbimagename_imggrid4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imggrid.jpg';
+                        $dbimagename_imgslider4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgslider.jpg';
+                        
+                        $folderimagename4 = str_replace('\\', '/', $dbimagename4);
+                        $folderimagename_imgdetail4 = str_replace('\\', '/', $dbimagename_imgdetail4);
+                        $folderimagename_imggrid4 = str_replace('\\', '/', $dbimagename_imggrid4);
+                        $folderimagename_imgslider4 = str_replace('\\', '/', $dbimagename_imgslider4);
+                        
+                        $image4 = file_get_contents($n['Image4']);
+                        Storage::disk('local')->put('public/'.$folderimagename4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgdetail4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imggrid4, $image4);
+                        Storage::disk('local')->put('public/'.$folderimagename_imgslider4, $image4);           
+                        array_push($allimagearr, $dbimagename4);
+                    }
+
+                    $productid = $n['Product_id'];
+                    $title = empty($n['Name']) ? $productid : $n['Name'];
+                    $desc = empty($n['Description']) ? '' : json_encode($n['Description']);
+                    $price = empty($n['Price1']) ? 0 : $n['Price1'];
+                    $saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
+                    $lastprice = $price;
+                    if($saleprice != 0){
+                        $lastprice = $saleprice;
+                    }
+
+                    $p = new Product;
+                    $p->slug = $slug = Str::slug($title, '-');
+                    $p->category_id = $catid;
+                    $p->author_id = $authorid;
+                    $p->title_az = $title;
+                    $p->desc_az = $desc;
+                    $p->title_en = $title;
+                    $p->desc_en = $desc;
+                    $p->title_ru = $title;
+                    $p->desc_ru = $desc;
+                    $p->title_tr = $title;
+                    $p->desc_tr = $desc;
+                    $p->image = $dbimagename;
+                    $p->allimage = empty($allimagearr) ? null : json_encode($allimagearr);
+                    $p->price = $price;
+                    $p->saleprice = $saleprice;
+                    $p->lastprice = $lastprice;
+                    $p->stock = empty($n['Stock']) ? 0 : $n['Stock'];
+                    $p->save();  
                 }
 
-               // return response($allimagearr);
-                if(!empty($n['Image3'])){
-                    $dbimagename3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml.jpg';
-                    $dbimagename_imgdetail3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgdetail.jpg';
-                    $dbimagename_imggrid3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imggrid.jpg';
-                    $dbimagename_imgslider3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgslider.jpg';
-                    
-                    $folderimagename3 = str_replace('\\', '/', $dbimagename3);
-                    $folderimagename_imgdetail3 = str_replace('\\', '/', $dbimagename_imgdetail3);
-                    $folderimagename_imggrid3 = str_replace('\\', '/', $dbimagename_imggrid3);
-                    $folderimagename_imgslider3 = str_replace('\\', '/', $dbimagename_imgslider3);
-                    
-                    $image3 = file_get_contents($n['Image3']);
-                    Storage::disk('local')->put('public/'.$folderimagename3, $image3);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgdetail3, $image3);
-                    Storage::disk('local')->put('public/'.$folderimagename_imggrid3, $image3);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgslider3, $image3);           
-                    array_push($allimagearr, $dbimagename3);
-                }
-                if(!empty($n['Image4'])){
-                    $dbimagename4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml.jpg';
-                    $dbimagename_imgdetail4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgdetail.jpg';
-                    $dbimagename_imggrid4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imggrid.jpg';
-                    $dbimagename_imgslider4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgslider.jpg';
-                    
-                    $folderimagename4 = str_replace('\\', '/', $dbimagename4);
-                    $folderimagename_imgdetail4 = str_replace('\\', '/', $dbimagename_imgdetail4);
-                    $folderimagename_imggrid4 = str_replace('\\', '/', $dbimagename_imggrid4);
-                    $folderimagename_imgslider4 = str_replace('\\', '/', $dbimagename_imgslider4);
-                    
-                    $image4 = file_get_contents($n['Image4']);
-                    Storage::disk('local')->put('public/'.$folderimagename4, $image4);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgdetail4, $image4);
-                    Storage::disk('local')->put('public/'.$folderimagename_imggrid4, $image4);
-                    Storage::disk('local')->put('public/'.$folderimagename_imgslider4, $image4);           
-                    array_push($allimagearr, $dbimagename4);
-                }
-
-                $productid = $n['Product_id'];
-                $title = empty($n['Name']) ? $productid : $n['Name'];
-                $desc = empty($n['Description']) ? '' : json_encode($n['Description']);
-                $price = empty($n['Price1']) ? 0 : $n['Price1'];
-                $saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
-                $lastprice = $price;
-                if($saleprice != 0){
-                    $lastprice = $saleprice;
-                }
-
-                $p = new Product;
-                $p->slug = $slug = Str::slug($title, '-');
-                $p->category_id = $catid;
-                $p->author_id = $authorid;
-                $p->title_az = $title;
-                $p->desc_az = $desc;
-                $p->title_en = $title;
-                $p->desc_en = $desc;
-                $p->title_ru = $title;
-                $p->desc_ru = $desc;
-                $p->title_tr = $title;
-                $p->desc_tr = $desc;
-                $p->image = $dbimagename;
-                $p->allimage = empty($allimagearr) ? null : json_encode($allimagearr);
-                $p->price = $price;
-                $p->saleprice = $saleprice;
-                $p->lastprice = $lastprice;
-                $p->stock = empty($n['Stock']) ? 0 : $n['Stock'];
-
-                $p->save();                
-
-               
-                
-                // if($key > 1) {
-                //         exit;
-                // }
-                //exit;
             }
         }else{
 
@@ -212,16 +331,17 @@ class ProductsController extends VoyagerBaseController
 
         }
     }
-    // public function xmlcom(Request $request){
+    // public function xml(Request $request){
+
     //     if ($request->isMethod('post')) {  
 
            
-    //         $url = 'http://gercekspot.xmlbankasi.com/image/data/xml/alisveris.xml';
+    //         $url = $request->xmlurl; //'http://gercekspot.xmlbankasi.com/image/data/xml/alisveris.xml';
     //         // Read entire file into string 
     //         $xmlfile = file_get_contents($url); 
             
     //         // Convert xml string into an object 
-    //         $new = simplexml_load_string($xmlfile); 
+    //         $new = simplexml_load_string($xmlfile, 'SimpleXMLElement', LIBXML_NOCDATA); 
             
     //         // Convert into json 
     //         $con = json_encode($new); 
@@ -232,9 +352,13 @@ class ProductsController extends VoyagerBaseController
     //         // $json = '{"Product":[{"Product_code":[],"Barcode":"01900008017","Product_id":"2519","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"37.8889","Price2":"31.5741","CurrencyType":"TRL","Tax":"8","Stock":"10","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1607.jpg","Image2":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1602.jpg","Image3":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1606.jpg","Image4":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1603.jpg","Image5":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1006-erkek-v-yaka-1604.jpg","Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"3","productCode":[],"barcode":[],"gtin":[],"quantity":"6","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"56"}],"variantId":"4","productCode":[],"barcode":[],"gtin":[],"quantity":"2","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"54"}],"variantId":"5","productCode":[],"barcode":[],"gtin":[],"quantity":"2","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}},{"Product_code":[],"Barcode":[],"Product_id":"2520","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"29.8889","Price2":"24.9074","CurrencyType":"TRL","Tax":"8","Stock":"252","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/beyaz-berrak-1020-erkek-atlet-841.jpg","Image2":[],"Image3":[],"Image4":[],"Image5":[],"Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"51"}],"variantId":"6","productCode":[],"barcode":[],"gtin":[],"quantity":"42","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"68"}],"variantId":"8","productCode":[],"barcode":[],"gtin":[],"quantity":"18","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"9","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"64"}],"variantId":"10","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"48"}],"variantId":"11","productCode":[],"barcode":[],"gtin":[],"quantity":"24","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"54"}],"variantId":"12","productCode":[],"barcode":[],"gtin":[],"quantity":"24","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Beyaz"},{"@attributes":{"name":"Beden"},"0":"45"}],"variantId":"13","productCode":[],"barcode":[],"gtin":[],"quantity":"48","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}},{"Product_code":[],"Barcode":[],"Product_id":"2521","Name":[],"mainCategory":[],"mainCategory_id":[],"category":[],"category_id":[],"subCategory":[],"subCategory_id":[],"Price1":"36","Price2":"30","CurrencyType":"TRL","Tax":"8","Stock":"9","Brand":[],"Image1":"http:\/\/gercekspot.xmlbankasi.com\/image\/data\/resimler\/siyah-berrak-1022-erkek-siyah-atlet-904.jpg","Image2":[],"Image3":[],"Image4":[],"Image5":[],"Description":[],"variants":{"variant":[{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"60"}],"variantId":"14","productCode":[],"barcode":[],"gtin":[],"quantity":"4","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]},{"spec":[{"@attributes":{"name":"Renk"},"0":"Siyah"},{"@attributes":{"name":"Beden"},"0":"45"}],"variantId":"19","productCode":[],"barcode":[],"gtin":[],"quantity":"5","price":"0.00","hbSaticiStokKodu":[],"hbKodu":[],"picture":[]}]}}]}';
             
     //         // $newArr = json_decode($json, true); 
+    //         //return response($newArr);
     //         foreach($newArr['Product'] as $key => $n){
 
     //             $catid = $request->category_id;
+    //             $authorid = $request->author_id;
+    //             $allimagearr = [];
+    //             $mikrotime = md5(microtime(true));
                 
     //             $dbimagename = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml.jpg';
     //             $dbimagename_imgdetail = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'xml-imgdetail.jpg';
@@ -245,15 +369,85 @@ class ProductsController extends VoyagerBaseController
     //             $folderimagename_imgdetail = str_replace('\\', '/', $dbimagename_imgdetail);
     //             $folderimagename_imggrid = str_replace('\\', '/', $dbimagename_imggrid);
     //             $folderimagename_imgslider = str_replace('\\', '/', $dbimagename_imgslider);
-                
-                
+
+    //             $image = file_get_contents($n['Image1']);
+
+    //             Storage::disk('local')->put('public/'.$folderimagename, $image);
+    //             Storage::disk('local')->put('public/'.$folderimagename_imgdetail, $image);
+    //             Storage::disk('local')->put('public/'.$folderimagename_imggrid, $image);
+    //             Storage::disk('local')->put('public/'.$folderimagename_imgslider, $image);
+
+    //             if(!empty($n['Image2'])){
+    //                 $dbimagename2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml.jpg';
+    //                 $dbimagename_imgdetail2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgdetail.jpg';
+    //                 $dbimagename_imggrid2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imggrid.jpg';
+    //                 $dbimagename_imgslider2 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image2xml-imgslider.jpg';
+                    
+    //                 $folderimagename2 = str_replace('\\', '/', $dbimagename2);
+    //                 $folderimagename_imgdetail2 = str_replace('\\', '/', $dbimagename_imgdetail2);
+    //                 $folderimagename_imggrid2 = str_replace('\\', '/', $dbimagename_imggrid2);
+    //                 $folderimagename_imgslider2 = str_replace('\\', '/', $dbimagename_imgslider2);
+                    
+    //                 $image2 = file_get_contents($n['Image2']);
+    //                 Storage::disk('local')->put('public/'.$folderimagename2, $image2);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgdetail2, $image2);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imggrid2, $image2);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgslider2, $image2);        
+    //                 array_push($allimagearr, $dbimagename2);
+    //             }
+
+    //            // return response($allimagearr);
+    //             if(!empty($n['Image3'])){
+    //                 $dbimagename3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml.jpg';
+    //                 $dbimagename_imgdetail3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgdetail.jpg';
+    //                 $dbimagename_imggrid3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imggrid.jpg';
+    //                 $dbimagename_imgslider3 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image3xml-imgslider.jpg';
+                    
+    //                 $folderimagename3 = str_replace('\\', '/', $dbimagename3);
+    //                 $folderimagename_imgdetail3 = str_replace('\\', '/', $dbimagename_imgdetail3);
+    //                 $folderimagename_imggrid3 = str_replace('\\', '/', $dbimagename_imggrid3);
+    //                 $folderimagename_imgslider3 = str_replace('\\', '/', $dbimagename_imgslider3);
+                    
+    //                 $image3 = file_get_contents($n['Image3']);
+    //                 Storage::disk('local')->put('public/'.$folderimagename3, $image3);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgdetail3, $image3);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imggrid3, $image3);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgslider3, $image3);           
+    //                 array_push($allimagearr, $dbimagename3);
+    //             }
+    //             if(!empty($n['Image4'])){
+    //                 $dbimagename4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml.jpg';
+    //                 $dbimagename_imgdetail4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgdetail.jpg';
+    //                 $dbimagename_imggrid4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imggrid.jpg';
+    //                 $dbimagename_imgslider4 = 'products'.'\\'.date('F').date('Y').'\\'.$mikrotime.'Image4xml-imgslider.jpg';
+                    
+    //                 $folderimagename4 = str_replace('\\', '/', $dbimagename4);
+    //                 $folderimagename_imgdetail4 = str_replace('\\', '/', $dbimagename_imgdetail4);
+    //                 $folderimagename_imggrid4 = str_replace('\\', '/', $dbimagename_imggrid4);
+    //                 $folderimagename_imgslider4 = str_replace('\\', '/', $dbimagename_imgslider4);
+                    
+    //                 $image4 = file_get_contents($n['Image4']);
+    //                 Storage::disk('local')->put('public/'.$folderimagename4, $image4);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgdetail4, $image4);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imggrid4, $image4);
+    //                 Storage::disk('local')->put('public/'.$folderimagename_imgslider4, $image4);           
+    //                 array_push($allimagearr, $dbimagename4);
+    //             }
+
     //             $productid = $n['Product_id'];
     //             $title = empty($n['Name']) ? $productid : $n['Name'];
-    //             $desc = empty($n['Description']) ? '' : $n['Description'];
+    //             $desc = empty($n['Description']) ? '' : json_encode($n['Description']);
+    //             $price = empty($n['Price1']) ? 0 : $n['Price1'];
+    //             $saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
+    //             $lastprice = $price;
+    //             if($saleprice != 0){
+    //                 $lastprice = $saleprice;
+    //             }
 
     //             $p = new Product;
     //             $p->slug = $slug = Str::slug($title, '-');
     //             $p->category_id = $catid;
+    //             $p->author_id = $authorid;
     //             $p->title_az = $title;
     //             $p->desc_az = $desc;
     //             $p->title_en = $title;
@@ -263,22 +457,20 @@ class ProductsController extends VoyagerBaseController
     //             $p->title_tr = $title;
     //             $p->desc_tr = $desc;
     //             $p->image = $dbimagename;
-    //             $p->price = empty($n['Price1']) ? 0 : $n['Price1'];
-    //             $p->saleprice = empty($n['Price2']) ? 0 : $n['Price2'];
+    //             $p->allimage = empty($allimagearr) ? null : json_encode($allimagearr);
+    //             $p->price = $price;
+    //             $p->saleprice = $saleprice;
+    //             $p->lastprice = $lastprice;
     //             $p->stock = empty($n['Stock']) ? 0 : $n['Stock'];
 
-    //             $p->save();
+    //             $p->save();                
 
-    //             $image = file_get_contents($n['Image1']);
-
-    //             Storage::disk('local')->put('public/'.$folderimagename, $image);
-    //             Storage::disk('local')->put('public/'.$folderimagename_imgdetail, $image);
-    //             Storage::disk('local')->put('public/'.$folderimagename_imggrid, $image);
-    //             Storage::disk('local')->put('public/'.$folderimagename_imgslider, $image);
+               
+                
     //             // if($key > 1) {
     //             //         exit;
     //             // }
-    //             exit;
+    //             //exit;
     //         }
     //     }else{
 

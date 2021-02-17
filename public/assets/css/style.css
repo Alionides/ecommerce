@@ -5335,7 +5335,7 @@ footer .widget_title {
 }
 .pr_detail .pr_desc {
 	display: inline-block;
-	min-width: 300px;
+	min-width: 540px;
 }
 .pr_detail .pr_desc p {
     margin-bottom: 15px;
