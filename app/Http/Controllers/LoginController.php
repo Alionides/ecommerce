@@ -43,7 +43,8 @@ class LoginController extends Controller
                     'email' => $user->email,
                     'google_id'=> $user->id,
                     'password' => encrypt(''),
-                    'type' => 1
+                    'type' => 1,
+                    'role_id' => 4,
                 ]);
                 // //every user needs a team for dashboard/jetstream to work.
                 // //create a personal team for the user

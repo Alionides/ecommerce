@@ -54,7 +54,8 @@ class FacebookController extends Controller
                     'email' => $user->email,
                     'facebook_id'=> $user->id,
                     'password' => encrypt(''),
-                    'type' => 1
+                    'type' => 1,
+                    'role_id' => 4,
 
                 ]);  
                 Auth::login($newUser);       
