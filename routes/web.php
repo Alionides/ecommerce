@@ -38,6 +38,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::prefix('{lang?}')->middleware('locale')->group(function () {
     Route::get('/', [SiteController::class, 'index'])->name('homepage');
     Route::get('xml', [SiteController::class, 'xml']);
+    Route::get('edvcoin', [SiteController::class, 'edvcoin']);
+    Route::post('apiaddedvcoin', [SiteController::class, 'apiaddedvcoin']);
     //Route::get('post/preview/{post_slug}',	'PostController@preview')->name('posts.preview');
     //Route::get('products/xml/{product_slug}',	'ProductsController@xml')->name('products.xml');
     //Route::get('products/xml',	[ProductsController::class,'xml'])->name('products.xml');

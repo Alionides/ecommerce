@@ -19,6 +19,7 @@ use App\Size;
 use App\Slider;
 use App\Banner;
 use App\Review;
+use App\Edvcoin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -70,6 +71,41 @@ class SiteController extends Controller
         $newArr = json_decode($con, true); 
         
         return response($newArr); 
+    }
+
+    public function edvcoin(){
+        $edvcoin = Edvcoin::latest('created_at')->get();
+        $sum = Edvcoin::sum('edvcoin');
+        return view('site.edvcoin',compact('edvcoin','sum'));
+    }
+
+    public function apiaddedvcoin(Request $request){
+
+        $fiscal = $request->fiscal;
+        $url = 'https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'.$fiscal;
+        // Read entire file into string 
+        $xmlfile = file_get_contents($url); 
+
+        $newArr = json_decode($xmlfile,true); 
+
+        $market = $newArr['cheque']['storeName'];
+        $spent = $newArr['cheque']['content']['sum'];
+        $edvcoin = $newArr['cheque']['content']['vatAmounts'][0]['vatResult'];
+
+        $fiscalquery = Edvcoin::where('fiscal',$fiscal)->first();
+        if(isset($fiscalquery)){
+            return response(300);
+        }else{
+            $addfiscal = new Edvcoin;
+            $addfiscal->fiscal = $fiscal;
+            $addfiscal->market = $market;
+            $addfiscal->spent = $spent;
+            $addfiscal->edvcoin = round($edvcoin);
+            $addfiscal->save();
+
+            return response($addfiscal);
+        }
+        
     }
 
     public function contact(Request $request,$ln){
