@@ -108,16 +108,6 @@ class SiteController extends Controller
         
     }
 
-    public function cointest(){        
-        //$url = 'https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'.$fiscal;
-        $url = 'https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/AUWru6MMQqPd';
-        // Read entire file into string 
-        $xmlfile = file_get_contents($url); 
-
-        $newArr = json_decode($xmlfile,true); 
-        return response($newArr);
-    }
-
     public function contact(Request $request,$ln){
 
         return view('site.contact');

@@ -52,26 +52,34 @@
         var fiscal = content.substring(46, 58);
         //Swal.fire(fiscal,'','success');
 
-        $.ajax({
-            type: 'post',
-            url: baseurl+'/apiaddedvcoin',
-            data: {'fiscal':fiscal},
-            success: function(response) {
-                var len = response.length;
-                console.log(response);
-                if(response == '300'){
-                    Swal.fire('Xeta','Daxil etdiyiniz <b>'+fiscal+'</b> fiscal kodu daha once daxil edilmisdir','error');
-                }else{
-                    Swal.fire('Ugurlu','Hesabiniza <b>'+response.edvcoin+'</b> EdvCoin elave edildi','success');
+        // $.ajax({
+        //     type: 'post',
+        //     url: baseurl+'/apiaddedvcoin',
+        //     data: {'fiscal':fiscal},
+        //     success: function(response) {
+        //         var len = response.length;
+        //         console.log(response);
+        //         if(response == '300'){
+        //             Swal.fire('Xeta','Daxil etdiyiniz <b>'+fiscal+'</b> fiscal kodu daha once daxil edilmisdir','error');
+        //         }else{
+        //             Swal.fire('Ugurlu','Hesabiniza <b>'+response.edvcoin+'</b> EdvCoin elave edildi','success');
 
-                    setTimeout(function(){
-                        location.reload();
-                    }, 1000);
-                }
-            },
-            error: function(response) {                    
-            }
-        });
+        //             setTimeout(function(){
+        //                 location.reload();
+        //             }, 1000);
+        //         }
+        //     },
+        //     error: function(response) {                    
+        //     }
+        // });
+
+
+    fetch('https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'+fiscal)
+    .then(res => res.json())
+    .then((out) => {
+        console.log('Output: ', out.cheque.storeName);
+    }).catch(err => console.error(err));
+
 
 
 
