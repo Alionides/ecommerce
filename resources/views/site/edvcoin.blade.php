@@ -2,14 +2,22 @@
 @section('content')
 
 <div class="container center">
-    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
-        <label class="btn btn-primary active">
-            <input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" value="2" autocomplete="off"> Back Camera
-        </label>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" value="2" autocomplete="off"> Back Camera
+                </label>
+            </div>
+        </div>
+        <div class="col-4"></div>
     </div>
+    
+    <video width=300 height=300 id="preview"></video>
     <h1>Total EdvCoins <span class="badge bg-primary text-white">{{$sum}}</span></h1>
     <table class="table table-dark table-hover">
         <thead>
