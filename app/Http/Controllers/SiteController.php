@@ -81,16 +81,10 @@ class SiteController extends Controller
 
     public function apiaddedvcoin(Request $request){
 
-        $fiscal = $request->fiscal;
-        $url = 'https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'.$fiscal;
-        // Read entire file into string 
-        $xmlfile = file_get_contents($url); 
-
-        $newArr = json_decode($xmlfile,true); 
-
-        $market = $newArr['cheque']['storeName'];
-        $spent = $newArr['cheque']['content']['sum'];
-        $edvcoin = $newArr['cheque']['content']['vatAmounts'][0]['vatResult'];
+        $fiscal = $request->data['fiscal'];
+        $market = $request->data['market'];
+        $spent = $request->data['spent'];
+        $edvcoin = $request->data['edvcoin'];
 
         $fiscalquery = Edvcoin::where('fiscal',$fiscal)->first();
         if(isset($fiscalquery)){
@@ -102,11 +96,39 @@ class SiteController extends Controller
             $addfiscal->spent = $spent;
             $addfiscal->edvcoin = round($edvcoin);
             $addfiscal->save();
-
             return response($addfiscal);
         }
-        
+
     }
+
+    // public function apiaddedvcoin(Request $request){
+
+    //     $fiscal = $request->fiscal;
+    //     $url = 'https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'.$fiscal;
+    //     // Read entire file into string 
+    //     $xmlfile = file_get_contents($url); 
+
+    //     $newArr = json_decode($xmlfile,true); 
+
+    //     $market = $newArr['cheque']['storeName'];
+    //     $spent = $newArr['cheque']['content']['sum'];
+    //     $edvcoin = $newArr['cheque']['content']['vatAmounts'][0]['vatResult'];
+
+    //     $fiscalquery = Edvcoin::where('fiscal',$fiscal)->first();
+    //     if(isset($fiscalquery)){
+    //         return response(300);
+    //     }else{
+    //         $addfiscal = new Edvcoin;
+    //         $addfiscal->fiscal = $fiscal;
+    //         $addfiscal->market = $market;
+    //         $addfiscal->spent = $spent;
+    //         $addfiscal->edvcoin = round($edvcoin);
+    //         $addfiscal->save();
+
+    //         return response($addfiscal);
+    //     }
+        
+    // }
 
     public function contact(Request $request,$ln){
 

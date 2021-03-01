@@ -48,37 +48,44 @@
     var baseurl = $('.baseurl').attr('data-url');
     var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
     scanner.addListener('scan',function(content){
-        //alert(content);
-        var fiscal = content.substring(46, 58);
-        //Swal.fire(fiscal,'','success');
 
-        // $.ajax({
-        //     type: 'post',
-        //     url: baseurl+'/apiaddedvcoin',
-        //     data: {'fiscal':fiscal},
-        //     success: function(response) {
-        //         var len = response.length;
-        //         console.log(response);
-        //         if(response == '300'){
-        //             Swal.fire('Xeta','Daxil etdiyiniz <b>'+fiscal+'</b> fiscal kodu daha once daxil edilmisdir','error');
-        //         }else{
-        //             Swal.fire('Ugurlu','Hesabiniza <b>'+response.edvcoin+'</b> EdvCoin elave edildi','success');
+    var fiscal = content.substring(46, 58);       
 
-        //             setTimeout(function(){
-        //                 location.reload();
-        //             }, 1000);
-        //         }
-        //     },
-        //     error: function(response) {                    
-        //     }
-        // });
-
-
+    //var data = '';      
     fetch('https://monitoring.e-kassa.gov.az/pks-portal/1.0.0/documents/'+fiscal)
     .then(res => res.json())
     .then((out) => {
-        console.log('Output: ', out.cheque.storeName);
+       // console.log('Output: ', out.cheque.storeName);
+       var data = {fiscal:fiscal, market:out.cheque.storeName, spent:out.cheque.content.sum, edvcoin:out.cheque.content.vatAmounts[0].vatResult}; 
+
+        $.ajax({
+            type: 'post',
+            url: baseurl+'/apiaddedvcoin',
+            data: {'data':data},
+            success: function(response) {
+                var len = response.length;
+                console.log(response);
+                if(response == '300'){
+                    Swal.fire('Xeta','Daxil etdiyiniz <b>'+fiscal+'</b> fiscal kodu daha once daxil edilmisdir','error');
+                }else{
+                    Swal.fire('Ugurlu','Hesabiniza <b>'+response.edvcoin+'</b> EdvCoin elave edildi','success');
+
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                }
+            },
+            error: function(response) {                    
+            }
+        });       
+
+
+
     }).catch(err => console.error(err));
+
+    
+
+
 
 
 
