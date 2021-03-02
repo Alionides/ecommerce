@@ -101,14 +101,12 @@
             scanner.start(cameras[0]);
             $('[name="options"]').on('change',function(){
                 if($(this).val()==1){
-                    alert('front');
                     if(cameras[0]!=""){
                         scanner.start(cameras[0]);
                     }else{
                         alert('No Front camera found!');
                     }
                 }else if($(this).val()==2){
-                    alert('back');
                     if(cameras[1]!=""){
                         scanner.start(cameras[1]);
                     }else{
