@@ -102,7 +102,7 @@
     Instascan.Camera.getCameras().then(function (cameras){
         console.log(cameras);
         if(cameras.length>0){
-            scanner.start(cameras[1]);
+            scanner.start(cameras[0]);
             $('[name="options"]').on('change',function(){
                 if($(this).val()==1){
                     alert('front');
