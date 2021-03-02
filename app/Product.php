@@ -9,6 +9,8 @@ class Product extends Model
 {
     use Resizable;
 
+    protected $perPage = 100;
+
     public function categories() {
         return $this->belongsTo(Category::class, 'category_id');
     }
